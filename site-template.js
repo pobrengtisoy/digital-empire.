@@ -49,6 +49,12 @@ function render(){
   document.querySelectorAll('[data-display="'+name+'"]').forEach(el=>{el.textContent=value||" "});
  }
  document.querySelectorAll("[data-logo]").forEach(setBrandIcon);
+ const initials=data.company==="RZ FORM"?"RZ":((data.company.trim().split(/\\s+/).filter(Boolean).slice(0,2).map(word=>word[0]?.toUpperCase()||"").join(""))||"RZ");
+ const art=$("sfHeroBrandArt");
+ art.replaceChildren();
+ if(data.logo){const img=document.createElement("img");img.src=data.logo;img.alt="Company logo artwork";art.append(img)}
+ else art.textContent=initials;
+ $("sfStoryMark").textContent=initials;
  const pic=$("sfHeroPhoto");pic.classList.toggle("has-image",Boolean(data.background));
  pic.style.backgroundImage=data.background?'url("'+data.background+'")':"none";
  const link=contactHref(data.contactLink);
