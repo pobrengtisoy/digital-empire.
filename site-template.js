@@ -49,7 +49,7 @@ function render(){
   document.querySelectorAll('[data-display="'+name+'"]').forEach(el=>{el.textContent=value||" "});
  }
  document.querySelectorAll("[data-logo]").forEach(setBrandIcon);
- const initials=data.company==="RZ FORM"?"RZ":((data.company.trim().split(/\\s+/).filter(Boolean).slice(0,2).map(word=>word[0]?.toUpperCase()||"").join(""))||"RZ");
+ const initials=data.company==="RZ FORM"?"RZ":((data.company.trim().split(/\s+/).filter(Boolean).slice(0,2).map(word=>word[0]?.toUpperCase()||"").join(""))||"RZ");
  const art=$("sfHeroBrandArt");
  art.replaceChildren();
  if(data.logo){const img=document.createElement("img");img.src=data.logo;img.alt="Company logo artwork";art.append(img)}
