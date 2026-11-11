@@ -33,7 +33,7 @@
   menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{menu.hidden=true;menuToggle.setAttribute('aria-expanded','false');}));
   briefForm.addEventListener('submit',async e=>{
     e.preventDefault(); const data = new FormData(briefForm);
-    const brief = `DIGITAL EMPIRE — PROJECT BRIEF\n\nPROJECT: ${data.get('project')}\nTYPE: ${data.get('category')}\nBUDGET: ${data.get('budget')}\n\nREQUIREMENTS:\n${data.get('description')}\n\nPrepared from Digital Empire prototype.`;
+    const brief = `RZ DIGITAL EMPIRE — PROJECT BRIEF\n\nPROJECT: ${data.get('project')}\nTYPE: ${data.get('category')}\nBUDGET: ${data.get('budget')}\n\nREQUIREMENTS:\n${data.get('description')}\n\nPrepared from RZ Digital Empire prototype.`;
     const status=document.querySelector('#briefStatus');
     try { await navigator.clipboard.writeText(brief); status.textContent='BRIEF COPIED. SAVE OR SEND IT USING YOUR PREFERRED CHANNEL.'; }
     catch { const ta=document.createElement('textarea');ta.value=brief;ta.className='clipboard-fallback';briefForm.append(ta);ta.focus();ta.select();status.textContent='SELECT AND COPY THE TEXT ABOVE TO KEEP YOUR BRIEF.'; }
