@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#191b19" />
+  <title>Invoice Maker 001 / Digital Empire</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="invoice.css" />
+</head>
+<body>
+  <header class="tool-head"><a href="../index.html#featured" class="back-link">← <span>BACK TO THE STUDIO</span></a><div class="tool-id">DE / TOOL 001 — INVOICE MAKER <span class="status-pip">● LOCAL MODE</span></div><a class="tool-brand" href="../index.html">D/E<span>.</span></a></header>
+  <section class="tool-hero"><div class="tool-label">A SMALL TOOL WITH A REAL PURPOSE / V0.1</div><div class="tool-hero-body"><div><h1>INVOICE<span>.</span><br /><em>MAKER.</em></h1><p>Build your invoice. Keep the numbers straight. Send a polished PDF.</p></div><div class="tool-hero-number">NO. <b>001</b></div></div></section>
+  <main class="invoice-workspace">
+    <section class="editor" aria-labelledby="editorTitle"><div class="editor-header"><span>01 / THE DETAILS</span><h2 id="editorTitle">BUILD YOUR INVOICE</h2><p>Everything stays in this browser. The draft saves on this device.</p></div>
+      <form id="invoiceForm" autocomplete="on">
+        <fieldset><legend>YOUR BUSINESS</legend><div class="fields"><label>BUSINESS NAME<input name="businessName" id="businessName" placeholder="Your business or name" maxlength="100" /></label><label>YOUR EMAIL OR CONTACT<input name="businessContact" id="businessContact" placeholder="hello@example.com" maxlength="130" /></label><label class="full">BUSINESS ADDRESS / DETAILS<textarea name="businessAddress" id="businessAddress" rows="2" placeholder="Optional address or payment details" maxlength="300"></textarea></label></div></fieldset>
+        <fieldset><legend>CLIENT</legend><div class="fields"><label>CLIENT NAME<input name="clientName" id="clientName" placeholder="Client or company" maxlength="100" /></label><label>CLIENT CONTACT<input name="clientContact" id="clientContact" placeholder="Email or phone (optional)" maxlength="120" /></label></div></fieldset>
+        <fieldset><legend>INVOICE SETUP</legend><div class="fields"><label>INVOICE NUMBER<input name="invoiceNo" id="invoiceNo" placeholder="INV-001" maxlength="40" /></label><label>CURRENCY<select name="currency" id="currency"><option value="PHP">PHP — Philippine peso</option><option value="USD">USD — US dollar</option><option value="EUR">EUR — Euro</option><option value="SGD">SGD — Singapore dollar</option></select></label><label>ISSUE DATE<input type="date" id="issueDate" name="issueDate" /></label><label>DUE DATE<input type="date" id="dueDate" name="dueDate" /></label></div></fieldset>
+        <fieldset><legend>LINE ITEMS</legend><div id="itemEditor" class="item-editor"></div><button type="button" id="addItem" class="add-item">+ ADD LINE ITEM</button></fieldset>
+        <fieldset><legend>ADJUSTMENTS</legend><div class="fields"><label>DISCOUNT %<input type="number" name="discount" id="discount" min="0" max="100" step="0.01" value="0" /></label><label>TAX %<input type="number" name="tax" id="tax" min="0" max="100" step="0.01" value="0" /></label><label class="full">NOTES / PAYMENT INSTRUCTIONS<textarea name="notes" id="notes" rows="3" placeholder="e.g. Payment due within 14 days. Thank you!" maxlength="1000"></textarea></label></div></fieldset>
+      </form>
+      <div class="editor-actions"><button type="button" class="main-action" id="printInvoice">PRINT / SAVE PDF ↗</button><div class="secondary-actions"><button type="button" id="downloadDraft">EXPORT DRAFT JSON ↓</button><label class="upload-draft">IMPORT DRAFT JSON ↑<input type="file" id="importDraft" accept="application/json,.json" hidden /></label><button type="button" id="resetInvoice">CLEAR DRAFT ×</button></div><p id="appStatus" role="status">AUTO-SAVE IS ENABLED ON THIS DEVICE.</p></div>
+    </section>
+    <section class="preview-area" aria-labelledby="previewTitle"><div class="preview-top"><div><span>02 / LIVE PREVIEW</span><h2 id="previewTitle">THE FINISHED PAGE</h2></div><span class="preview-scale">A4 / PRINT READY</span></div>
+      <div class="preview-wrap"><article class="invoice-sheet" id="invoiceSheet"><div class="sheet-top"><div><div class="sheet-logo" id="pBusinessName">YOUR BUSINESS</div><div class="sheet-muted multiline" id="pBusinessAddress"></div><div class="sheet-muted" id="pBusinessContact"></div></div><div class="sheet-invoice-word">INVOICE<span>.</span></div></div><div class="sheet-meta"><div><small>BILLED TO</small><strong id="pClientName">CLIENT NAME</strong><span id="pClientContact" class="sheet-muted"></span></div><div class="sheet-metadata"><div><small>INVOICE NO.</small><strong id="pInvoiceNo">INV-001</strong></div><div><small>ISSUED</small><strong id="pIssueDate">—</strong></div><div><small>DUE DATE</small><strong id="pDueDate">—</strong></div></div></div><table class="sheet-table"><thead><tr><th>DESCRIPTION</th><th>QTY</th><th>RATE</th><th>AMOUNT</th></tr></thead><tbody id="previewItems"></tbody></table><div class="sheet-calc"><div><span>SUBTOTAL</span><strong id="pSubtotal">₱0.00</strong></div><div><span id="pDiscountLabel">DISCOUNT (0%)</span><strong id="pDiscount">−₱0.00</strong></div><div><span id="pTaxLabel">TAX (0%)</span><strong id="pTax">₱0.00</strong></div><div class="sheet-total"><span>TOTAL DUE</span><strong id="pTotal">₱0.00</strong></div></div><div class="sheet-notes"><small>NOTES & PAYMENT DETAILS</small><p class="multiline" id="pNotes">Thank you for your business.</p></div><div class="sheet-foot"><span>CREATED WITH DIGITAL EMPIRE / TOOL 001</span><span>END OF DOCUMENT</span></div></article></div>
+      <p class="preview-disclaimer">All calculations happen on your device. “Save PDF” uses your browser's Print → Save as PDF option. Draft storage is local and may disappear if browser data is cleared.</p>
+    </section>
+  </main>
+  <script src="invoice.js"></script>
+</body>
+</html>

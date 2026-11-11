@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#191b19" />
+  <meta name="description" content="Bracket Engine by Digital Empire: a local-first tournament bracket builder for 2 to 16 teams, with scoring, autosave and JSON exports." />
+  <title>Bracket Engine / Digital Empire</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="bracket.css" />
+  <script src="bracket.js" defer></script>
+</head>
+<body>
+  <header class="br-topbar"><a href="../index.html#inventory" class="br-back">← <span>BACK TO INVENTORY</span></a><div>DE / GAME SYSTEM 005 <span class="local-tag">● LOCAL WORKSPACE</span></div><a class="br-wordmark" href="../index.html" aria-label="Digital Empire home">D/E<span>.</span></a></header>
+  <main>
+    <section class="br-hero" aria-labelledby="mainTitle">
+      <div class="br-hero-meta"><span>INDEPENDENT DIGITAL WORKSHOP / TOOL NO. 005</span><span>EDITION 002 — 2026</span></div>
+      <div class="br-heading"><div><p class="br-eyebrow">COMPETITION HAS AN ORDER <span>✳</span></p><h1 id="mainTitle">BRACKET<br/><em>ENGINE</em><span>.</span></h1></div><div class="br-hero-note"><span class="br-hero-counter">02 / 08</span><p>Seed the players. Record the scores. Let the best team advance.</p><span>2—16 TEAMS / SINGLE ELIMINATION</span></div></div>
+      <div class="br-hero-footer"><span>NO ACCOUNT / LOCAL DATA / NO APP SERVER REQUIRED</span><span>↓ THE CONTROL ROOM</span></div>
+    </section>
+    <section class="br-workspace" aria-label="Bracket editor">
+      <aside class="control-panel" aria-labelledby="controlTitle">
+        <div class="panel-top"><span>01 / THE SETUP</span><span>LOCAL EDITION</span></div>
+        <h2 id="controlTitle">BUILD YOUR<br/><em>TOURNAMENT.</em></h2>
+        <label class="br-field">TOURNAMENT NAME<input id="tournamentName" type="text" maxlength="65" value="FRIDAY NIGHT FINALS" autocomplete="off" /></label>
+        <label class="br-field">TEAMS / ONE NAME PER LINE <small>2–16 TEAMS</small><textarea id="teamNames" rows="9" maxlength="700" spellcheck="false" placeholder="Team Alpha&#10;Team Bravo&#10;Team Charlie&#10;Team Delta"></textarea></label>
+        <p class="seed-explainer">Seed order is determined by the order you enter the teams. Byes are given to the highest seeds when the number of teams isn't a power of two.</p>
+        <div class="panel-actions"><button type="button" class="br-btn primary" id="generateBtn">GENERATE BRACKET <span>↗</span></button><button type="button" class="br-btn secondary" id="sampleBtn">LOAD SAMPLE TEAMS <span>+</span></button></div>
+        <p id="toolStatus" class="tool-status" role="status" aria-live="polite">Everything saves in this browser.</p>
+        <div class="panel-divider"><span>02 / FILES & CONTROLS</span></div>
+        <button type="button" class="br-file-btn" id="exportBtn">EXPORT TOURNAMENT JSON <span>↓</span></button>
+        <label class="br-file-btn upload-btn">IMPORT TOURNAMENT JSON <span>↑</span><input id="importFile" type="file" accept="application/json,.json" hidden /></label>
+        <button type="button" class="br-file-btn" id="printBtn">PRINT / SAVE PDF <span>↗</span></button>
+        <button type="button" class="br-file-btn danger" id="resetBtn">CLEAR SCORES <span>×</span></button>
+        <p class="privacy-note">Your bracket is stored on this device only. Export JSON to back it up or transfer it. This tool does not synchronize between people or devices.</p>
+      </aside>
+      <div class="arena" id="arena">
+        <div class="arena-top"><div><span>03 / TOURNAMENT BOARD</span><h2>ROAD TO THE <em>FINAL.</em></h2></div><div class="arena-status" id="arenaStatus">AWAITING FIRST MATCH</div></div>
+        <div class="scoreboard" aria-label="Tournament progress"><div><span>TEAMS</span><strong id="statTeams">—</strong></div><div><span>ROUNDS</span><strong id="statRounds">—</strong></div><div><span>COMPLETE</span><strong id="statComplete">0/0</strong></div><div><span>CHAMPION</span><strong id="statChampion">TBD</strong></div></div>
+        <div class="bracket-intro"><p>Enter the winning score for each matchup. When there is a clear winner, they advance automatically. A tie does not advance a team.</p><span>SWIPE TO SEE EVERY ROUND →</span></div>
+        <div class="bracket-scroll" tabindex="0" aria-label="Tournament bracket, scroll horizontally for more rounds"><div class="bracket-grid" id="bracketGrid"></div></div>
+        <div class="arena-bottom"><span>TOURNAMENT BRACKET / LOCAL-FIRST SOFTWARE</span><span id="saveState">SAVED ON DEVICE</span></div>
+      </div>
+    </section>
+    <section class="br-credits"><div><span>✳ BUILT FOR PLAYERS, NOT PLATFORMS.</span><p>Bracket Engine is a first functional release, not a paid product yet. There is no online participant registration, cloud sync, or payment handling in this version.</p></div><a href="../index.html#studio">NEED A CUSTOM GAME SYSTEM? ↗</a></section>
+  </main>
+  <footer class="br-footer"><span>© <span id="brYear">2026</span> DIGITAL EMPIRE / WORKING BRAND</span><span>GAME UTILITY 005 — VERSION 0.2</span><a href="../index.html">BACK TO THE STUDIO ↑</a></footer>
+</body>
+</html>
