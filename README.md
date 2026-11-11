@@ -1,81 +1,74 @@
-# DIGITAL EMPIRE — EDITION 002
+# DIGITAL EMPIRE — EDITION 003
 
-**Working name. Independent digital workshop. Free-to-build static prototype.**
+**Working name. Independent digital workshop. Static storefront hosted through Cloudflare Workers static assets.**
 
-This is a custom-designed, responsive storefront and two real, local-first product demonstrations. It uses native HTML, CSS, and JavaScript. It has **no dependencies, subscriptions, accounts or build step**. Source files are yours to edit.
+A distinctive, bespoke editorial design and three functioning, browser-local product demonstrations. It uses plain HTML, CSS and JavaScript with no application build step or runtime dependency.
 
-## What works right now
+## Status
 
-| Part | Status | Where |
+| Component | State | Location |
 |---|---|---|
-| Storefront and editorial design | Works | `index.html`, `styles.css` |
-| Category filtering, search and product details | Works | `app.js`, `products.js` |
-| Draft a custom project request and copy it | Works, **not sent** | Homepage → Start a Project |
-| Invoice Maker (line items, tax, discount, preview, JSON export/import, print/PDF) | Works locally | `tools/invoice.html` |
-| Bracket Engine (2–16 seeded teams, automatic byes, scoring, advancement, champion, JSON export/import, print/PDF) | Works locally | `tools/bracket.html` |
-| Other 6 product listings | **Planned only** | `products.js` |
-| Payment, customer accounts, product delivery | **Not implemented** | — |
-| Cloud synchronization and online order submission | **Not implemented** | — |
+| Responsive storefront, product search, details and filtering | Working | `index.html`, `app.js`, `products.js` |
+| Invoice Maker | Working local demo | `tools/invoice.html` |
+| Bracket Engine | Working local demo | `tools/bracket.html` |
+| Report Relay | Working local demo | `tools/report.html` |
+| Other five listings | Planned / not available for purchase | `products.js` |
+| Project-brief builder | Copies the brief; **not sent or recorded** | Homepage → Start a Project |
+| Customer accounts, server-side orders, payments, licensed product delivery | **Not implemented** | — |
 
-## Run it
+### Report Relay / Tool 008
 
-**Simplest:** open `index.html` on a desktop browser. The files are self-contained apart from optional Google Fonts. To test from a web server:
+- Load a CSV file of no more than 2 MB and up to 10,000 data rows / 30 columns.
+- Handles standard quoted CSV data, comma, semicolon and tab delimiters.
+- Choose a category column and either record counts or a numeric metric.
+- View group counts, sums, visualized top eight groups, and the first eight source rows.
+- Download full grouped summaries in CSV or JSON; print or save the visible report to PDF through the browser.
+- No CSV content is transmitted to a server. CSV processing happens in memory and clears on reload or when the user selects Clear Workspace.
+- This first release does not perform cloud sync, automatic scheduling, data cleaning, or cross-file joins. The sample is fictitious demo data.
+
+### Invoice Maker / Tool 001
+
+Line items, subtotal, tax, discounts, draft autosave in browser localStorage, JSON backup/import and browser print-to-PDF.
+
+### Bracket Engine / Tool 005
+
+Single-elimination tournaments for 2–16 seeded teams, byes, scoring, automatic progression, winner validation, localStorage, JSON backups and print-to-PDF.
+
+## Run locally
+
+Serve the repository root in a local development web server:
 
 ```sh
 python3 -m http.server 8000
 ```
 
-Open `http://localhost:8000` in your browser.
+Open `http://localhost:8000`. The interface is designed for desktop, iPhone and iPad browsers.
 
-To publish a **preview** through Cloudflare Pages, follow their current upload/deployment instructions and select the folder containing `index.html`, or upload the contents of the project ZIP. Configure a Pages subdomain. Test the commercial terms, free-tier limits and site policies before publishing as a business. Do not enable checkout on this prototype.
+## Cloudflare deployment
 
-### iPhone / iPad
+The connected GitHub repository `pobrengtisoy/digital-empire.` (including the trailing dot) uses **Workers Builds** with `wrangler.jsonc` and `.assetsignore`. The deployment settings are:
 
-The interface responds to small screens; tournament columns scroll sideways within the bracket area. For reliable access on iOS, publish the static preview to a suitable host or open it from a local web server on the same network. iOS Files doesn't run a website development server by itself.
+- Branch: `main`
+- Build command: `exit 0`
+- Deploy command: `npx wrangler deploy`
+- Worker name: `digital-empire`
+- Static assets directory: `./` (repository root)
 
-## Test the second demo
+Cloudflare reports a successful initial deployment in the dashboard screenshot provided November 11, 2026. The exact public `workers.dev` URL has not yet been independently verified. Future pushes to the connected production branch should trigger builds, assuming the Git integration remains enabled.
 
-1. Open **Bracket Engine** from the product inventory.
-2. Replace the sample teams (one per line), then select **Generate Bracket**.
-3. Enter a score for both teams in a match. The higher-scoring side automatically advances. Ties require a winner; draws cannot advance.
-4. Continue until a champion is crowned.
-5. Export the tournament as JSON to keep a backup. Import that file on another device. For printable brackets, use **Print / Save PDF**.
+See [CLOUDFLARE_SETUP.md](CLOUDFLARE_SETUP.md) for details. `.assetsignore` removes internal repository/agent docs from the public static-asset bundle.
 
-Important: Editing results in an earlier round clears recorded later-round scores to prevent accidental attribution of results to a different team. Teams receive byes based on their seeded order. No online multiplayer, cloud syncing or public registration is included.
+## Architecture and safety
 
-## File guide
+- The tools run in the browser; no backend API, D1 database, payment gateway or user accounts are configured.
+- `products.js` is the source-controlled catalog. Only verified product demos use `status:'live'`.
+- User-provided CSV cells are inserted as text nodes, not executed as HTML. CSV exports neutralize potentially executable spreadsheet formulas in text fields.
+- Do **not** put credentials, confidential customer files, API tokens, or unreleased paid source code into this public repository.
+- Do **not** accept customer payments on this site until a secure order workflow, payment verification, and delivery entitlements are implemented and tested.
+- Current tools may lose local data if browser storage is cleared or the browser session ends. Use the available backups/export functions.
 
-```
-index.html             Main storefront
-styles.css             Global visual language + second release
-products.js            Catalog and truthful live/planned status
-app.js                 Product search, filters, details, project brief
-tools/invoice.html     Invoice Maker UI
-tools/invoice.css      Invoice Maker styling
-tools/invoice.js       Invoice calculations, JSON/print/drafts
-tools/bracket.html     Bracket Engine UI
-tools/bracket.css      Bracket Engine styling
-tools/bracket.js       Tournament state, logic, scores and persistence
-_headers               Recommended headers for a Cloudflare Pages preview
-robots.txt             Exclude prototype preview from indexing
-```
+## Next product milestone
 
-## Data handling and limitations
+Add an authenticated, server-side custom-order inbox (for example with Workers + D1) **after** Cloudflare account authorization/bindings are available. Pair it with proper spam and rate-limit protections, privacy language, and owner-only access. Follow with payment integration and private licensed downloads.
 
-- Tool data is held in the **current browser** via `localStorage`. Clearing browser storage removes local work unless a JSON backup is exported.
-- The tools do not send information to our server. Google Fonts, when available, are requested from Google; fallbacks work offline.
-- The project-brief feature currently **copies text**. It does not contact a salesperson, submit an order or create a ticket.
-- There is no secure server-side admin area, commercial payments, license issuance, download entitlements, or order history. **Do not collect payments or customer credentials through this version.**
-- Preview product names, descriptions and branding are provisional. You must review legal terms, privacy disclosures, branding rights, and licensing before a public commercial launch.
-
-## Recommended next milestone: Edition 003
-
-Build an original product detail page and a real custom-order inbox behind a server and authenticated admin panel. Then connect supported payments **server-side** and private downloadable product entitlements. Continue using the existing design system, not a canned storefront template.
-
-## Tested in Edition 002
-
-- Bracket generator: eight teams, seven scored matches, champion calculation.
-- Six teams: seeded byes, correct count of actual games (five).
-- Storefront: eight products, two functional demos, product filter and detail dialog.
-- Responsive measurements: 390px phone and 810px tablet without outer-page horizontal overflow; the bracket board scrolls independently.
-- Scripts pass `node --check` syntax validation. Tests were performed using local HTML/style/script injection in a headless Chromium browser because direct browser URL navigation was restricted in the test environment. Hosted deployment and real iOS Safari testing remain to be done.
+Preserve the original industrial editorial design. Avoid canned template patterns and redundant effects.
