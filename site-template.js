@@ -55,7 +55,7 @@ function render(){
  if(data.logo){const img=document.createElement("img");img.src=data.logo;img.alt="Company logo artwork";art.append(img)}
  else art.textContent=initials;
  $("sfStoryMark").textContent=initials;
- const pic=$("sfHeroPhoto");pic.classList.toggle("has-image",Boolean(data.background));
+ const pic=$("sfHeroPhoto");pic.classList.toggle("has-image",Boolean(data.background));pic.classList.toggle("has-logo",Boolean(data.logo));
  pic.style.backgroundImage=data.background?'url("'+data.background+'")':"none";
  const link=contactHref(data.contactLink);
  document.querySelectorAll("[data-contact-link]").forEach(el=>{
