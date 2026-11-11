@@ -7,7 +7,7 @@
   const today = new Date();
   const localDate = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
   const shiftDate = (d,n) => {const copy=new Date(d); copy.setDate(copy.getDate()+n); return localDate(copy);};
-  const defaults = {businessName:'',businessContact:'',businessAddress:'',clientName:'',clientContact:'',invoiceNo:'INV-001',currency:'PHP',issueDate:localDate(today),dueDate:shiftDate(today,14),discount:'0',tax:'0',notes:'Thank you for your business.',items:[{description:'Website design',quantity:'1',rate:'8500'},{description:'Development',quantity:'1',rate:'4500'}]};
+  const defaults = {businessName:'RZ STUDIO',businessContact:'',businessAddress:'',clientName:'',clientContact:'',invoiceNo:'INV-001',currency:'PHP',issueDate:localDate(today),dueDate:shiftDate(today,14),discount:'0',tax:'0',notes:'Thank you for your business.',items:[{description:'Website design',quantity:'1',rate:'8500'},{description:'Development',quantity:'1',rate:'4500'}]};
   let state = structuredClone(defaults);
   const safeNum = val => {const n = Number(val);return Number.isFinite(n)&&n>0 ? Math.min(n,1e9) : 0;};
   const pct = val => Math.min(100,safeNum(val));
