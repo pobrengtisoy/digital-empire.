@@ -116,3 +116,10 @@ button,input,textarea{font:inherit}button{cursor:pointer}a{text-decoration:none;
 @media(max-width:430px){.sf-head nav a:nth-child(2){display:none}.sf-company-name{font-size:23px}.sf-hero h1{font-size:clamp(72px,16vw,93px)}.sf-hero-bottom{display:block}.sf-hero-bottom p{margin-bottom:27px}.sf-stamp{font-size:9px}.sf-photo-credit{font-size:9px}.sf-story h2{font-size:clamp(75px,15vw,95px)}.sf-services-head{align-items:start;display:block}.sf-services-head>p{margin-top:25px;max-width:250px}.sf-service-row strong{font-size:44px}.sf-contact h2{font-size:clamp(80px,17vw,113px)}.sf-editor-intro h2{font-size:83px}}
 @media print{.sf-workbar,.sf-editor{display:none!important}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+
+/* User-supplied identity takes priority over the sample lettering, even with a cover photo. */
+.sf-art strong img{display:block;max-width:min(290px,74%);width:auto;height:auto;max-height:250px;object-fit:contain;filter:drop-shadow(0 3px 7px #0002)}
+.sf-small-symbol strong{font:inherit;font-weight:inherit;letter-spacing:-.06em;max-width:100%;overflow-wrap:anywhere}
+.sf-hero-right.has-image.has-logo .sf-art>strong{opacity:1;transform:none;display:flex;align-items:center;justify-content:center;width:min(315px,90%);max-height:270px;background:#f1ede4df;padding:17px;border:1px solid #4b5145;box-shadow:10px 10px 0 #0003}
+.sf-hero-right.has-image.has-logo .sf-art>strong img{max-width:100%;max-height:220px;filter:none}
+@media(max-width:760px){.sf-hero-right.has-image.has-logo .sf-art>strong{width:min(270px,83%);padding:12px}.sf-art strong img{max-height:185px}}
