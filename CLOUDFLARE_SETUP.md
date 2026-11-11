@@ -1,23 +1,35 @@
-# Cloudflare setup — Digital Empire
+# Deploy Digital Empire to Cloudflare
 
-This repository has Cloudflare MCP configuration for Codex (`.codex/config.toml`) and VS Code / GitHub Copilot (`.vscode/mcp.json`). The configuration stores **no credentials**, cannot authorize an account by itself, and does not create a Cloudflare deployment.
+The project is configured for **Cloudflare Workers static assets** (the screen with `Build command`, `Deploy command` and `Preview command`).
 
-## Authorize your coding agent
-- **Codex CLI / IDE:** open this trusted project. If your Codex version does not load project-scoped MCP config, run `codex mcp add cloudflare --url https://mcp.cloudflare.com/mcp`. Then run `codex mcp login cloudflare` or authorize on first use.
-- **VS Code / GitHub Copilot:** open this project, enable the Cloudflare MCP server in Agent mode, and complete the browser-based OAuth prompt.
-- Install Cloudflare skills in your actual agent environment as described in the [official Cloudflare instructions](https://developers.cloudflare.com/agent-setup/prompt.md). These skills are not installed by committing this repository.
+## Workers Builds configuration
 
-## Publish the static storefront with Cloudflare Pages
+- GitHub repository: `pobrengtisoy/digital-empire.` (including the trailing period)
+- Project name: `digital-empire`
+- Production branch: `main`
+- Build command: `exit 0`
+- Deploy command: `npx wrangler deploy`
+- Preview command: `npx wrangler preview`
+- Preview builds: optional (on is fine)
+- Cloudflare Access: off for a public demo; turn on only if you want to restrict access
 
-1. Sign in to [Cloudflare](https://dash.cloudflare.com/) using your own account.
-2. Open **Workers & Pages** → **Create application** → **Pages** → **Import an existing Git repository**.
-3. Authorize Cloudflare's GitHub integration to access `pobrengtisoy/digital-empire.` and select that exact repository.
-4. Configure **Production branch: main**, **Framework: None**, **Build command: exit 0** (or blank), **Build output directory: .** (repository root).
-5. Select **Save and Deploy**, then verify the returned `*.pages.dev` URL.
+These are valid because `wrangler.jsonc` in the repository sets the Worker name, compatibility date, and `assets.directory` to `./`. `.assetsignore` excludes internal documentation and configuration from being published as static assets.
 
-This is a prototype storefront. Do not enable payments or label planned products ready for sale. Do not put Cloudflare API tokens, service credentials, private certificates, or customer data into this public repository.
+### Finish in the Cloudflare dashboard
 
-Official references:
-- https://developers.cloudflare.com/agent-setup/prompt.md
-- https://developers.cloudflare.com/pages/framework-guides/deploy-anything/
-- https://developers.cloudflare.com/pages/get-started/git-integration/
+1. From the Worker Git-connected setup screen, keep the settings above.
+2. Tap **Deploy**.
+3. Check **Deployment / Build logs** for a successful result, and open the actual `*.workers.dev` URL assigned by Cloudflare.
+4. Verify the storefront loads and the two demos work. Do not assume the URL exists until Cloudflare confirms it.
+5. With the Git integration connected, future pushes to `main` automatically redeploy.
+
+> This is a showcase prototype and is **not** ready to accept paid orders. It has no checkout, customer auth, server-side orders, or secure licensed downloads.
+
+## Agent integration (optional)
+
+Cloudflare's official [agent setup guide](https://developers.cloudflare.com/agent-setup/prompt.md) explains installing Cloudflare Skills and its OAuth MCP server in various agents. This repository includes Codex and VS Code MCP configurations that contain no credentials. The files do not install tools or grant Cloudflare account access themselves.
+
+## Docs
+- https://developers.cloudflare.com/workers/static-assets/get-started/
+- https://developers.cloudflare.com/workers/static-assets/binding/
+- https://developers.cloudflare.com/workers/ci-cd/builds/configuration/
