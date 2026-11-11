@@ -56,3 +56,28 @@
 @media(max-width:1180px){.rz-ed-inner{grid-template-columns:.85fr 1.15fr}.rz-ed-lead{padding-right:25px}.rz-ed-lead h2{font-size:clamp(80px,9vw,130px)}.rz-ed-one{grid-template-columns:105px 1fr;padding:24px}.rz-ed-one>strong{font-size:70px}.rz-ed-one>small{font-size:9px}.footer-brand{font-size:clamp(100px,13.5vw,210px)}}
 @media(max-width:800px){.rz-editions{padding:0 5% 23px;margin-top:65px}.rz-ed-inner{display:block}.rz-ed-lead{border-right:0;border-bottom:1px solid #5a6659;padding:30px 0 35px}.rz-ed-symbol{width:80px;height:72px;font-size:42px}.rz-ed-lead h2{font-size:clamp(88px,15vw,140px);margin:23px 0}.rz-ed-lead p{margin-top:23px}.rz-ed-lead>a{margin-top:25px}.rz-ed-one{padding:22px 25px;min-height:170px;grid-template-columns:120px 1fr}.rz-ed-one>strong{font-size:75px}.rz-ed-index{font-size:9px}.rz-ed-bottom{font-size:9px}.footer-brand{font-size:clamp(80px,13vw,125px)}}
 @media(max-width:450px){.masthead .brand-name{font-size:18px}.rz-ed-index span:last-child{display:none}.rz-ed-lead h2{font-size:clamp(75px,17vw,98px)}.rz-ed-one{grid-template-columns:105px 1fr;gap:11px;min-height:158px;padding:20px 14px}.rz-ed-one>strong{font-size:62px}.rz-ed-one>small{font-size:9px;line-height:1.45}.rz-ed-one>span{font-size:8px}.footer-brand{font-size:clamp(63px,12.8vw,83px)}}
+
+/* RZ FORM / website specimen — a typographic hand-built poster, not a repeated card. */
+.rz-web-release{background:#d8c3ac;color:#281e19;padding:0 4.4% 25px;margin:20px 0 0}
+.rz-web-top{padding:22px 0 19px;display:flex;justify-content:space-between;gap:15px;border-bottom:1px solid #33251c;font:600 10px var(--mono);letter-spacing:.04em}
+.rz-web-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(330px,.9fr);min-height:600px}
+.rz-web-editorial{padding:45px 65px 45px 0;display:flex;flex-direction:column;align-items:start}
+.rz-web-micro{font:700 10px/1.5 var(--mono);color:#6e3e29}
+.rz-web-editorial h2{font:900 clamp(95px,10vw,169px)/.74 var(--display);letter-spacing:-.025em;margin:38px 0 28px}
+.rz-web-editorial h2 em{font-style:normal;color:transparent;-webkit-text-stroke:2px #6d4636}
+.rz-web-editorial>p{font-size:14px;line-height:1.8;max-width:470px;margin:0 0 32px}
+.rz-web-editorial>a{background:#2a221e;color:#f4eadf;padding:19px 23px;display:flex;justify-content:space-between;align-items:center;gap:24px;font:600 11px var(--mono);margin-top:auto;min-width:min(355px,100%)}
+.rz-web-editorial>a b{font-size:24px;color:#dab898}
+.rz-web-editorial>a:hover{background:#593529}
+.rz-web-poster{background:#f2e9df;position:relative;min-width:0;border-left:1px solid #a2806e;display:flex;flex-direction:column;justify-content:space-between;padding:23px 31px;overflow:hidden}
+.rz-web-poster::after{content:"";position:absolute;width:65%;height:60%;top:22%;left:17%;border:2px solid #a9583e;transform:rotate(-11deg)}
+.rz-web-poster>span{font:600 10px var(--mono)}
+.rz-web-giant{font:900 clamp(170px,24vw,400px)/.65 var(--display);letter-spacing:-.13em;transform:rotate(-8deg);white-space:nowrap;color:#a9583e;z-index:1;align-self:center;margin-left:-35px}
+.rz-web-giant span{color:#402a22}
+.rz-web-poster-footer{display:flex;align-items:end;justify-content:space-between;border-top:1px solid #8e7666;padding-top:21px;gap:20px}
+.rz-web-poster-footer span{font:700 11px/1.4 var(--mono)}
+.rz-web-poster-footer b{font:900 68px/.7 var(--display)}
+.rz-web-foot{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;padding:20px 0 2px;border-top:1px solid #33251c;font:600 10px var(--mono)}
+@media(max-width:1100px){.rz-web-editorial{padding-right:24px}.rz-web-editorial h2{font-size:clamp(80px,10vw,115px)}.rz-web-giant{font-size:clamp(150px,22vw,260px)}}
+@media(max-width:760px){.rz-web-release{padding:0 5% 23px}.rz-web-grid{display:block}.rz-web-editorial{padding:35px 0;min-height:470px}.rz-web-editorial h2{font-size:clamp(85px,15vw,137px)}.rz-web-editorial>a{margin-top:25px}.rz-web-poster{min-height:370px;border-left:0;border-top:1px solid #a2806e}.rz-web-giant{font-size:clamp(180px,33vw,270px)}.rz-web-foot{font-size:9px}}
+@media(max-width:430px){.rz-web-top span:last-child{display:none}.rz-web-editorial h2{font-size:clamp(74px,17vw,98px)}.rz-web-editorial{min-height:0}.rz-web-poster{min-height:310px}.rz-web-giant{font-size:185px}.rz-web-poster-footer b{font-size:58px}.rz-web-foot{display:grid;grid-template-columns:1fr 1fr;row-gap:12px}}
