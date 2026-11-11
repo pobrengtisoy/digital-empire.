@@ -146,7 +146,7 @@
     const trigger=make("button","rz-lab-trigger","RZ / CUSTOMIZE ↗");trigger.id="rzLabTrigger";trigger.type="button";
     trigger.setAttribute("aria-controls","rzBrandDialog");trigger.setAttribute("aria-expanded","false");document.body.append(trigger);
     const panel=make("dialog","rz-brand-dialog");panel.id="rzBrandDialog";panel.setAttribute("aria-label","RZ Brand Desk");
-    panel.innerHTML=`<div class="rz-dialog-top"><span>RZ DIGITAL EMPIRE <b>™</b></span><button type="button" id="rzCloseDesk" aria-label="Close brand editor">×</button></div>
+    panel.innerHTML=`<div class="rz-dialog-top"><span>RZ DIGITAL EMPIRE <b>✳</b></span><button type="button" id="rzCloseDesk" aria-label="Close brand editor">×</button></div>
       <div class="rz-dialog-content"><div class="rz-editor-head"><span>DESIGN DESK / PRIVATE LOCAL MODE</span><h2>MAKE IT<br><em>YOURS.</em></h2><p>Replace the demo identity with your own. Your edits stay in this browser. Export a brand kit to keep a backup.</p></div>
       <section class="rz-editor-section" aria-label="Brand details"><div class="rz-step">01 / BRAND IDENTITY</div>
         <label>COMPANY OR PROJECT NAME<input id="rzBrandName" maxlength="58" autocomplete="off" placeholder="Your company name"></label>
