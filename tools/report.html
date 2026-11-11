@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#191b19">
+  <meta name="description" content="Report Relay by Digital Empire — private, local-first CSV summaries and exports.">
+  <title>Report Relay / Digital Empire</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="report.css">
+  <script src="report.js" defer></script>
+</head>
+<body>
+<header class="rr-nav">
+  <a class="rr-back" href="../index.html#inventory">← BACK TO INVENTORY</a>
+  <span class="rr-nav-status">DE / TOOL 008 <b>● PRIVATE WORKSPACE</b></span>
+  <a class="rr-logo" href="../index.html" aria-label="Digital Empire home">D/E<span>.</span></a>
+</header>
+<main>
+  <section class="rr-hero" aria-labelledby="reportTitle">
+    <div class="rr-hero-top"><span>WORKSHOP RELEASE / 008</span><span>THE DATA DESK — 2026</span></div>
+    <div class="rr-hero-main">
+      <div>
+        <p class="rr-pretitle">RAW NUMBERS → CLEAR DECISIONS</p>
+        <h1 id="reportTitle">REPORT<br><em>RELAY</em><span>.</span></h1>
+      </div>
+      <div class="rr-hero-aside"><strong>008<span>/</span>008</strong><p>Open a CSV. Find the signal. Take the results with you.</p><small>CSV IN / INSIGHTS OUT</small></div>
+    </div>
+    <div class="rr-hero-bottom"><span>NO ACCOUNT. NO DATA UPLOAD. NO MONTHLY FEE.</span><span>↓ THE WORKBENCH</span></div>
+  </section>
+  <section class="rr-layout" aria-label="Report Relay workspace">
+    <aside class="rr-setup">
+      <div class="rr-section-id"><span>01 / INPUT</span><span>CSV DATA</span></div>
+      <h2>LOAD THE<br><em>NUMBERS.</em></h2>
+      <p class="rr-setup-desc">One ordinary CSV turns into a grouped summary. Your original data is processed in this browser only.</p>
+      <label class="rr-upload" for="csvFile"><span class="rr-upload-symbol" aria-hidden="true">↥</span><strong>CHOOSE A CSV FILE</strong><small>MAXIMUM 2 MB / UP TO 10,000 ROWS</small><input id="csvFile" type="file" accept=".csv,text/csv,text/plain" aria-label="Choose a CSV file"></label>
+      <div class="rr-or"><span>OR USE BUILT-IN DATA</span></div>
+      <button class="rr-button outline" type="button" id="sampleBtn">LOAD SAMPLE DATASET <span>↗</span></button>
+      <p class="rr-loaded" id="fileLabel">NO DATA FILE LOADED</p>
+      <div class="rr-divider">02 / REFINE YOUR REPORT</div>
+      <label class="rr-field">GROUP RECORDS BY
+        <select id="groupBy" disabled><option>Select a CSV first</option></select>
+      </label>
+      <label class="rr-field">WHAT TO MEASURE
+        <select id="metricBy" disabled><option>Select a CSV first</option></select>
+      </label>
+      <p class="rr-help">Choose <b>Count records</b> for volume, or select a numeric column to calculate totals. The top eight groups appear in the chart; exports include every group.</p>
+      <div class="rr-divider">03 / EXPORT & CONTROLS</div>
+      <button class="rr-file" id="downloadCSV" disabled>DOWNLOAD SUMMARY CSV <span>↓</span></button>
+      <button class="rr-file" id="downloadJSON" disabled>DOWNLOAD REPORT JSON <span>↓</span></button>
+      <button class="rr-file" id="printReport" disabled>PRINT / SAVE PDF <span>↗</span></button>
+      <button class="rr-file rr-clear" id="resetReport">CLEAR WORKSPACE <span>×</span></button>
+      <p class="rr-privacy">LOCAL-FIRST / Your uploaded CSV is not sent to our server. Exports are downloaded to your device. Reloading the page clears the working dataset.</p>
+    </aside>
+    <div class="rr-results" aria-label="Report output">
+      <div class="rr-results-head"><div><span>04 / THE READOUT</span><h2>WHAT THE<br><em>DATA SAYS.</em></h2></div><small id="sectionLabel">AWAITING DATA</small></div>
+      <div class="rr-stats" aria-label="Summary metrics">
+        <div class="rr-stat"><span>RECORDS</span><strong id="rowCount">—</strong></div>
+        <div class="rr-stat"><span>COLUMNS</span><strong id="fieldCount">—</strong></div>
+        <div class="rr-stat"><span>GROUPS</span><strong id="groupCount">—</strong></div>
+        <div class="rr-stat major"><span id="totalLabel">TOTAL VALUE</span><strong id="totalCount">—</strong></div>
+      </div>
+      <div class="rr-figure">
+        <div class="rr-figure-head"><div><span>FIG. 01 / GROUPED READOUT</span><h3 id="figureLabel">COUNTS BY CATEGORY</h3></div><span>TOP 08 / VISUAL INDEX</span></div>
+        <div class="rr-bars" id="barArea" aria-live="polite"></div>
+        <div class="rr-figure-foot"><span id="dataNote">READY WHEN YOU ARE</span><span>← GROUP / VALUE →</span></div>
+      </div>
+      <section class="rr-table-section" aria-labelledby="rrTableHeading">
+        <div class="rr-figure-head"><div><span>FIG. 02 / RAW SAMPLE</span><h3 id="rrTableHeading">A LOOK INSIDE THE FILE.</h3></div><span>FIRST 08 ROWS</span></div>
+        <div class="rr-table-scroll" tabindex="0" aria-label="Source data preview, scroll horizontally if needed">
+          <table class="rr-table" aria-label="CSV source data preview"><thead id="tablePreview"></thead><tbody id="tableRows"></tbody></table>
+        </div>
+        <p class="rr-preview-note" id="previewNote">UPLOAD A CSV OR USE THE SAMPLE DATASET TO BEGIN.</p>
+      </section>
+      <p class="rr-status" id="reportStatus" role="status" aria-live="polite">READY TO LOAD CSV DATA.</p>
+    </div>
+  </section>
+  <section class="rr-outro"><span>✳ / NOT EVERYTHING NEEDS A CLOUD.</span><p>This is a fully browser-local first release. Need scheduled reports or a shared business dashboard? We can build those as a separate connected system.</p><a href="../index.html#studio">REQUEST A CUSTOM REPORT SYSTEM ↗</a></section>
+</main>
+<footer class="rr-footer"><span>DIGITAL EMPIRE / INDEPENDENT SOFTWARE WORKSHOP</span><span>REPORT RELAY — BUILD 003</span><a href="../index.html#top">BACK TO THE STORE ↑</a></footer>
+</body>
+</html>
