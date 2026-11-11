@@ -1,0 +1,4 @@
+# Cloudflare MCP for Codex sessions that trust this project.
+# Authentication is performed interactively through OAuth by the user.
+[mcp_servers.cloudflare]
+url = "https://mcp.cloudflare.com/mcp"
