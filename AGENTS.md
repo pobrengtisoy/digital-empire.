@@ -15,6 +15,8 @@
 - RZ Arena: `tools/bracket.html`
 - RZ Insight: `tools/report.html`
 - RZ Edition Office: `templates.html`
+- RZ Form website edition: `site-template.html`, `site-template.js`, `site-template.css` — full editable landing-page sample with local logo/background/brand/copy/contact editor.
+- All website template edits are client-side previews. No customer deployment, full source export, license, checkout or order fulfillment is implemented yet.
 - Reusable editable appearance editor: `brand-lab.js` / `brand-lab.css`
 - Product catalog: `products.js`
 
