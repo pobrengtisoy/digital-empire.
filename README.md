@@ -1,74 +1,79 @@
-# DIGITAL EMPIRE — EDITION 003
+# RZ DIGITAL EMPIRE — EDITION 004
 
-**Working name. Independent digital workshop. Static storefront hosted through Cloudflare Workers static assets.**
+**Company identity: RZ. Marketplace: RZ Digital Empire.**
 
-A distinctive, bespoke editorial design and three functioning, browser-local product demonstrations. It uses plain HTML, CSS and JavaScript with no application build step or runtime dependency.
+An original editorial digital-products storefront with three distinct editable tool demos and the RZ Edition Office. This is a frontend prototype deployed using Cloudflare Workers static assets. It does not process orders or payments yet.
 
-## Status
+## New in Edition 004
 
-| Component | State | Location |
+- Renamed the marketplace and browser identity to **RZ Digital Empire**, including an RZ vector favicon and updated company wordmark.
+- New [Edition Office](templates.html): a bespoke showcase of three visually distinct product editions, not repetitive template cards.
+- **RZ Ledger** (`tools/invoice.html`): warm paper / archival stationery visual treatment.
+- **RZ Arena** (`tools/bracket.html`): nighttime competition visual treatment.
+- **RZ Insight** (`tools/report.html`): modern data-studio visual treatment.
+- Shared [RZ Brand Desk](brand-lab.js), styled in [brand-lab.css](brand-lab.css), runs locally in each tool:
+  - Change company name and tagline.
+  - Switch between three curated visual treatments per product.
+  - Pick a custom accent color.
+  - Upload a PNG, JPG or WEBP logo and hero background image.
+  - Preview the changes live and save the configuration in local browser storage.
+  - Export or import a branded JSON kit for **the same product**; reset to the original RZ display.
+  - Uploaded invoice logos appear on the printable invoice document (other customizations apply to the editor and display).
+- All original working functionality remains: invoice calculations and local drafts, single-elimination tournaments for 2–16 teams, and CSV reporting with export.
+
+### What "editable" means here
+
+The Brand Desk customizes the **demo appearance in the current browser**. Brand preferences are not synced across devices, and browser storage may be cleared. Export a brand kit for safekeeping. These are **not yet downloadable, licensed, deployed client websites or automatic client installations**. Uploads are resized in the browser and not sent to an RZ server. Background images change demo showcase headers; they do not alter the print/PDF templates.
+
+The script uses localStorage with image-size limits. A full client-facing website customizer, downloadable source-code packages, owner-managed branded installations and done-for-you service are commercial roadmap items, **not active checkout features**.
+
+## Existing tools
+
+| Product | Live demo | Key abilities |
 |---|---|---|
-| Responsive storefront, product search, details and filtering | Working | `index.html`, `app.js`, `products.js` |
-| Invoice Maker | Working local demo | `tools/invoice.html` |
-| Bracket Engine | Working local demo | `tools/bracket.html` |
-| Report Relay | Working local demo | `tools/report.html` |
-| Other five listings | Planned / not available for purchase | `products.js` |
-| Project-brief builder | Copies the brief; **not sent or recorded** | Homepage → Start a Project |
-| Customer accounts, server-side orders, payments, licensed product delivery | **Not implemented** | — |
+| RZ Ledger / Tool 001 | `tools/invoice.html` | Invoice items, taxes/discounts, totals, local drafts, JSON backup, print |
+| RZ Arena / Tool 005 | `tools/bracket.html` | Team seeding, byes, scoring, winner advancement, local backups |
+| RZ Insight / Tool 008 | `tools/report.html` | CSV loading, grouping, numeric summaries, charts and exports |
 
-### Report Relay / Tool 008
+Five additional catalog concepts remain marked **planned**.
 
-- Load a CSV file of no more than 2 MB and up to 10,000 data rows / 30 columns.
-- Handles standard quoted CSV data, comma, semicolon and tab delimiters.
-- Choose a category column and either record counts or a numeric metric.
-- View group counts, sums, visualized top eight groups, and the first eight source rows.
-- Download full grouped summaries in CSV or JSON; print or save the visible report to PDF through the browser.
-- No CSV content is transmitted to a server. CSV processing happens in memory and clears on reload or when the user selects Clear Workspace.
-- This first release does not perform cloud sync, automatic scheduling, data cleaning, or cross-file joins. The sample is fictitious demo data.
+## Local development
 
-### Invoice Maker / Tool 001
-
-Line items, subtotal, tax, discounts, draft autosave in browser localStorage, JSON backup/import and browser print-to-PDF.
-
-### Bracket Engine / Tool 005
-
-Single-elimination tournaments for 2–16 seeded teams, byes, scoring, automatic progression, winner validation, localStorage, JSON backups and print-to-PDF.
-
-## Run locally
-
-Serve the repository root in a local development web server:
+No build dependencies are required for the storefront. From the repository root:
 
 ```sh
 python3 -m http.server 8000
 ```
 
-Open `http://localhost:8000`. The interface is designed for desktop, iPhone and iPad browsers.
+Visit `http://localhost:8000`. Static files reference no backend API.
 
-## Cloudflare deployment
+## Cloudflare Workers
 
-The connected GitHub repository `pobrengtisoy/digital-empire.` (including the trailing dot) uses **Workers Builds** with `wrangler.jsonc` and `.assetsignore`. The deployment settings are:
+GitHub repo: `pobrengtisoy/digital-empire.` (GitHub name includes trailing period). Deployment uses:
 
-- Branch: `main`
-- Build command: `exit 0`
-- Deploy command: `npx wrangler deploy`
-- Worker name: `digital-empire`
-- Static assets directory: `./` (repository root)
+- `wrangler.jsonc` with a static assets directory of `./`
+- `.assetsignore` to prevent serving internal Markdown/config assets
+- Branch `main`
+- Build command `exit 0`
+- Deploy command `npx wrangler deploy`
 
-Cloudflare reports a successful initial deployment in the dashboard screenshot provided November 11, 2026. The exact public `workers.dev` URL has not yet been independently verified. Future pushes to the connected production branch should trigger builds, assuming the Git integration remains enabled.
+The user confirmed an initial successful Cloudflare deployment and supplied this address:
 
-See [CLOUDFLARE_SETUP.md](CLOUDFLARE_SETUP.md) for details. `.assetsignore` removes internal repository/agent docs from the public static-asset bundle.
+`https://digital-empire.ronnieredugo.workers.dev/`
 
-## Architecture and safety
+The external web checker has not independently rendered Edition 004 as of this release. Cloudflare Git integration should deploy changes on `main`; verify the latest build and browser rendering before calling the release live.
 
-- The tools run in the browser; no backend API, D1 database, payment gateway or user accounts are configured.
-- `products.js` is the source-controlled catalog. Only verified product demos use `status:'live'`.
-- User-provided CSV cells are inserted as text nodes, not executed as HTML. CSV exports neutralize potentially executable spreadsheet formulas in text fields.
-- Do **not** put credentials, confidential customer files, API tokens, or unreleased paid source code into this public repository.
-- Do **not** accept customer payments on this site until a secure order workflow, payment verification, and delivery entitlements are implemented and tested.
-- Current tools may lose local data if browser storage is cleared or the browser session ends. Use the available backups/export functions.
+## Commercial / security caveats
 
-## Next product milestone
+- The repository is currently **public**. Do not put secret paid source code, API keys, private client assets, payment credentials or proprietary licensed bundles in it.
+- The commercial shop requires a secure server-side order system, verified payments, product entitlements, private downloads, real customer contact handling and proper licensing terms before selling.
+- There is **no checkout, owner admin account, hosted customer workspace, order inbox or automated delivery** in this version.
+- The custom-project brief currently copies text to the visitor's clipboard instead of submitting it to RZ.
+- Uploaded demo artwork and settings stay in the browser. Backup with Export Kit; all browser localStorage is subject to user clearing and storage quotas.
+- Keep the design bespoke: no AI-looking generic SaaS cards, arbitrary gradients, generic floating dashboards or repetitive templates.
 
-Add an authenticated, server-side custom-order inbox (for example with Workers + D1) **after** Cloudflare account authorization/bindings are available. Pair it with proper spam and rate-limit protections, privacy language, and owner-only access. Follow with payment integration and private licensed downloads.
+## Next edition
 
-Preserve the original industrial editorial design. Avoid canned template patterns and redundant effects.
+Introduce the first genuine editable **website** template with a simple branded media and content editor (separate from the three tools), plus the secure server-side inquiry path. Create a private product-code delivery repository once licensed packages are ready. Keep public demos separate from paid source code.
+
+See [CLOUDFLARE_SETUP.md](CLOUDFLARE_SETUP.md) for hosting and [AGENTS.md](AGENTS.md) for the design rules.
