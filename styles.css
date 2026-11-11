@@ -29,3 +29,30 @@
 .report-rail>a span{font-size:19px}
 @media(max-width:1200px){.report-rail{grid-template-columns:88px 1fr minmax(165px,.85fr);gap:17px}.report-rail>a{grid-column:2/-1;width:max-content;max-width:100%}}
 @media(max-width:670px){.report-rail{display:block;padding:24px 0 29px}.report-rail-id{display:block;margin-bottom:14px}.report-rail>strong{font-size:clamp(51px,12vw,76px);display:block}.report-rail>p{margin:14px 0 23px;max-width:390px}.report-rail>a{width:100%;max-width:370px}}
+
+/* RZ / EDITION 004 — identity-led, asymmetrical editorial index. */
+.masthead .mark{font-style:italic;font-size:28px;border-color:var(--lime)}.masthead .brand-name{font-size:21px}
+.rz-editions{margin:90px 0 0;background:#1a1f1b;color:#f0efe8;padding:0 4.4% 25px;overflow:hidden}
+.rz-ed-index{border-bottom:1px solid #67705e;padding:25px 0 19px;display:flex;justify-content:space-between;gap:15px;font:600 10px var(--mono);color:#afc0a5;letter-spacing:.04em}
+.rz-ed-inner{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.1fr);gap:0;min-height:675px}
+.rz-ed-lead{display:flex;flex-direction:column;align-items:start;padding:45px 55px 45px 0;border-right:1px solid #5a6659}
+.rz-ed-symbol{border:1px solid #d9fb4b;color:#d9fb4b;display:grid;place-items:center;width:100px;height:90px;font:900 56px/.8 var(--display);font-style:italic;letter-spacing:-.09em}.rz-ed-symbol span{color:#879975;font-style:normal;font-size:35px}
+.rz-ed-lead p{font:600 10px/1.7 var(--mono);color:#a8bc9d;margin:35px 0 0;letter-spacing:.07em}
+.rz-ed-lead h2{font:900 clamp(90px,10vw,165px)/.76 var(--display);margin:29px 0 35px;letter-spacing:-.025em}
+.rz-ed-lead h2 em{font-style:normal;color:transparent;-webkit-text-stroke:2px #d9fb4b}.rz-ed-lead h2>span{color:#d9fb4b}
+.rz-ed-lead>a{margin-top:auto;background:#d9fb4b;color:#191b19;padding:19px 20px;min-width:min(100%,345px);display:flex;justify-content:space-between;gap:20px;align-items:center;font:600 11px var(--mono)}.rz-ed-lead>a span{font-size:22px}
+.rz-ed-products{display:grid;grid-template-rows:repeat(3,1fr)}
+.rz-ed-one{display:grid;grid-template-columns:120px minmax(0,1fr);grid-template-rows:auto auto;column-gap:25px;align-content:center;position:relative;padding:25px 38px;color:#191b19;min-height:180px;transition:padding .2s}
+.rz-ed-one:not(:last-child){border-bottom:1px solid #1b1d19}.rz-ed-one:hover{padding-left:48px}
+.rz-ed-one>span{font:600 10px var(--mono);grid-column:1/-1;letter-spacing:.04em;margin:0 0 9px}
+.rz-ed-one>strong{font:900 clamp(62px,6.8vw,103px)/.75 var(--display);letter-spacing:-.025em;grid-row:2}
+.rz-ed-one>small{font:600 10px/1.7 var(--mono);align-self:end;max-width:260px;grid-row:2}
+.rz-ed-ledger{background:#e8d8c9}.rz-ed-ledger strong{color:#903f2c}
+.rz-ed-arena{background:#222331;color:#c8fb4d}.rz-ed-arena>small{color:#d3ded2}.rz-ed-arena strong{color:#c8fb4d}
+.rz-ed-insight{background:#c1e0df;color:#16373e}.rz-ed-insight strong{color:#207781}
+.rz-ed-bottom{border-top:1px solid #65705f;padding:24px 0 3px;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;font:600 10px var(--mono);color:#c3cbb8}
+.rz-editions+.inventory{padding-top:95px}
+.footer-brand{font-size:clamp(105px,15vw,260px);letter-spacing:-.035em}
+@media(max-width:1180px){.rz-ed-inner{grid-template-columns:.85fr 1.15fr}.rz-ed-lead{padding-right:25px}.rz-ed-lead h2{font-size:clamp(80px,9vw,130px)}.rz-ed-one{grid-template-columns:105px 1fr;padding:24px}.rz-ed-one>strong{font-size:70px}.rz-ed-one>small{font-size:9px}.footer-brand{font-size:clamp(100px,13.5vw,210px)}}
+@media(max-width:800px){.rz-editions{padding:0 5% 23px;margin-top:65px}.rz-ed-inner{display:block}.rz-ed-lead{border-right:0;border-bottom:1px solid #5a6659;padding:30px 0 35px}.rz-ed-symbol{width:80px;height:72px;font-size:42px}.rz-ed-lead h2{font-size:clamp(88px,15vw,140px);margin:23px 0}.rz-ed-lead p{margin-top:23px}.rz-ed-lead>a{margin-top:25px}.rz-ed-one{padding:22px 25px;min-height:170px;grid-template-columns:120px 1fr}.rz-ed-one>strong{font-size:75px}.rz-ed-index{font-size:9px}.rz-ed-bottom{font-size:9px}.footer-brand{font-size:clamp(80px,13vw,125px)}}
+@media(max-width:450px){.masthead .brand-name{font-size:18px}.rz-ed-index span:last-child{display:none}.rz-ed-lead h2{font-size:clamp(75px,17vw,98px)}.rz-ed-one{grid-template-columns:105px 1fr;gap:11px;min-height:158px;padding:20px 14px}.rz-ed-one>strong{font-size:62px}.rz-ed-one>small{font-size:9px;line-height:1.45}.rz-ed-one>span{font-size:8px}.footer-brand{font-size:clamp(63px,12.8vw,83px)}}
