@@ -1,0 +1,19 @@
+# Deploy only client-facing static assets. Keep repository and agent setup files private to source hosting.
+README.md
+AGENTS.md
+CLOUDFLARE_SETUP.md
+wrangler.jsonc
+_headers
+.assetsignore
+.codex/
+.vscode/
+.github/
+.git/
+.wrangler/
+node_modules/
+package.json
+package-lock.json
+*.zip
+*.map
+*.md
+**/.DS_Store
