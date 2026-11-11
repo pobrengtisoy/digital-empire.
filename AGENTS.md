@@ -1,22 +1,22 @@
 # Digital Empire — development instructions
 
-Digital Empire is an original, handcrafted-feeling digital-products marketplace. The name is provisional.
+Digital Empire is an original, handmade-feeling digital-products marketplace. The project name is provisional.
 
-## Design guardrails
-- Preserve the existing charcoal / warm-paper / lime visual system and bespoke editorial layouts.
-- Avoid generic AI-generated SaaS designs, glassmorphism, repeated floating cards, and gratuitous gradients.
-- Be meticulous about typography, spacing, interaction states, accessibility, and responsive iPhone/iPad layouts.
-- Prefer small targeted modifications. Do not overwrite product demos or unrelated project files.
+## Design standards
+- Retain the charcoal, warm-paper, and lime editorial design and its bespoke information architecture.
+- No generic SaaS gradients, glassmorphism, random rounded cards, or cookie-cutter landing page.
+- Preserve responsive iPhone/iPad layouts, accessibility, and existing live demos.
+- Keep changes targeted and avoid touching unrelated repositories.
 
-## Project status
-- This is a static HTML/CSS/JavaScript prototype with two functioning browser-local demos.
-- This is NOT a production checkout. Do not claim payments, order submission, secure downloads, or customer accounts work unless implemented and tested.
-- Keep secrets and API tokens out of source control.
+## Prototype safety
+- Current version is a static catalog with two browser-local demos; checkout, order processing, licensed delivery, and authentication are NOT implemented.
+- Treat all planned products as planned. Do not solicit payments as though the storefront is production-ready.
+- Do not commit access tokens, credentials, or customer data to GitHub.
 
-## Cloudflare workflow
-- For Cloudflare account operations, use the authenticated Cloudflare MCP server when the coding agent supports it; authorization requires user OAuth.
-- Use the official Cloudflare documentation to verify current features and deployment behavior.
-- Current site needs no build step: deploy the repository root containing index.html with Cloudflare Pages.
-- For Pages Git integration select branch main, no framework preset, build command `exit 0` (or blank), and build output directory `.`.
-- Use the free tier first, avoiding paid resources and paid plan upgrades without explicit approval.
-- Treat deployment and account connection as separate steps. Never assert that the site is live until the deployment URL and status are verified.
+## Cloudflare deployment
+- This project uses **Cloudflare Workers static assets** via `wrangler.jsonc` for the current connected deployment.
+- `assets.directory` is the repository root; maintain `.assetsignore` to exclude internal config and documents from public serving. Move to a dedicated output directory before adding private server code or build products.
+- Current Workers Builds settings: production branch `main`, build command `exit 0`, deploy command `npx wrangler deploy`, preview command `npx wrangler preview`.
+- Prefer Cloudflare's free tier. No paid services or plan upgrades without user authorization.
+- Verify actual deployment result and URL before telling the user the site is live.
+- If Cloudflare MCP is available in a supported coding agent, authenticate by OAuth and use it for account operations. ChatGPT's GitHub connection alone does not authorize Cloudflare.
