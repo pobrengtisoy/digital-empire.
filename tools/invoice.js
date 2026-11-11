@@ -7,7 +7,7 @@
   const today = new Date();
   const localDate = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
   const shiftDate = (d,n) => {const copy=new Date(d); copy.setDate(copy.getDate()+n); return localDate(copy);};
-  const defaults = {businessName:'RZ STUDIO',businessContact:'',businessAddress:'',clientName:'',clientContact:'',invoiceNo:'INV-001',currency:'PHP',issueDate:localDate(today),dueDate:shiftDate(today,14),discount:'0',tax:'0',notes:'Thank you for your business.',items:[{description:'Website design',quantity:'1',rate:'8500'},{description:'Development',quantity:'1',rate:'4500'}]};
+  const defaults = {businessName:'RZ STUDIO',brandLinked:true,businessContact:'',businessAddress:'',clientName:'',clientContact:'',invoiceNo:'INV-001',currency:'PHP',issueDate:localDate(today),dueDate:shiftDate(today,14),discount:'0',tax:'0',notes:'Thank you for your business.',items:[{description:'Website design',quantity:'1',rate:'8500'},{description:'Development',quantity:'1',rate:'4500'}]};
   let state = structuredClone(defaults);
   const safeNum = val => {const n = Number(val);return Number.isFinite(n)&&n>0 ? Math.min(n,1e9) : 0;};
   const pct = val => Math.min(100,safeNum(val));
@@ -53,7 +53,7 @@
   }
   function update(){render();persist();}
   function fill(){fields.forEach(id=>{const control=$(id);control.value=state[id]??defaults[id]??'';});drawItems();render();}
-  fields.forEach(id=>$(id).addEventListener('input',()=>{state[id]=$(id).value;update();}));
+  fields.forEach(id=>$(id).addEventListener('input',()=>{state[id]=$(id).value;if(id==='businessName')state.brandLinked=false;update();}));
   $('addItem').addEventListener('click',()=>{if(state.items.length>=50){$('appStatus').textContent='MAXIMUM 50 LINE ITEMS PER INVOICE.';return;}state.items.push({description:'',quantity:'1',rate:'0'});drawItems();update();});
   $('printInvoice').addEventListener('click',()=>window.print());
   $('downloadDraft').addEventListener('click',()=>{
@@ -70,11 +70,19 @@
       for(const key of fields){if(typeof data[key]==='string'){next[key]=data[key].slice(0,2000);}}
       if(!['PHP','USD','EUR','SGD'].includes(next.currency))next.currency='PHP';
       next.items=data.items.map(v=>({description:String(v.description??'').slice(0,300),quantity:String(v.quantity??'1').slice(0,24),rate:String(v.rate??'0').slice(0,24)}));
-      if(!next.items.length)next.items=[{description:'',quantity:'1',rate:'0'}];state=next;fill();persist();$('appStatus').textContent='DRAFT IMPORTED.';
+      if(!next.items.length)next.items=[{description:'',quantity:'1',rate:'0'}];next.brandLinked=false;state=next;fill();persist();$('appStatus').textContent='DRAFT IMPORTED.';
     }catch{$('appStatus').textContent='COULD NOT IMPORT. SELECT A VALID DE INVOICE DRAFT FILE.';}
     e.target.value='';
   });
   $('resetInvoice').addEventListener('click',()=>{if(!confirm('Clear this locally saved invoice and start again?'))return;state=structuredClone(defaults);state.items=[{description:'',quantity:'1',rate:'0'}];fill();persist();$('appStatus').textContent='DRAFT CLEARED.';});
-  try{const saved=localStorage.getItem(KEY);if(saved){const data=JSON.parse(saved);if(data&&Array.isArray(data.items)&&data.items.length<=50){state={...structuredClone(defaults),...data};state.items=data.items;}}}catch{}
+  try{const saved=localStorage.getItem(KEY);if(saved){const data=JSON.parse(saved);if(data&&Array.isArray(data.items)&&data.items.length<=50){state={...structuredClone(defaults),...data};state.items=data.items;if(!('brandLinked' in data) && data.businessName && data.businessName!=='RZ STUDIO')state.brandLinked=false;}}}catch{}
+  document.addEventListener('rz:brand-updated',event=>{
+    if(event.detail?.tool!=='ledger'||state.brandLinked===false)return;
+    const newName=String(event.detail.name||'').trim().slice(0,100);
+    if(!newName||state.businessName===newName)return;
+    state.businessName=newName;
+    $('businessName').value=newName;
+    update();
+  });
   fill();
 })();
