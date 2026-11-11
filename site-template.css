@@ -123,3 +123,8 @@ button,input,textarea{font:inherit}button{cursor:pointer}a{text-decoration:none;
 .sf-hero-right.has-image.has-logo .sf-art>strong{opacity:1;transform:none;display:flex;align-items:center;justify-content:center;width:min(315px,90%);max-height:270px;background:#f1ede4df;padding:17px;border:1px solid #4b5145;box-shadow:10px 10px 0 #0003}
 .sf-hero-right.has-image.has-logo .sf-art>strong img{max-width:100%;max-height:220px;filter:none}
 @media(max-width:760px){.sf-hero-right.has-image.has-logo .sf-art>strong{width:min(270px,83%);padding:12px}.sf-art strong img{max-height:185px}}
+
+.sf-done-for-you{padding:20px 16px 22px;background:#e0e3d6;margin:5px 0 28px;border-left:3px solid #607e39}
+.sf-done-for-you span{font:700 10px var(--mono);color:#2a3b22}
+.sf-done-for-you p{font:400 12px/1.65 var(--body);margin:12px 0}
+.sf-done-for-you a{font:700 10px var(--mono);text-decoration:underline;text-underline-offset:4px;color:#1f3d27}
