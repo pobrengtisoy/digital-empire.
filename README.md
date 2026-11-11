@@ -1,79 +1,81 @@
-# RZ DIGITAL EMPIRE — EDITION 004
+# RZ DIGITAL EMPIRE — EDITION 005
 
 **Company identity: RZ. Marketplace: RZ Digital Empire.**
 
-An original editorial digital-products storefront with three distinct editable tool demos and the RZ Edition Office. This is a frontend prototype deployed using Cloudflare Workers static assets. It does not process orders or payments yet.
+A source-controlled, handcrafted editorial digital-products showroom running on Cloudflare Workers static assets. Four browser-local, functioning showcases are available, including the first fully editable website sample.
 
-## New in Edition 004
+## First editable website — RZ Form / No. 009
 
-- Renamed the marketplace and browser identity to **RZ Digital Empire**, including an RZ vector favicon and updated company wordmark.
-- New [Edition Office](templates.html): a bespoke showcase of three visually distinct product editions, not repetitive template cards.
-- **RZ Ledger** (`tools/invoice.html`): warm paper / archival stationery visual treatment.
-- **RZ Arena** (`tools/bracket.html`): nighttime competition visual treatment.
-- **RZ Insight** (`tools/report.html`): modern data-studio visual treatment.
-- Shared [RZ Brand Desk](brand-lab.js), styled in [brand-lab.css](brand-lab.css), runs locally in each tool:
-  - Change company name and tagline.
-  - Switch between three curated visual treatments per product.
-  - Pick a custom accent color.
-  - Upload a PNG, JPG or WEBP logo and hero background image.
-  - Preview the changes live and save the configuration in local browser storage.
-  - Export or import a branded JSON kit for **the same product**; reset to the original RZ display.
-  - Uploaded invoice logos appear on the printable invoice document (other customizations apply to the editor and display).
-- All original working functionality remains: invoice calculations and local drafts, single-elimination tournaments for 2–16 teams, and CSV reporting with export.
+[Open RZ Form](site-template.html) to explore the first editable business landing-page specimen.
 
-### What "editable" means here
+- Four-part visual layout: oversized editorial hero, business story, services ledger, and contact callout.
+- Three original site treatments: Archive, Blackbook, and Signal.
+- Edit business name, small identity label, hero text, business story, all three service descriptions, contact message, button label, and safe contact destination.
+- Upload a PNG/JPG/WEBP company logo and hero background image. Files are compressed and processed in the visitor's browser, not sent to an RZ server.
+- Uploaded artwork replaces the sample logo/monogram in the site preview.
+- Save the site kit locally on the browser; export JSON with brand, text and compressed images, import JSON later, or reset to RZ sample.
+- Contact CTA can use a verified HTTPS URL, a valid email address, or a local page anchor. It does not create a contact inbox.
+- A done-for-you customization link leads to the existing **copyable** custom-project brief, not to a live order submission.
 
-The Brand Desk customizes the **demo appearance in the current browser**. Brand preferences are not synced across devices, and browser storage may be cleared. Export a brand kit for safekeeping. These are **not yet downloadable, licensed, deployed client websites or automatic client installations**. Uploads are resized in the browser and not sent to an RZ server. Background images change demo showcase headers; they do not alter the print/PDF templates.
+**Important:** RZ Form's editor creates a client-side preview and portable JSON configuration. It does **not** generate a separately deployed website, publish custom domains, export a complete source ZIP, issue product licenses, take payments, or submit orders. These are future product capabilities.
 
-The script uses localStorage with image-size limits. A full client-facing website customizer, downloadable source-code packages, owner-managed branded installations and done-for-you service are commercial roadmap items, **not active checkout features**.
+## Three branded utilities / Version 004 brand desk
 
-## Existing tools
-
-| Product | Live demo | Key abilities |
+| Product | Page | Working functions |
 |---|---|---|
-| RZ Ledger / Tool 001 | `tools/invoice.html` | Invoice items, taxes/discounts, totals, local drafts, JSON backup, print |
-| RZ Arena / Tool 005 | `tools/bracket.html` | Team seeding, byes, scoring, winner advancement, local backups |
-| RZ Insight / Tool 008 | `tools/report.html` | CSV loading, grouping, numeric summaries, charts and exports |
+| RZ Ledger | `tools/invoice.html` | Invoices, line totals, tax/discount, local drafts, JSON backup, print/PDF |
+| RZ Arena | `tools/bracket.html` | 2–16 team brackets, byes, automatic winner advancement and scoring |
+| RZ Insight | `tools/report.html` | Private CSV loading, grouped numeric analytics, visual summaries and CSV/JSON exports |
 
-Five additional catalog concepts remain marked **planned**.
+All three utility demos include the reusable RZ Brand Desk (`brand-lab.js`, `brand-lab.css`) for changing name, tagline, three different product-specific treatments, accent color, logo and showcase background, then saving or exporting a local identity kit. The deeper domain-specific editors keep their original features.
+
+The [RZ Edition Office](templates.html) displays all four products using distinct visual treatments, not a cookie-cutter template catalog.
+
+## Current inventory
+
+**9 total concepts. 4 working browser demos. 5 planned only.** Commercial checkout, account registration, secure order submission, licensed source-code delivery, admin dashboard and hosted customer websites are not yet implemented.
+
+The homepage custom-project brief copies text to the visitor's clipboard; it does not reach RZ automatically. Do not claim these tools are already purchasable.
 
 ## Local development
 
-No build dependencies are required for the storefront. From the repository root:
+Pure HTML, CSS and JavaScript; no build process required.
 
 ```sh
 python3 -m http.server 8000
 ```
 
-Visit `http://localhost:8000`. Static files reference no backend API.
+Open `http://localhost:8000/index.html`.
 
-## Cloudflare Workers
+## Current Cloudflare deployment setup
 
-GitHub repo: `pobrengtisoy/digital-empire.` (GitHub name includes trailing period). Deployment uses:
+Repository: `pobrengtisoy/digital-empire.` (yes, the trailing dot is part of the repository name).
 
-- `wrangler.jsonc` with a static assets directory of `./`
-- `.assetsignore` to prevent serving internal Markdown/config assets
-- Branch `main`
-- Build command `exit 0`
-- Deploy command `npx wrangler deploy`
+- Cloudflare Workers static assets via `wrangler.jsonc`
+- Git-connected production branch `main`
+- Build command: `exit 0`
+- Deploy command: `npx wrangler deploy`
+- `.assetsignore` keeps internal docs/config out of static bundle
+- Account's initial successful deployment was confirmed in the user's screenshot
 
-The user confirmed an initial successful Cloudflare deployment and supplied this address:
+User-provided live address: `https://digital-empire.ronnieredugo.workers.dev/`.
 
-`https://digital-empire.ronnieredugo.workers.dev/`
+We verified V0.5 content in GitHub. The external checker did not independently render the deployed V0.5 pages, so **re-check Cloudflare deployment status** before calling the updated live site confirmed.
 
-The external web checker has not independently rendered Edition 004 as of this release. Cloudflare Git integration should deploy changes on `main`; verify the latest build and browser rendering before calling the release live.
+## Privacy, limitations and commercial readiness
 
-## Commercial / security caveats
+- Brand settings are **browser-local** (`localStorage`). Photos are resized in the browser. Browser data removal or local storage limits can lose work; export a JSON kit for backup.
+- The site editor supports a **single page** and client-side color themes, not a full CMS or drag-and-drop page builder.
+- Imported files are bounded and parsed as data. User copy is inserted with `textContent` rather than HTML.
+- RZ has no backend customer records, secure downloads, receipt validation, order inbox or hosted client site provisions yet.
+- The repository is public. **Never commit credentials, payment keys, licensed private product source code or customer files** here.
+- Before commercial launch, implement a secure customer project and storefront backend, private deliverables, real payment verification, legal terms and privacy policy.
+- The RZ mark is an original temporary code-drawn identity and may be replaced with the official approved RZ company logo if provided. The logo upload field serves the demo customer identity, not a permanent rebrand of the RZ marketplace itself.
 
-- The repository is currently **public**. Do not put secret paid source code, API keys, private client assets, payment credentials or proprietary licensed bundles in it.
-- The commercial shop requires a secure server-side order system, verified payments, product entitlements, private downloads, real customer contact handling and proper licensing terms before selling.
-- There is **no checkout, owner admin account, hosted customer workspace, order inbox or automated delivery** in this version.
-- The custom-project brief currently copies text to the visitor's clipboard instead of submitting it to RZ.
-- Uploaded demo artwork and settings stay in the browser. Backup with Export Kit; all browser localStorage is subject to user clearing and storage quotas.
-- Keep the design bespoke: no AI-looking generic SaaS cards, arbitrary gradients, generic floating dashboards or repetitive templates.
+## Next priorities
 
-## Next edition
+1. Customer-visible editable website template packaging and export/deployment capability.
+2. Secure server-side inquiry collection, spam prevention and an owner dashboard (after backend authorization).
+3. Private licensed downloads and verified payments, then done-for-you deployment services.
 
-Introduce the first genuine editable **website** template with a simple branded media and content editor (separate from the three tools), plus the secure server-side inquiry path. Create a private product-code delivery repository once licensed packages are ready. Keep public demos separate from paid source code.
-
-See [CLOUDFLARE_SETUP.md](CLOUDFLARE_SETUP.md) for hosting and [AGENTS.md](AGENTS.md) for the design rules.
+Design guardrail: bespoke identities, editorial layouts and native responsiveness. **Do not replace this with generic AI-looking dashboards, floating cards or stock gradients.**
