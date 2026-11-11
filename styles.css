@@ -36,7 +36,7 @@
 .rz-ed-index{border-bottom:1px solid #67705e;padding:25px 0 19px;display:flex;justify-content:space-between;gap:15px;font:600 10px var(--mono);color:#afc0a5;letter-spacing:.04em}
 .rz-ed-inner{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.1fr);gap:0;min-height:675px}
 .rz-ed-lead{display:flex;flex-direction:column;align-items:start;padding:45px 55px 45px 0;border-right:1px solid #5a6659}
-.rz-ed-symbol{border:1px solid #d9fb4b;color:#d9fb4b;display:grid;place-items:center;width:100px;height:90px;font:900 56px/.8 var(--display);font-style:italic;letter-spacing:-.09em}.rz-ed-symbol span{color:#879975;font-style:normal;font-size:35px}
+.rz-ed-symbol{border:1px solid #d9fb4b;color:#d9fb4b;display:flex;justify-content:center;align-items:center;width:100px;height:90px;font:900 56px/.8 var(--display);font-style:italic;letter-spacing:-.09em}.rz-ed-symbol span{color:#879975;font-style:normal;font-size:35px}
 .rz-ed-lead p{font:600 10px/1.7 var(--mono);color:#a8bc9d;margin:35px 0 0;letter-spacing:.07em}
 .rz-ed-lead h2{font:900 clamp(90px,10vw,165px)/.76 var(--display);margin:29px 0 35px;letter-spacing:-.025em}
 .rz-ed-lead h2 em{font-style:normal;color:transparent;-webkit-text-stroke:2px #d9fb4b}.rz-ed-lead h2>span{color:#d9fb4b}
