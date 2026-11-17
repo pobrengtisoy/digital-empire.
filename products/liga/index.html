@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0e1a33">
+<title>RZ Liga — league schedule and standings</title>
+<meta name="description" content="RZ Liga demo: generate a round-robin schedule, enter scores and get live standings for your barangay or school league.">
+<link rel="icon" type="image/svg+xml" href="../../rz-mark.svg">
+<link rel="stylesheet" href="../fonts/liga.css">
+<link rel="stylesheet" href="../kit.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="rz-strip"><a href="../../index.html">← RZ Digital Empire</a><span class="rz-strip-note"><b>RZ Liga</b> demo · saved on this device</span><button type="button" class="strip-btn" data-open="settings">Set up league</button></div>
+
+<header class="board">
+  <div class="board-in">
+    <p class="season" id="season">Season 2026 · Seniors Division</p>
+    <h1 id="leagueName">Liga ng Barangay San Roque</h1>
+    <div class="ticker" id="ticker" aria-live="polite"></div>
+  </div>
+</header>
+
+<nav class="tabs" role="tablist" aria-label="League views">
+  <button role="tab" id="t-stand" aria-controls="v-stand" aria-selected="true">Standings</button>
+  <button role="tab" id="t-sched" aria-controls="v-sched" aria-selected="false">Schedule &amp; scores</button>
+  <button role="tab" id="t-teams" aria-controls="v-teams" aria-selected="false">Teams</button>
+</nav>
+
+<main class="wrap">
+  <section id="v-stand" role="tabpanel" aria-labelledby="t-stand">
+    <div class="table-wrap">
+      <table class="stand">
+        <thead><tr><th scope="col">#</th><th scope="col" class="tl">Team</th><th scope="col">GP</th><th scope="col">W</th><th scope="col">L</th><th scope="col">PCT</th><th scope="col" class="hide-s">PF</th><th scope="col" class="hide-s">PA</th><th scope="col">DIFF</th></tr></thead>
+        <tbody id="standBody"></tbody>
+      </table>
+    </div>
+    <div class="playoff">
+      <p>Top 4 go to the playoffs. When the elimination round ends, run the knockout in <b>RZ Arena</b>.</p>
+      <a class="btn" href="../../tools/bracket.html">Open playoff bracket</a>
+    </div>
+  </section>
+
+  <section id="v-sched" role="tabpanel" aria-labelledby="t-sched" hidden>
+    <p class="hint">Type the final score for each game. Standings update right away.</p>
+    <div id="rounds" class="rounds"></div>
+  </section>
+
+  <section id="v-teams" role="tabpanel" aria-labelledby="t-teams" hidden>
+    <div id="teams" class="teams"></div>
+  </section>
+</main>
+
+<dialog id="settings" class="sheet" aria-labelledby="sTitle">
+  <form method="dialog" id="settingsForm">
+    <h2 id="sTitle">Set up league</h2>
+    <p class="fine">Saved on this device only. Changing teams makes a new schedule and clears scores.</p>
+    <label class="fld">League name<input name="name" maxlength="50" required></label>
+    <label class="fld">Season line<input name="season" maxlength="60"></label>
+    <label class="fld">Teams, one per line (4 to 12)<textarea name="teams" rows="8" maxlength="600"></textarea></label>
+    <div class="row wrap">
+      <button type="button" class="ghost" id="exportBtn">Save backup</button>
+      <button type="button" class="ghost" id="resetBtn">Reset sample</button>
+    </div>
+    <p class="ok" id="sStatus" role="status"></p>
+    <div class="row"><button class="btn" type="submit">Save</button></div>
+  </form>
+</dialog>
+
+<script src="../kit.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

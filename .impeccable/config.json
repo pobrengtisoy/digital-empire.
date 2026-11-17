@@ -1,0 +1,45 @@
+{
+  "buildPath": "comp",
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "oversized-h1",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-11-17T17:13:57.377Z",
+        "reason": "Claude verified in render: the h1's long sentence is screen-reader-only text; the visible headline is the short business name"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "products/menu/index.html"
+        ],
+        "createdAt": "2026-11-17T17:47:35.051Z",
+        "reason": "Claude decision: warm menu-card stock is the restaurant material the user asked this product to evoke"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "products/stay/index.html"
+        ],
+        "createdAt": "2026-11-17T17:47:35.058Z",
+        "reason": "Claude decision: sand ground is the resort/beach material for this product"
+      },
+      {
+        "rule": "repeating-stripes-gradient",
+        "value": "*",
+        "files": [
+          "products/listahan/index.html"
+        ],
+        "createdAt": "2026-11-17T17:47:35.064Z",
+        "reason": "Claude decision: ruled notebook lines are the product's concept (a paper listahan), not decoration"
+      }
+    ]
+  }
+}

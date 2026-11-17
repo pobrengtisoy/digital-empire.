@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0f4c4f">
+<title>RZ Stay — resort and rental booking page</title>
+<meta name="description" content="RZ Stay demo: rates, photos, available dates and an instant quote for private resorts and rentals.">
+<link rel="icon" type="image/svg+xml" href="../../rz-mark.svg">
+<link rel="stylesheet" href="../fonts/stay.css">
+<link rel="stylesheet" href="../kit.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="rz-strip"><a href="../../index.html">← RZ Digital Empire</a><span class="rz-strip-note"><b>RZ Stay</b> demo · sample resort</span><button type="button" class="strip-btn" data-open="settings">Make it yours</button></div>
+
+<header class="hero">
+  <img class="hero-img" src="img/pool.webp" alt="Private pool and villa at golden hour" width="1360" height="756">
+  <div class="hero-text">
+    <p class="hero-loc" id="loc">Private pool resort · San Juan, Batangas</p>
+    <h1 id="resName">Casa Alon</h1>
+    <a class="hero-cta" href="#dates">Check dates &amp; rates</a>
+  </div>
+</header>
+
+<main>
+  <section class="intro wrap">
+    <p class="lede">A whole private resort for your family or barkada: pool, cabana, two air-conditioned rooms and a short walk to the beach.</p>
+    <ul class="facts">
+      <li><b>Up to 20</b><span>guests</span></li>
+      <li><b>2</b><span>air-con rooms</span></li>
+      <li><b>3 min</b><span>walk to beach</span></li>
+      <li><b>Free</b><span>parking for 4 cars</span></li>
+    </ul>
+  </section>
+
+  <section class="gallery wrap" aria-label="Photos">
+    <figure><img src="img/room.webp" alt="Bedroom with rattan furniture" width="680" height="378" loading="lazy"><figcaption>Rooms</figcaption></figure>
+    <figure><img src="img/cabana.webp" alt="Dining cabana with string lights" width="680" height="378" loading="lazy"><figcaption>Cabana &amp; grill</figcaption></figure>
+    <figure><img src="img/beach.webp" alt="Nearby beach" width="680" height="378" loading="lazy"><figcaption>The beach</figcaption></figure>
+  </section>
+
+  <section class="book wrap" id="dates" aria-labelledby="ratesTitle">
+    <div class="rates">
+      <h2 id="ratesTitle">Rates</h2>
+      <div id="packages" class="packages" role="radiogroup" aria-label="Package"></div>
+      <h3>Included</h3>
+      <ul class="inc"><li>Exclusive use of pool and cabana</li><li>Videoke and griller</li><li>Kitchen with ref and gas stove</li><li>Towels for 10 guests</li></ul>
+    </div>
+
+    <div class="cal-card">
+      <div class="cal-head">
+        <button type="button" class="nav" id="prevM" aria-label="Previous month">‹</button>
+        <h2 id="monthLabel"></h2>
+        <button type="button" class="nav" id="nextM" aria-label="Next month">›</button>
+      </div>
+      <div class="cal-dow" aria-hidden="true"><span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span></div>
+      <div class="cal" id="cal" role="grid" aria-label="Available dates"></div>
+      <p class="cal-key"><i class="k-open"></i>Available <i class="k-booked"></i>Booked <i class="k-peak"></i>Weekend rate</p>
+    </div>
+
+    <form class="quote" id="quoteForm" aria-labelledby="quoteTitle">
+      <h2 id="quoteTitle">Your quote</h2>
+      <dl class="q">
+        <div><dt>Date</dt><dd id="qDate">Pick a date</dd></div>
+        <div><dt>Package</dt><dd id="qPkg"></dd></div>
+        <div><dt>Base rate</dt><dd id="qBase"></dd></div>
+        <div><dt>Extra guests</dt><dd id="qExtra"></dd></div>
+        <div class="q-total"><dt>Total</dt><dd id="qTotal">—</dd></div>
+        <div class="q-down"><dt>50% downpayment</dt><dd id="qDown">—</dd></div>
+      </dl>
+      <label class="fld">Number of guests<input name="guests" type="number" min="1" max="40" value="12" inputmode="numeric"></label>
+      <label class="fld">Your name<input name="name" required maxlength="60" autocomplete="name"></label>
+      <label class="fld">Mobile number<input name="phone" required maxlength="20" inputmode="tel" autocomplete="tel"></label>
+      <button class="cta" type="submit" id="inqBtn" disabled>Send inquiry on Messenger</button>
+      <p class="fine">Date is held once the downpayment is received. Balance is paid on arrival.</p>
+      <p class="ok" id="status" role="status"></p>
+    </form>
+  </section>
+</main>
+
+<footer class="foot wrap"><p id="footName">Casa Alon</p><p>Rates in Philippine pesos. Availability shown is sample data.</p></footer>
+
+<dialog id="settings" class="sheet" aria-labelledby="sTitle">
+  <form method="dialog" id="settingsForm">
+    <h2 id="sTitle">Make it yours</h2>
+    <p class="fine">Saved in this browser only.</p>
+    <label class="fld">Resort or rental name<input name="name" maxlength="40" required></label>
+    <label class="fld">Location line<input name="loc" maxlength="70"></label>
+    <label class="fld">Messenger username<input name="messenger" maxlength="50"></label>
+    <div class="row"><button type="button" class="ghost" id="resetSettings">Reset sample</button><button class="cta" type="submit">Save</button></div>
+  </form>
+</dialog>
+
+<script src="../kit.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#4a1f2e">
+<title>RZ Invite — event invitation and RSVP page</title>
+<meta name="description" content="RZ Invite demo: an elegant invitation page for debuts, weddings and christenings with RSVP to the host's Messenger.">
+<link rel="icon" type="image/svg+xml" href="../../rz-mark.svg">
+<link rel="stylesheet" href="../fonts/invite.css">
+<link rel="stylesheet" href="../kit.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="rz-strip"><a href="../../index.html">← RZ Digital Empire</a><span class="rz-strip-note"><b>RZ Invite</b> demo · sample debut</span><button type="button" class="strip-btn" data-open="settings">Make it yours</button></div>
+
+<main class="stage">
+  <article class="card">
+    <header class="cover">
+      <p class="pre" id="pre">You are warmly invited to the eighteenth birthday of</p>
+      <h1 class="who" id="who">Sofia Isabelle</h1>
+      <div class="rule" aria-hidden="true"><span></span></div>
+      <p class="when" id="when"></p>
+      <p class="where" id="where">The Glass Garden, Pasig City</p>
+    </header>
+
+    <section class="count" aria-label="Countdown">
+      <div><b id="cD">0</b><span>days</span></div>
+      <div><b id="cH">0</b><span>hours</span></div>
+      <div><b id="cM">0</b><span>minutes</span></div>
+    </section>
+
+    <section class="block" aria-labelledby="progTitle">
+      <h2 id="progTitle">The evening</h2>
+      <ol class="program" id="program"></ol>
+    </section>
+
+    <section class="block" aria-labelledby="dressTitle">
+      <h2 id="dressTitle">Dress code</h2>
+      <p id="dress">Formal. Shades of wine, blush and champagne.</p>
+      <div class="palette" aria-hidden="true"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i></div>
+    </section>
+
+    <section class="block" aria-labelledby="venueTitle">
+      <h2 id="venueTitle">Venue</h2>
+      <p id="venueFull">The Glass Garden, Ortigas Avenue Extension, Pasig City</p>
+      <div class="links">
+        <a class="link" id="mapLink" href="#" target="_blank" rel="noopener">Open in Google Maps</a>
+        <button type="button" class="link" id="calBtn">Add to calendar</button>
+      </div>
+    </section>
+
+    <section class="block rsvp" aria-labelledby="rsvpTitle">
+      <h2 id="rsvpTitle">Kindly reply</h2>
+      <p class="fine" id="deadline"></p>
+      <form id="rsvpForm" class="form">
+        <div class="seg" role="radiogroup" aria-label="Attendance">
+          <label><input type="radio" name="going" value="yes" checked><span>Joyfully accepts</span></label>
+          <label><input type="radio" name="going" value="no"><span>Regretfully declines</span></label>
+        </div>
+        <label class="fld">Full name<input name="name" required maxlength="60" autocomplete="name"></label>
+        <label class="fld" id="seatsFld">Seats reserved for you<select name="seats"><option>1</option><option>2</option></select></label>
+        <label class="fld"><span>A message for <span class="msg-who" id="msgWho">Sofia</span> (optional)</span><textarea name="note" rows="3" maxlength="300"></textarea></label>
+        <button class="cta" type="submit">Send my reply</button>
+        <p class="ok" id="status" role="status"></p>
+      </form>
+    </section>
+
+    <footer class="sign"><p>With love,</p><p class="hosts" id="hosts">The Reyes Family</p></footer>
+  </article>
+</main>
+
+<dialog id="settings" class="sheet" aria-labelledby="sTitle">
+  <form method="dialog" id="settingsForm">
+    <h2 id="sTitle">Make it yours</h2>
+    <p class="fine">Saved in this browser only.</p>
+    <label class="fld">Occasion<select name="kind"><option value="debut">Debut (18th birthday)</option><option value="wedding">Wedding</option><option value="christening">Christening</option><option value="birthday">Birthday</option></select></label>
+    <label class="fld">Celebrant or couple<input name="who" maxlength="50" required></label>
+    <label class="fld">Date and time<input name="date" type="datetime-local" required></label>
+    <label class="fld">Venue name<input name="venue" maxlength="60" required></label>
+    <label class="fld">Full address<input name="address" maxlength="120"></label>
+    <label class="fld">Hosts<input name="hosts" maxlength="60"></label>
+    <label class="fld">Host's Messenger username<input name="messenger" maxlength="50"></label>
+    <div class="row"><button type="button" class="ghost" id="resetSettings">Reset sample</button><button class="cta" type="submit">Save</button></div>
+  </form>
+</dialog>
+
+<script src="../kit.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

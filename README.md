@@ -4,38 +4,28 @@
 
 A source-controlled, handcrafted editorial digital-products showroom running on Cloudflare Workers static assets. Four browser-local, functioning showcases are available, including the first fully editable website sample.
 
-## First editable website — RZ Form / No. 009
+## Product lineup (November 2026)
 
-[Open RZ Form](site-template.html) to explore the first editable business landing-page specimen.
+Ten working, browser-only product demos, each with its own visual identity for its trade. Every page has a “Make it yours” panel (name, details, Messenger username) saved in the visitor's browser. Order, booking and RSVP pages copy a ready-made message and open the owner's Messenger chat; they do not send anything to a server.
 
-- Four-part visual layout: oversized editorial hero, business story, services ledger, and contact callout.
-- Three original site treatments: Archive, Blackbook, and Signal.
-- Edit business name, small identity label, hero text, business story, all three service descriptions, contact message, button label, and safe contact destination.
-- Upload a PNG/JPG/WEBP company logo and hero background image. Files are compressed and processed in the visitor's browser, not sent to an RZ server.
-- Uploaded artwork replaces the sample logo/monogram in the site preview.
-- Save the site kit locally on the browser; export JSON with brand, text and compressed images, import JSON later, or reset to RZ sample.
-- Contact CTA can use a verified HTTPS URL, a valid email address, or a local page anchor. It does not create a contact inbox.
-- A done-for-you customization link leads to the existing **copyable** custom-project brief, not to a live order submission.
+| # | Product | For | Page |
+|---|---|---|---|
+| 01 | RZ Menu | Restaurants & cafés: online menu, orders to Messenger | `products/menu/` |
+| 02 | RZ Shop | Online sellers: catalog, sizes/colours, bag, Messenger checkout | `products/shop/` |
+| 03 | RZ Booking | Salons, spas, clinics: services, day and time slots, booking request | `products/booking/` |
+| 04 | RZ Stay | Resorts & rentals: photos, rates, availability calendar, quote | `products/stay/` |
+| 05 | RZ Listahan | Sari-sari stores: utang/credit tracker, reminders, backups | `products/listahan/` |
+| 06 | RZ Invite | Debuts, weddings, events: invitation, countdown, RSVP, calendar file | `products/invite/` |
+| 07 | RZ Liga | Leagues: round-robin schedule, scores, standings (playoffs via RZ Arena) | `products/liga/` |
+| 08 | RZ Quote | Contractors & freelancers: quotation → invoice, print/PDF | `products/quote/` |
+| 09 | RZ Sahod | Small teams: payroll helper, payslips, 13th-month estimate | `products/sahod/` |
+| 10 | RZ Tindahan | Small shops: point of sale, stock, daily sales and profit | `products/tindahan/` |
 
-**Important:** RZ Form's editor creates a client-side preview and portable JSON configuration. It does **not** generate a separately deployed website, publish custom domains, export a complete source ZIP, issue product licenses, take payments, or submit orders. These are future product capabilities.
+Shared pieces: `products/kit.js` (safe DOM helpers, storage, Messenger hand-off, downloads), `products/kit.css` (the demo strip), self-hosted fonts in `products/fonts/`, screenshots for the homepage in `assets/shots/`. Catalog data: `products.js`.
 
-## Three branded utilities / Version 004 brand desk
+Earlier demos are still in the repository and still deployed but no longer listed on the homepage: RZ Ledger (`tools/invoice.html`), RZ Arena (`tools/bracket.html`, used by RZ Liga for playoffs), RZ Insight (`tools/report.html`), RZ Form (`site-template.html`) and RZ Edition Office (`templates.html`).
 
-| Product | Page | Working functions |
-|---|---|---|
-| RZ Ledger | `tools/invoice.html` | Invoices, line totals, tax/discount, local drafts, JSON backup, print/PDF |
-| RZ Arena | `tools/bracket.html` | 2–16 team brackets, byes, automatic winner advancement and scoring |
-| RZ Insight | `tools/report.html` | Private CSV loading, grouped numeric analytics, visual summaries and CSV/JSON exports |
-
-All three utility demos include the reusable RZ Brand Desk (`brand-lab.js`, `brand-lab.css`) for changing name, tagline, three different product-specific treatments, accent color, logo and showcase background, then saving or exporting a local identity kit. The deeper domain-specific editors keep their original features.
-
-The [RZ Edition Office](templates.html) displays all four products using distinct visual treatments, not a cookie-cutter template catalog.
-
-## Current inventory
-
-**9 total concepts. 4 working browser demos. 5 planned only.** Commercial checkout, account registration, secure order submission, licensed source-code delivery, admin dashboard and hosted customer websites are not yet implemented.
-
-The homepage custom-project brief copies text to the visitor's clipboard; it does not reach RZ automatically. Do not claim these tools are already purchasable.
+**Not implemented:** checkout, payments, customer accounts, server-side orders or bookings, owner dashboards, hosted customer sites, licences. Do not claim these exist.
 
 ## Local development
 

@@ -3,7 +3,9 @@
 ## Brand ownership and design direction
 
 - **Company brand:** RZ. **Marketplace brand:** RZ Digital Empire.
-- Strong independent editorial direction: charcoal, warm paper and lime at the marketplace level; a unique art direction for each product.
+- Marketplace direction (Nov 2026 redesign, user-approved): a print shop's sample wall of hanging vinyl tarps on an indigo-black wall; deep crimson, flame orange, blossom pink and white tarp stock; Japanese geometric textile patterns (hemp-leaf, checkerboard) as printed material; Kaushan Script brush lettering for display, Archivo for reading. The palette is a colour mood only: never use characters, logos or artwork from any existing show or comic. Each product keeps its own art direction.
+- The homepage (`index.html`, `home.css`, `home.js`) is the first surface in this world. Edition Office, RZ Form and the three tools still use the previous look (`styles.css`) until they are redesigned.
+- Design context: `PRODUCT.md`, `.impeccable/surfaces/index-html.md` (direction contract), approved mock-up `.impeccable/build/approved-comp.png`.
 - Avoid generic AI-generated SaaS aesthetics, random rounded cards, repetitive feature tiles, glassmorphism, stock-illustration gradients, and off-the-shelf dashboard templates.
 - Keep typography intentional, details refined, and touch interactions excellent on iPhone and iPad.
 - Build one reusable product system, but give each product its own distinct visual signature.
@@ -11,14 +13,12 @@
 
 ## Working demos
 
-- RZ Ledger: `tools/invoice.html`
-- RZ Arena: `tools/bracket.html`
-- RZ Insight: `tools/report.html`
-- RZ Edition Office: `templates.html`
-- RZ Form website edition: `site-template.html`, `site-template.js`, `site-template.css` — full editable landing-page sample with local logo/background/brand/copy/contact editor.
-- All website template edits are client-side previews. No customer deployment, full source export, license, checkout or order fulfillment is implemented yet.
-- Reusable editable appearance editor: `brand-lab.js` / `brand-lab.css`
-- Product catalog: `products.js`
+The homepage lists ten products (catalog in `products.js`), each a self-contained page in `products/<name>/` with its own fonts, palette and art direction suited to its trade:
+RZ Menu, RZ Shop, RZ Booking, RZ Stay, RZ Listahan, RZ Invite, RZ Liga, RZ Quote, RZ Sahod, RZ Tindahan.
+- Shared helpers: `products/kit.js`, `products/kit.css`; fonts self-hosted in `products/fonts/`; homepage screenshots in `assets/shots/` (regenerate when a product's look changes).
+- Each product must stay visually distinct from the homepage and from the others while staying clean and presentable.
+- Older demos remain but are unlisted: RZ Ledger `tools/invoice.html`, RZ Arena `tools/bracket.html` (playoff link from RZ Liga), RZ Insight `tools/report.html`, RZ Form `site-template.*`, RZ Edition Office `templates.html`, Brand Desk `brand-lab.*`.
+- All demos are client-side only. No checkout, accounts, server orders, licences or hosted customer sites exist.
 
 ## Customization rules
 

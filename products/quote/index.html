@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#23272e">
+<title>RZ Quote — quotations and invoices</title>
+<meta name="description" content="RZ Quote demo: write a professional quotation, turn it into an invoice, and print or save as PDF.">
+<link rel="icon" type="image/svg+xml" href="../../rz-mark.svg">
+<link rel="stylesheet" href="../fonts/quote.css">
+<link rel="stylesheet" href="../kit.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="rz-strip"><a href="../../index.html">← RZ Digital Empire</a><span class="rz-strip-note"><b>RZ Quote</b> demo · saved on this device</span><span></span></div>
+
+<div class="app">
+  <form class="editor" id="ed" aria-label="Document details">
+    <div class="ed-top">
+      <div class="seg" role="radiogroup" aria-label="Document type">
+        <label><input type="radio" name="type" value="Quotation"><span>Quotation</span></label>
+        <label><input type="radio" name="type" value="Invoice"><span>Invoice</span></label>
+      </div>
+      <div class="ed-actions">
+        <button type="button" class="ghost" id="newDoc">New</button>
+        <button type="button" class="ghost" id="convert">Turn into invoice</button>
+        <a class="ghost jump" href="#doc">Preview ↓</a>
+        <button type="button" class="primary" id="printBtn">Print / PDF</button>
+      </div>
+    </div>
+
+    <fieldset><legend>Your business</legend>
+      <label class="fld">Business name<input name="biz" maxlength="60"></label>
+      <label class="fld">Address<input name="bizAddr" maxlength="120"></label>
+      <div class="two"><label class="fld">Phone or email<input name="bizContact" maxlength="60"></label><label class="fld">TIN (optional)<input name="tin" maxlength="20"></label></div>
+    </fieldset>
+
+    <fieldset><legend>Client</legend>
+      <label class="fld">Client name<input name="client" maxlength="60"></label>
+      <label class="fld">Project or event<input name="project" maxlength="80"></label>
+      <div class="two"><label class="fld">Number<input name="no" maxlength="20"></label><label class="fld">Date<input name="date" type="date"></label></div>
+      <label class="fld"><span id="untilLabel">Valid until</span><input name="until" type="date"></label>
+    </fieldset>
+
+    <fieldset><legend>Items</legend>
+      <div id="items" class="items"></div>
+      <button type="button" class="ghost add" id="addItem">+ Add item</button>
+      <div class="two">
+        <label class="fld">Discount (%)<input name="disc" type="number" min="0" max="100" step="0.5"></label>
+        <label class="fld check"><input type="checkbox" name="vat"> Add 12% VAT</label>
+      </div>
+    </fieldset>
+
+    <fieldset><legend>Terms</legend>
+      <label class="fld">Payment details<input name="pay" maxlength="120"></label>
+      <label class="fld">Notes<textarea name="notes" rows="3" maxlength="500"></textarea></label>
+    </fieldset>
+    <p class="fine">This makes quotations and billing invoices for your records and clients. It is not a BIR-registered official receipt.</p>
+  </form>
+
+  <section class="preview" aria-label="Preview">
+    <article class="doc" id="doc">
+      <header class="doc-head">
+        <div>
+          <h1 id="dBiz"></h1>
+          <p id="dBizAddr"></p>
+          <p id="dBizContact"></p>
+        </div>
+        <div class="doc-title">
+          <h2 id="dType">Quotation</h2>
+          <p><span>No.</span> <b id="dNo"></b></p>
+          <p><span>Date</span> <b id="dDate"></b></p>
+          <p><span id="dUntilLabel">Valid until</span> <b id="dUntil"></b></p>
+        </div>
+      </header>
+      <div class="doc-to">
+        <p class="lbl" id="dToLabel">Prepared for</p>
+        <p class="to-name" id="dClient"></p>
+        <p id="dProject"></p>
+      </div>
+      <table class="lines">
+        <thead><tr><th scope="col">Description</th><th scope="col">Qty</th><th scope="col">Unit</th><th scope="col">Rate</th><th scope="col">Amount</th></tr></thead>
+        <tbody id="dLines"></tbody>
+      </table>
+      <dl class="totals">
+        <div><dt>Subtotal</dt><dd id="dSub"></dd></div>
+        <div id="dDiscRow"><dt id="dDiscLabel">Discount</dt><dd id="dDisc"></dd></div>
+        <div id="dVatRow"><dt>VAT 12%</dt><dd id="dVat"></dd></div>
+        <div class="grand"><dt id="dGrandLabel">Total</dt><dd id="dTotal"></dd></div>
+      </dl>
+      <div class="doc-foot">
+        <p><span class="lbl">Payment</span><br><span id="dPay"></span></p>
+        <p><span class="lbl">Notes</span><br><span id="dNotes" class="pre"></span></p>
+      </div>
+      <p class="doc-tin" id="dTin"></p>
+      <div class="sign"><span>Conforme / Received by</span><span>Authorized signature</span></div>
+    </article>
+  </section>
+</div>
+
+<script src="../kit.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

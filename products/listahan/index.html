@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1f3a6b">
+<title>RZ Listahan — utang and credit tracker</title>
+<meta name="description" content="RZ Listahan demo: track who owes what, record payments and send polite reminders. Works offline on your phone.">
+<link rel="icon" type="image/svg+xml" href="../../rz-mark.svg">
+<link rel="stylesheet" href="../fonts/listahan.css">
+<link rel="stylesheet" href="../kit.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="rz-strip"><a href="../../index.html">← RZ Digital Empire</a><span class="rz-strip-note"><b>RZ Listahan</b> demo · saved on this device</span><button type="button" class="strip-btn" data-open="settings">Settings</button></div>
+
+<header class="cover">
+  <div>
+    <p class="cover-k">Listahan ng utang</p>
+    <h1 id="storeName">Tindahan ni Aling Rosa</h1>
+  </div>
+  <dl class="stats">
+    <div><dt>Total na pautang</dt><dd id="statTotal">₱0</dd></div>
+    <div><dt>May balanse</dt><dd id="statPeople">0</dd></div>
+    <div class="warn"><dt>Lampas 30 araw</dt><dd id="statLate">0</dd></div>
+  </dl>
+</header>
+
+<main class="book" id="book">
+  <section class="index" aria-labelledby="listTitle">
+    <div class="index-head">
+      <h2 id="listTitle">Mga suki</h2>
+      <button type="button" class="pill" data-open="addPerson">+ Bagong suki</button>
+    </div>
+    <label class="search"><span class="sr">Search</span><input id="search" type="search" placeholder="Hanapin ang pangalan"></label>
+    <div class="sort" role="group" aria-label="Sort">
+      <button type="button" data-sort="balance" aria-pressed="true">Pinakamalaki</button>
+      <button type="button" data-sort="late" aria-pressed="false">Pinakamatagal</button>
+      <button type="button" data-sort="name" aria-pressed="false">A–Z</button>
+    </div>
+    <ul class="people" id="people" aria-live="polite"></ul>
+  </section>
+
+  <section class="page" id="page" aria-labelledby="pName" hidden>
+    <button type="button" class="back" id="back">← Mga suki</button>
+    <div class="page-head">
+      <div>
+        <h2 id="pName"></h2>
+        <p class="p-sub" id="pSub"></p>
+      </div>
+      <p class="p-bal"><span>Balanse</span><b id="pBal"></b></p>
+    </div>
+
+    <form class="entry" id="entryForm">
+      <div class="seg" role="group" aria-label="Entry type">
+        <label><input type="radio" name="kind" value="utang" checked><span>Utang</span></label>
+        <label><input type="radio" name="kind" value="bayad"><span>Bayad</span></label>
+      </div>
+      <label class="fld grow"><span class="sr">Ano</span><input name="note" maxlength="60" placeholder="Hal. 2 sardinas, 1 bigas"></label>
+      <label class="fld amt"><span class="sr">Halaga</span><input name="amount" type="number" min="1" max="100000" step="0.25" inputmode="decimal" placeholder="₱" required></label>
+      <button class="ink-btn" type="submit">Isulat</button>
+    </form>
+
+    <ol class="lines" id="lines"></ol>
+
+    <div class="page-actions">
+      <button type="button" class="pill" id="remind">Kopyahin ang paalala</button>
+      <button type="button" class="pill ghost" id="delPerson">Burahin ang suki</button>
+    </div>
+    <p class="ok" id="pStatus" role="status"></p>
+  </section>
+
+  <section class="page empty-page" id="emptyPage">
+    <p>Pumili ng suki para makita ang listahan.</p>
+  </section>
+</main>
+
+<dialog id="addPerson" class="sheet" aria-labelledby="apTitle">
+  <form method="dialog" id="personForm">
+    <h2 id="apTitle">Bagong suki</h2>
+    <label class="fld">Pangalan<input name="name" required maxlength="40"></label>
+    <label class="fld">Note (optional)<input name="tag" maxlength="40" placeholder="Hal. kapitbahay, tricycle driver"></label>
+    <div class="row"><button type="button" class="pill ghost" data-close>Cancel</button><button class="ink-btn" type="submit">Idagdag</button></div>
+  </form>
+</dialog>
+
+<dialog id="settings" class="sheet" aria-labelledby="stTitle">
+  <form method="dialog" id="settingsForm">
+    <h2 id="stTitle">Settings</h2>
+    <p class="fine">Everything stays on this phone. Save a backup file now and then.</p>
+    <label class="fld">Store name<input name="store" maxlength="40" required></label>
+    <div class="row wrap">
+      <button type="button" class="pill" id="exportBtn">Save backup file</button>
+      <label class="pill file">Restore backup<input type="file" id="importFile" accept="application/json,.json"></label>
+      <button type="button" class="pill ghost" id="resetBtn">Reset to sample</button>
+    </div>
+    <p class="ok" id="sStatus" role="status"></p>
+    <div class="row"><button class="ink-btn" type="submit">Done</button></div>
+  </form>
+</dialog>
+
+<script src="../kit.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

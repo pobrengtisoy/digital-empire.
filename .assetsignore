@@ -5,6 +5,8 @@ CLOUDFLARE_SETUP.md
 wrangler.jsonc
 _headers
 .assetsignore
+.claude/
+.impeccable/
 .codex/
 .vscode/
 .github/

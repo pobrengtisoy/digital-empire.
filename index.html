@@ -1,102 +1,148 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <link rel="icon" type="image/svg+xml" href="rz-mark.svg">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#191b19" />
-  <meta name="description" content="RZ Digital Empire — independently built websites, scripts, and tools. Browse our developing collection or brief us on a custom build." />
-  <title>RZ Digital Empire — Independent digital products</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#16151f">
+<meta name="description" content="RZ Digital Empire: ten working products for Philippine small businesses — online menu, shop, bookings, resort rates, utang tracker, invitations, leagues, quotations, payroll and sales. Try them free with your own name.">
+<title>RZ Digital Empire — Your name, printed on working software</title>
+<link rel="icon" type="image/svg+xml" href="rz-mark.svg">
+<link rel="preload" href="fonts/kaushan-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/plates/lead-tarp.webp" as="image">
+<link rel="stylesheet" href="home.css">
 </head>
-<body>
-  <div class="marquee-strip" aria-label="Independent digital workshop">
-    <span>INDEPENDENT DIGITAL WORKSHOP <b>✳</b> WEB SYSTEMS / SOFTWARE / UTILITIES <b>✳</b> VERSION 0.5 — FOUR LIVE EDITABLE EDITIONS</span>
-    <span aria-hidden="true">INDEPENDENT DIGITAL WORKSHOP <b>✳</b> WEB SYSTEMS / SOFTWARE / UTILITIES <b>✳</b> VERSION 0.5 — FOUR LIVE EDITABLE EDITIONS</span>
-  </div>
-  <header class="masthead" id="top">
-    <a class="wordmark" href="#top" aria-label="RZ Digital Empire home"><span class="mark">R<span class="mark-slash">/</span>Z</span><span class="brand-name">RZ DIGITAL<br />EMPIRE<span class="brand-period">.</span></span></a>
-    <nav aria-label="Main navigation" class="site-nav">
-      <a href="#inventory">INVENTORY <span class="nav-number">09</span></a>
-      <a href="templates.html">THE EDITIONS</a>
-      <a href="#process">HOW IT WORKS</a>
-    </nav>
-    <button class="nav-cta" type="button" data-open-brief>START A PROJECT <span aria-hidden="true">↗</span></button>
-    <button class="mobile-menu" id="menuToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobileNav"><span></span><span></span></button>
-  </header>
-  <nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation" hidden>
-    <a href="#inventory">INVENTORY</a><a href="templates.html">THE EDITIONS</a><a href="#process">HOW IT WORKS</a><button type="button" data-open-brief>START A PROJECT ↗</button>
+<body class="home">
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="bar" id="top">
+  <a class="bar-brand" href="#top" aria-label="RZ Digital Empire, home">
+    <span class="bar-mark" aria-hidden="true">RZ</span>
+    <span class="bar-name">RZ Digital Empire</span>
+  </a>
+  <nav class="bar-nav" aria-label="Main">
+    <a href="#products">Products</a>
+    <a href="#how">How it works</a>
+    <button type="button" class="bar-cta" data-open-brief>Start a project</button>
   </nav>
+</header>
 
-  <main>
-    <section class="hero" aria-labelledby="hero-title">
-      <div class="hero-meta"><span>RZ / ISSUE 004 — 2026</span><span>WEB. CODE. SYSTEMS.</span></div>
-      <div class="hero-core">
-        <div class="hero-copy">
-          <p class="eyebrow"><span class="signal-dot"></span> SMALL STUDIO. BIG TOOLBOX.</p>
-          <h1 id="hero-title">NOT JUST<br /><em>ANOTHER</em><br />WEBSITE<span class="dot">.</span></h1>
-          <div class="hero-under">
-            <p>Original websites, practical software, and tools built to do real work. No recycled look. No empty promises.</p>
-            <a class="primary-link" href="#inventory"><span>EXPLORE THE INVENTORY</span><span class="circle-arrow" aria-hidden="true">↗</span></a>
-          </div>
+<main id="main">
+  <section class="wall" aria-labelledby="proofName">
+    <div class="wall-grid">
+     <div class="wall-left">
+      <div class="tarp tarp-lead" id="leadTarp">
+        <div class="press" aria-hidden="true">
+          <img class="press-rail" src="assets/plates/print-rail.webp" alt="" width="1514" height="69">
+          <img class="press-carriage" id="carriage" src="assets/plates/print-carriage.webp" alt="" width="154" height="161">
         </div>
-        <div class="hero-side" aria-hidden="true">
-          <div class="side-top"><span>RZ / SYSTEM 01</span><span>● ONLINE</span></div>
-          <div class="wire-mark"><span>RZ</span><i></i><i></i><i></i><i></i></div>
-          <div class="side-ledger"><div><span>01</span><strong>DESIGN</strong></div><div><span>02</span><strong>DEVELOP</strong></div><div><span>03</span><strong>DEPLOY</strong></div></div>
-          <div class="side-foot">BUILD SOMETHING THAT LASTS <span>↘</span></div>
-        </div>
+        <h1 class="lead-name">
+          <span class="sr-only">RZ Digital Empire prints your name on working software. Proof for </span>
+          <span class="lead-name-ink" id="proofName">Kape ni Lola</span>
+        </h1>
+        <form class="press-form" id="pressForm" autocomplete="on">
+          <label class="sr-only" for="nameInput">Your business name</label>
+          <input class="press-input" id="nameInput" name="organization" autocomplete="organization" type="text" maxlength="40" placeholder="Type your business name" enterkeyhint="go" spellcheck="false">
+          <button class="press-button" type="submit">Print my proof</button>
+        </form>
       </div>
-      <div class="hero-ticker"><div><span class="mini-label">CURRENT EDITION</span><b>004</b></div><div><span class="mini-label">PRODUCT CONCEPTS</span><b>09</b></div><div><span class="mini-label">EDITABLE DEMOS</span><b>04</b></div><div class="hero-ticker-note">BUILT FOR PEOPLE<br />WHO WANT SOMETHING DIFFERENT <span>✳</span></div></div>
-    </section>
 
-    <section class="feature" id="featured" aria-labelledby="feature-title">
-      <div class="section-kicker"><span>01 / FEATURED BUILD</span><span>LIVE TOOL / RZ 0.4</span></div>
-      <div class="feature-layout">
-        <div class="feature-story">
-          <p class="small-tag">FIRST OUT OF THE WORKSHOP <span class="black-dot"></span></p>
-          <h2 id="feature-title">MAKE IT.<br />BRAND IT.<br /><span>OWN IT.</span></h2>
-          <p class="feature-description">Meet RZ Ledger. Start with our identity, swap in your own logo, background, and colors, then build and print professional invoices — no account required.</p>
-          <a href="tools/invoice.html" class="dark-action">CUSTOMIZE RZ LEDGER <span>↗</span></a>
-          <div class="feature-bottom"><span>RZ LEDGER / 001</span><span>NO LOGIN NEEDED</span></div>
-        </div>
-        <div class="feature-canvas" aria-hidden="true">
-          <div class="canvas-label"><span>INTERFACE STUDY / INVOICE—001</span><span>↗</span></div>
-          <div class="mock-window"><div class="mock-top"><strong>RZ LEDGER<span class="green-dot">.</span></strong><span>NO. 0001</span></div><div class="mock-header"><div><small>ISSUED TO</small><strong>YOUR CLIENT</strong></div><div><small>DATE</small><strong>11 / 2026</strong></div></div><div class="mock-row"><span>WEBSITE DESIGN</span><span>₱ 8,500.00</span></div><div class="mock-row"><span>DEVELOPMENT</span><span>₱ 4,500.00</span></div><div class="mock-total"><span>TOTAL DUE</span><strong>₱ 13,000.00</strong></div></div>
-          <div class="canvas-caption">FUNCTION OVER FILLER.<br />THAT'S THE STANDARD.</div>
-        </div>
+      <p class="wall-line">Ten working products for Philippine small businesses. Try them with your own name — free, in your browser.</p>
+
+      <a class="tarp tarp-arena" href="products/liga/index.html">
+        <span class="tarp-title"><span class="tarp-rz">RZ</span> <span class="tarp-word">Liga</span> <span class="tarp-sub">– leagues &amp; standings</span></span>
+        <span class="tarp-for">Organised by <b data-name>Kape ni Lola</b></span>
+      </a>
+     </div>
+     <div class="wall-right">
+
+      <a class="tarp tarp-ledger" href="products/menu/index.html">
+        <span class="tarp-title">RZ Menu <span class="tarp-sub">– order online</span></span>
+        <span class="tarp-for">Orders for <b data-name>Kape ni Lola</b></span>
+      </a>
+
+      <a class="tarp tarp-insight" href="products/shop/index.html">
+        <span class="tarp-title">RZ Shop <span class="tarp-sub">– your catalog</span></span>
+        <span class="tarp-for">Online shop of <b data-name>Kape ni Lola</b></span>
+      </a>
+
+      <a class="tarp tarp-form" href="products/stay/index.html">
+        <span class="tarp-title">RZ Stay <span class="tarp-sub">– resorts &amp; rentals</span></span>
+        <span class="tarp-for">Bookings for <b data-name>Kape ni Lola</b></span>
+      </a>
+     </div>
+    </div>
+  </section>
+
+  <section class="press-board" id="products" aria-labelledby="boardTitle">
+    <div class="board-head">
+      <h2 id="boardTitle">Ten products, ready to wear your name</h2>
+      <p>Every one is a working demo you can try now. Open it, press “Make it yours”, and see it with your business name. Nothing is sold online yet; we set each one up for you directly.</p>
+    </div>
+    <div class="board-tools">
+      <div class="board-filters" role="group" aria-label="Filter products">
+        <button type="button" class="chip is-on" data-filter="all" aria-pressed="true">All ten</button>
+        <button type="button" class="chip" data-filter="food" aria-pressed="false">Food &amp; retail</button>
+        <button type="button" class="chip" data-filter="bookings" aria-pressed="false">Bookings &amp; events</button>
+        <button type="button" class="chip" data-filter="tools" aria-pressed="false">Business tools</button>
       </div>
-    </section>
+      <label class="board-search"><span class="sr-only">Search products</span><input type="search" id="catalogSearch" placeholder="Search products"></label>
+    </div>
+    <ul class="cards" id="productList" aria-live="polite"></ul>
+  </section>
 
-    <section class="rz-editions" aria-labelledby="rzEdTitle"><div class="rz-ed-index"><span>RZ DIGITAL EMPIRE / PERSONALIZATION LAB</span><span>RELEASE 005 — FOUR LIVE EDITIONS</span></div><div class="rz-ed-inner"><div class="rz-ed-lead"><span class="rz-ed-symbol">R<span>/</span>Z</span><p>WE BUILD THE SYSTEM.<br>YOU MAKE IT YOURS.</p><h2 id="rzEdTitle">NO TWO<br><em>BRANDS</em><br>ALIKE<span>.</span></h2><a href="templates.html">ENTER THE EDITION OFFICE <span>↗</span></a></div><div class="rz-ed-products"><a class="rz-ed-one rz-ed-ledger" href="tools/invoice.html"><span>001 / A STUDY IN PAPER</span><strong>RZ<br>LEDGER.</strong><small>BRANDABLE INVOICES / YOUR LOGO, YOUR LOOK ↗</small></a><a class="rz-ed-one rz-ed-arena" href="tools/bracket.html"><span>005 / THE COMPETITION DEPT.</span><strong>RZ<br>ARENA.</strong><small>BRACKETS / RESULTS / YOUR EVENT IDENTITY ↗</small></a><a class="rz-ed-one rz-ed-insight" href="tools/report.html"><span>008 / THE DATA DEPT.</span><strong>RZ<br>INSIGHT.</strong><small>REPORTS / CSV / BRANDABLE DATA DESK ↗</small></a></div></div><div class="rz-ed-bottom"><span>UPLOAD A LOGO</span><span>CHANGE THE BACKGROUND</span><span>SELECT A PALETTE</span><span>EXPORT YOUR BRAND KIT</span></div></section>
+  <section class="how" id="how" aria-labelledby="howTitle">
+    <h2 id="howTitle">How it works</h2>
+    <ol class="how-steps">
+      <li><h3>Bring your name</h3><p>Type it above, then open any product and press “Make it yours” to put in your own name and details.</p></li>
+      <li><h3>Try it for real</h3><p>Everything works in your browser and stays on your device. The tracker tools can save a backup file.</p></li>
+      <li><h3>Get your own</h3><p>Want one set up with your logo, menu, rates or staff? Write a brief and send it to us.</p></li>
+    </ol>
+    <p class="how-honest">Right now RZ has no checkout, accounts or downloads. The demos are free to try; custom work is arranged directly.</p>
+  </section>
 
-    <section class="inventory" id="inventory" aria-labelledby="inventory-title">
-      <div class="section-kicker dark-kicker"><span>02 / THE INVENTORY</span><span>INDEX: RZ—001 THROUGH RZ—009</span></div>
-      <div class="inventory-title-row"><h2 id="inventory-title">WHAT WE <em>MAKE.</em></h2><p>Software has a purpose. Every item below has a use case, a clear scope, and a place in the lineup. Early builds are labeled honestly.</p></div>
-      <div class="inventory-controls"><div class="filter-group" role="group" aria-label="Filter products"><button class="filter active" data-filter="all" aria-pressed="true">ALL <sup>09</sup></button><button class="filter" data-filter="websites" aria-pressed="false">WEB <sup>03</sup></button><button class="filter" data-filter="software" aria-pressed="false">SOFTWARE <sup>03</sup></button><button class="filter" data-filter="gaming" aria-pressed="false">GAMING <sup>01</sup></button><button class="filter" data-filter="automation" aria-pressed="false">AUTOMATION <sup>02</sup></button></div><label class="search-box"><span aria-hidden="true">⌕</span><input type="search" id="catalogSearch" placeholder="SEARCH INVENTORY" aria-label="Search inventory" /></label></div>
-      <div class="inventory-head"><span>REF / CATEGORY</span><span>PRODUCT / DESCRIPTION</span><span>STATUS</span><span>ACTION</span></div>
-      <div class="product-list" id="productList" aria-live="polite"></div>
-      <div class="gaming-dispatch"><div class="dispatch-id"><span>RZ ARENA / EDITABLE COMPETITION EDITION 005</span><strong>THE BRACKET<br/>IS <em>OPEN.</em></strong><p>Eight team slots, clean scores, automatic winner advancement. Build and run your own tournament locally — without a login.</p><a href="tools/bracket.html">CUSTOMIZE RZ ARENA ↗</a></div><div class="dispatch-visual" aria-hidden="true"><span>ROUND 01</span><div><b>01 / NORTH DIVISION</b><strong>02</strong></div><div><b>08 / ZERO HOUR</b><strong>01</strong></div><small>WINNER ADVANCES →</small><div><b>04 / LAST ROUND</b><strong>03</strong></div><div><b>05 / ECHO SQUAD</b><strong>00</strong></div><small>NEXT ROUND: SEMIFINALS</small></div></div><div class="report-rail"><span class="report-rail-id">NEW RELEASE <b>RZ / INSIGHT 008</b></span><strong>GIVE YOUR<br>NUMBERS <em>A VOICE.</em></strong><p>Open a CSV. Break it down. Export the answers. Everything runs in your browser — no upload, no account.</p><a href="tools/report.html">CUSTOMIZE RZ INSIGHT <span>↗</span></a></div><p class="inventory-note"><span>✳</span> This is our development catalog. Only products marked <strong>LIVE DEMO</strong> are currently functional. Prices and purchasing will be enabled after testing.</p>
-    </section>
+  <section class="order" aria-labelledby="orderTitle">
+    <div class="order-tarp">
+      <h2 id="orderTitle">Need something printed just for you?</h2>
+      <p>Describe your shop, event or idea. We’ll put it on a brief you can copy and send.</p>
+      <button type="button" class="order-button" data-open-brief>Write a project brief</button>
+    </div>
+  </section>
+</main>
 
-    <section class="rz-web-release" aria-labelledby="rzWebReleaseTitle">
-  <div class="rz-web-top"><span>RZ / WEBSITE NO. 009</span><span>FIRST EDITABLE LANDING PAGE</span></div>
-  <div class="rz-web-grid"><div class="rz-web-editorial"><span class="rz-web-micro">NOT ANOTHER TEMPLATE WITH A DIFFERENT COLOR.</span><h2 id="rzWebReleaseTitle">YOUR<br>STORY.<br><em>YOUR SITE.</em></h2><p>Introducing RZ Form: a full editorial landing page you can personalize with your name, logo, background, business details, and contact link. No coding required to test a new identity.</p><a href="site-template.html">OPEN THE LIVE WEBSITE EDITOR <b>↗</b></a></div><div class="rz-web-poster" aria-hidden="true"><span>THE RZ FORM / EDITION 009</span><div class="rz-web-giant">R<span>/</span>Z</div><div class="rz-web-poster-footer"><span>REPLACE THE BRAND<br>MAKE IT YOURS.</span><b>009</b></div></div></div>
-  <div class="rz-web-foot"><span>UPLOAD YOUR LOGO</span><span>CHANGE THE BACKGROUND</span><span>EDIT THE COPY</span><span>KEEP A BRAND KIT</span></div>
-</section>
+<footer class="foot">
+  <span class="foot-mark" aria-hidden="true">RZ</span>
+  <p>© <span id="copyrightYear">2026</span> RZ Digital Empire. Made in the Philippines.</p>
+  <a href="#top">Back to top</a>
+</footer>
 
-    <section class="studio" id="studio" aria-labelledby="studio-title"><div class="studio-overline"><span>03 / THE STUDIO</span><span>ONE-OFF OR LONG TERM / WE BUILD BOTH.</span></div><div class="studio-grid"><div><p class="studio-label">YOUR IDEA DOESN'T FIT A PRODUCT BOX?</p><h2 id="studio-title">GOOD.<br />WE LIKE <em>THAT.</em></h2></div><div class="studio-aside"><p>Need a custom storefront? A back-office system? A script that removes hours of repetitive work? Describe the problem. We'll scope a build around it — not the other way around.</p><button type="button" class="lime-action" data-open-brief>WRITE A PROJECT BRIEF <span>↗</span></button><small>NO PAYMENT OR COMMITMENT REQUIRED TO DRAFT A BRIEF.</small></div></div><div class="studio-bottom"><span>WEBSITES</span><b>✳</b><span>BUSINESS TOOLS</span><b>✳</b><span>GAME SYSTEMS</span><b>✳</b><span>AUTOMATION</span></div></section>
+<dialog id="productDialog" class="dlg" aria-labelledby="dialogTitle">
+  <button type="button" class="dlg-close" data-close-dialog aria-label="Close">×</button>
+  <p class="dlg-status" id="dialogStatus"></p>
+  <h2 id="dialogTitle"></h2>
+  <p class="dlg-lede" id="dialogLede"></p>
+  <p id="dialogDetail"></p>
+  <ul class="dlg-tags" id="dialogTags"></ul>
+  <a class="dlg-action" id="dialogOpen" href="#">Open the demo</a>
+  <button type="button" class="dlg-action" id="dialogBrief">Ask for a similar build</button>
+  <p class="dlg-note" id="dialogNote"></p>
+</dialog>
 
-    <section class="process" id="process" aria-labelledby="process-title"><div class="section-kicker dark-kicker"><span>04 / THE PROCESS</span><span>BUILT TO BE UNDERSTOOD.</span></div><div class="process-heading"><h2 id="process-title">NO MAGIC.<br /><em>JUST THE WORK.</em></h2><p>Simple steps. Clear deliverables. Practical software.</p></div><div class="steps"><div class="step"><span class="step-num">01 /</span><h3>EXPLORE</h3><p>Browse the collection. Try the live tools. Find a starting point.</p></div><div class="step"><span class="step-num">02 /</span><h3>SPECIFY</h3><p>Tell us what you want changed, connected, or created from scratch.</p></div><div class="step"><span class="step-num">03 /</span><h3>BUILD</h3><p>We develop and test the real functions before calling it finished.</p></div><div class="step"><span class="step-num">04 /</span><h3>HAND OFF</h3><p>Clear instructions, your deliverables, and agreed support scope.</p></div></div></section>
-  </main>
-  <footer class="footer"><div class="footer-top"><span>INDEPENDENT BY DESIGN.</span><a href="#top">BACK TO TOP ↑</a></div><div class="footer-brand">RZ DIGITAL<br /><span>EMPIRE.</span></div><div class="footer-bottom"><span>© <span id="copyrightYear">2026</span> RZ DIGITAL EMPIRE — INDEPENDENT SOFTWARE STUDIO</span><span>EDITION 005 / RZ FORM</span><span>NO TEMPLATE. NO SHORTCUTS.</span></div></footer>
+<dialog id="briefDialog" class="dlg dlg-brief" aria-labelledby="briefTitle">
+  <button type="button" class="dlg-close" data-close-brief aria-label="Close">×</button>
+  <h2 id="briefTitle">Your project brief</h2>
+  <p class="dlg-lede">This makes a brief you can copy. It is <strong>not</strong> sent to RZ automatically yet.</p>
+  <form id="briefForm" class="brief-form">
+    <label>Business or project name<input name="project" required maxlength="100" placeholder="e.g. Kape ni Lola"></label>
+    <label>What do you need?<select name="category"><option>Custom website</option><option>Business software</option><option>Automation / bot</option><option>Gaming utility</option><option>Something else</option></select></label>
+    <label>What should it do?<textarea name="description" required rows="4" maxlength="2000" placeholder="The main tasks, pages or features"></textarea></label>
+    <label>Budget<select name="budget"><option>Not decided yet</option><option>Under ₱5,000</option><option>₱5,000–₱15,000</option><option>₱15,000–₱30,000</option><option>Above ₱30,000</option></select></label>
+    <button class="order-button" type="submit">Copy my brief</button>
+    <p id="briefStatus" class="brief-status" role="status"></p>
+  </form>
+</dialog>
 
-  <dialog id="productDialog" class="product-dialog" aria-labelledby="dialogTitle"><button type="button" class="dialog-close" data-close-dialog aria-label="Close product details">×</button><div id="dialogContent"></div></dialog>
-  <dialog id="briefDialog" class="brief-dialog" aria-labelledby="briefTitle"><div class="brief-top"><span>RZ / CUSTOM BUILDS — PROJECT BRIEF</span><button type="button" data-close-brief aria-label="Close project brief">×</button></div><h2 id="briefTitle">TELL US WHAT<br />YOU <em>NEED.</em></h2><p class="brief-explainer">This creates a copyable project brief on your device. It does <strong>not</strong> submit to our team yet; a direct ordering channel will be added at launch.</p><form id="briefForm"><label>PROJECT OR BUSINESS NAME<input name="project" required maxlength="100" placeholder="e.g. My retail shop" /></label><label>WHAT DO YOU NEED?<select name="category"><option>Custom website</option><option>Business software</option><option>Automation / bot</option><option>Gaming utility</option><option>Something else</option></select></label><label>WHAT SHOULD IT DO?<textarea name="description" required rows="4" maxlength="2000" placeholder="Explain the main tasks, pages, or features..." ></textarea></label><label>ESTIMATED BUDGET<select name="budget"><option>Not decided yet</option><option>Under ₱5,000</option><option>₱5,000–₱15,000</option><option>₱15,000–₱30,000</option><option>Above ₱30,000</option></select></label><button class="brief-copy" id="copyBrief" type="submit">COPY MY PROJECT BRIEF ↗</button><p id="briefStatus" role="status" class="brief-status"></p></form></dialog>
-  <script src="products.js"></script>
-  <script src="app.js"></script>
+<script src="products.js"></script>
+<script src="home.js"></script>
 </body>
 </html>

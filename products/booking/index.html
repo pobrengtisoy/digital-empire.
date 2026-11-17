@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#3b2a3a">
+<title>RZ Booking — appointments for salons, spas and clinics</title>
+<meta name="description" content="RZ Booking demo: customers pick a service, a day and an open time, then send the request to your Messenger.">
+<link rel="icon" type="image/svg+xml" href="../../rz-mark.svg">
+<link rel="stylesheet" href="../fonts/booking.css">
+<link rel="stylesheet" href="../kit.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="rz-strip"><a href="../../index.html">← RZ Digital Empire</a><span class="rz-strip-note"><b>RZ Booking</b> demo · sample salon</span><button type="button" class="strip-btn" data-open="settings">Make it yours</button></div>
+
+<header class="head">
+  <div>
+    <h1 id="bizName">Lumen Salon &amp; Spa</h1>
+    <p id="bizLine">Hair, nails and massage · BGC, Taguig</p>
+  </div>
+  <p class="head-hours" id="bizHours">Tue–Sun · 10:00 AM – 8:00 PM</p>
+</header>
+
+<main class="book">
+  <section class="step" aria-labelledby="s1">
+    <h2 id="s1"><span>1</span>Choose a service</h2>
+    <div id="services" class="services"></div>
+  </section>
+
+  <section class="step" aria-labelledby="s2">
+    <h2 id="s2"><span>2</span>Pick a day and time</h2>
+    <div class="days" id="days" role="group" aria-label="Days"></div>
+    <div class="slots" id="slots" role="group" aria-label="Times" aria-live="polite"></div>
+    <p class="legend"><i class="lg-open"></i>Open <i class="lg-taken"></i>Booked</p>
+  </section>
+
+  <aside class="step summary" aria-labelledby="s3">
+    <h2 id="s3"><span>3</span>Confirm</h2>
+    <div class="ticket" id="ticket">
+      <p class="t-empty" id="tEmpty">Choose a service and a time.</p>
+      <dl id="tBody" hidden>
+        <div><dt>Service</dt><dd id="tService"></dd></div>
+        <div><dt>When</dt><dd id="tWhen"></dd></div>
+        <div><dt>Duration</dt><dd id="tDur"></dd></div>
+        <div class="t-price"><dt>Price</dt><dd id="tPrice"></dd></div>
+      </dl>
+    </div>
+    <form id="bookForm" class="form">
+      <label class="fld">Your name<input name="name" required maxlength="60" autocomplete="name"></label>
+      <label class="fld">Mobile number<input name="phone" required maxlength="20" inputmode="tel" autocomplete="tel"></label>
+      <label class="fld">Preferred staff<select name="staff" id="staff"></select></label>
+      <label class="fld">Notes<textarea name="notes" rows="2" maxlength="300" placeholder="Hair length, allergies…"></textarea></label>
+      <button type="submit" class="cta" id="bookBtn" disabled>Request this appointment</button>
+      <p class="note">We’ll confirm on Messenger. A ₱200 GCash deposit holds your slot.</p>
+      <p class="ok" id="status" role="status"></p>
+    </form>
+  </aside>
+</main>
+
+<dialog id="settings" class="sheet" aria-labelledby="setTitle">
+  <form method="dialog" id="settingsForm" class="form">
+    <h2 id="setTitle">Make it yours</h2>
+    <p class="note">Saved in this browser only.</p>
+    <label class="fld">Business name<input name="name" maxlength="50" required></label>
+    <label class="fld">Line under the name<input name="line" maxlength="70"></label>
+    <label class="fld">Opening hours (shown)<input name="hours" maxlength="60"></label>
+    <label class="fld">Messenger username<input name="messenger" maxlength="50"></label>
+    <div class="row"><button type="button" class="ghost" id="resetSettings">Reset sample</button><button class="cta" type="submit">Save</button></div>
+  </form>
+</dialog>
+
+<script src="../kit.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
