@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<title>RZ Shop — online catalog for sellers</title>
+<meta name="description" content="RZ Shop demo: a clean online catalog with a bag and checkout that sends orders to your Messenger.">
+<link rel="icon" type="image/svg+xml" href="../../rz-mark.svg">
+<link rel="stylesheet" href="../fonts/shop.css">
+<link rel="stylesheet" href="../kit.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="rz-strip"><a href="../../index.html">← RZ Digital Empire</a><span class="rz-strip-note"><b>RZ Shop</b> demo · sample boutique</span><button type="button" class="strip-btn" data-open="settings">Make it yours</button></div>
+
+<header class="top">
+  <a class="logo" href="#" id="shopName">Mira Atelier</a>
+  <button type="button" class="bag-btn" id="bagBtn" aria-label="Open bag">Bag <span id="bagCount">0</span></button>
+</header>
+
+<section class="hero">
+  <p class="hero-k" id="tagline">Made in Cebu · Small batches</p>
+  <h1>Linen, knit and woven pieces for warm days.</h1>
+  <p class="hero-s">Order here, pay by GCash, and we’ll confirm on Messenger. Meet-ups in the city or shipping nationwide.</p>
+</section>
+
+<nav class="filters" aria-label="Categories" id="filters"></nav>
+<main class="grid" id="grid" aria-live="polite"></main>
+
+<footer class="foot"><p>Prices in Philippine pesos · Orders confirmed on Messenger</p></footer>
+
+<dialog id="product" class="panel" aria-labelledby="pName">
+  <button type="button" class="x" data-close aria-label="Close">×</button>
+  <div class="p-wrap">
+    <div class="p-swatch" id="pSwatch"><img id="pImg" src="img/p1.webp" alt="" width="640" height="800"></div>
+    <div class="p-info">
+      <h2 id="pName"></h2>
+      <p class="p-price" id="pPrice"></p>
+      <p class="p-desc" id="pDesc"></p>
+      <fieldset class="opt"><legend>Colour: <b id="pColorName"></b></legend><div id="pColors" class="colors"></div></fieldset>
+      <fieldset class="opt" id="pSizesSet"><legend>Size</legend><div id="pSizes" class="sizes"></div></fieldset>
+      <button type="button" class="cta" id="addBag">Add to bag</button>
+      <p class="p-note" id="pNote" role="status"></p>
+    </div>
+  </div>
+</dialog>
+
+<dialog id="bag" class="panel bag" aria-labelledby="bagTitle">
+  <button type="button" class="x" data-close aria-label="Close">×</button>
+  <h2 id="bagTitle">Your bag</h2>
+  <ul id="bagList" class="bag-list"></ul>
+  <p id="bagEmpty" class="muted">Your bag is empty.</p>
+  <form id="checkout" class="checkout">
+    <label class="fld">Full name<input name="name" required maxlength="60" autocomplete="name"></label>
+    <label class="fld">Mobile number<input name="phone" required maxlength="20" inputmode="tel" autocomplete="tel"></label>
+    <fieldset class="opt"><legend>Delivery</legend>
+      <div class="sizes">
+        <label class="chip"><input type="radio" name="ship" value="Meet-up" checked><span>Meet-up</span></label>
+        <label class="chip"><input type="radio" name="ship" value="Ship nationwide"><span>Ship nationwide</span></label>
+      </div>
+    </fieldset>
+    <label class="fld" id="addrFld" hidden>Shipping address<textarea name="address" rows="2" maxlength="240"></textarea></label>
+    <dl class="sum"><div><dt>Items</dt><dd id="sumItems">₱0.00</dd></div><div id="shipRow" hidden><dt>Shipping</dt><dd id="sumShip">₱0.00</dd></div><div class="tot"><dt>Total</dt><dd id="sumTotal">₱0.00</dd></div></dl>
+    <p class="muted" id="payNote"></p>
+    <button type="submit" class="cta" id="placeBtn">Send order on Messenger</button>
+    <p class="ok" id="status" role="status"></p>
+  </form>
+</dialog>
+
+<dialog id="settings" class="panel" aria-labelledby="sTitle">
+  <form method="dialog" id="settingsForm" class="checkout">
+    <h2 id="sTitle">Make it yours</h2>
+    <p class="muted">Saved in this browser only.</p>
+    <label class="fld">Shop name<input name="name" maxlength="40" required></label>
+    <label class="fld">Line under the name<input name="tagline" maxlength="60"></label>
+    <label class="fld">Messenger username<input name="messenger" maxlength="50" placeholder="e.g. miraatelier"></label>
+    <label class="fld">GCash number<input name="gcash" maxlength="20" inputmode="tel"></label>
+    <label class="fld">Shipping fee (₱)<input name="ship" type="number" min="0" max="2000" step="5"></label>
+    <div class="row"><button type="button" class="ghost" id="resetSettings">Reset sample</button><button class="cta" type="submit">Save</button></div>
+  </form>
+</dialog>
+
+<script src="../kit.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

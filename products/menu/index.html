@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#7d1f17">
+<title>RZ Menu — online menu and Messenger orders</title>
+<meta name="description" content="RZ Menu demo: a restaurant menu where customers build an order and send it to your Messenger.">
+<link rel="icon" type="image/svg+xml" href="../../rz-mark.svg">
+<link rel="stylesheet" href="../fonts/menu.css">
+<link rel="stylesheet" href="../kit.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="rz-strip"><a href="../../index.html">← RZ Digital Empire</a><span class="rz-strip-note"><b>RZ Menu</b> demo · sample restaurant</span><button type="button" class="strip-btn" data-open="settings">Make it yours</button></div>
+
+<header class="mast">
+  <p class="mast-est" id="tagline">Lutong bahay since 1987</p>
+  <h1 class="mast-name" id="shopName">Kusina ni Aling Nena</h1>
+  <p class="mast-meta"><span id="hours">Open daily · 7:00 AM – 9:00 PM</span></p>
+</header>
+
+<nav class="cats" id="cats" aria-label="Menu sections"></nav>
+
+<main class="page">
+  <div class="menu" id="menu" aria-live="polite"></div>
+
+  <aside class="cart" id="cart" aria-labelledby="cartTitle">
+    <div class="cart-head">
+      <h2 id="cartTitle">Your order</h2>
+      <button type="button" class="cart-close" id="cartClose" aria-label="Close order">×</button>
+    </div>
+    <ul class="cart-list" id="cartList"></ul>
+    <p class="cart-empty" id="cartEmpty">Tap a dish to add it.</p>
+    <form class="cart-form" id="orderForm">
+      <fieldset class="seg">
+        <legend>Order type</legend>
+        <label><input type="radio" name="type" value="Dine-in" checked><span>Dine-in</span></label>
+        <label><input type="radio" name="type" value="Pick-up"><span>Pick-up</span></label>
+        <label><input type="radio" name="type" value="Delivery"><span>Delivery</span></label>
+      </fieldset>
+      <label class="fld">Your name<input name="name" required maxlength="60" autocomplete="name"></label>
+      <label class="fld" id="whereField"><span id="whereLabel">Table number</span><input name="where" maxlength="160"></label>
+      <label class="fld">Notes for the kitchen<textarea name="notes" rows="2" maxlength="300" placeholder="Less spicy, extra rice…"></textarea></label>
+      <dl class="totals">
+        <div><dt>Subtotal</dt><dd id="subtotal">₱0.00</dd></div>
+        <div id="feeRow" hidden><dt>Delivery fee</dt><dd id="fee">₱0.00</dd></div>
+        <div class="grand"><dt>Total</dt><dd id="total">₱0.00</dd></div>
+      </dl>
+      <p class="pay" id="payNote"></p>
+      <button class="send" type="submit" id="sendBtn" disabled>Send order on Messenger</button>
+      <p class="status" id="status" role="status"></p>
+    </form>
+  </aside>
+</main>
+
+<button type="button" class="cart-fab" id="cartFab" hidden><span><span id="fabCount">0</span> items · <span id="fabTotal">₱0</span></span><b>View order</b></button>
+
+<footer class="foot"><p>Prices in Philippine pesos. Orders are confirmed by the restaurant on Messenger.</p></footer>
+
+<dialog id="settings" class="sheet" aria-labelledby="setTitle">
+  <form method="dialog" id="settingsForm">
+    <h2 id="setTitle">Make it yours</h2>
+    <p class="sheet-note">Saved in this browser only. This is a demo; your customers would see the version we set up for you.</p>
+    <label class="fld">Restaurant name<input name="name" maxlength="50" required></label>
+    <label class="fld">Tagline<input name="tagline" maxlength="60"></label>
+    <label class="fld">Opening hours<input name="hours" maxlength="60"></label>
+    <label class="fld">Messenger username<input name="messenger" maxlength="50" placeholder="e.g. kusinanialingnena"></label>
+    <label class="fld">GCash number shown at checkout<input name="gcash" maxlength="20" inputmode="tel"></label>
+    <label class="fld">Delivery fee (₱)<input name="fee" type="number" min="0" max="2000" step="5"></label>
+    <div class="sheet-actions">
+      <button type="button" class="ghost" id="resetSettings">Reset sample</button>
+      <button type="submit" class="send">Save</button>
+    </div>
+  </form>
+</dialog>
+
+<script src="../kit.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

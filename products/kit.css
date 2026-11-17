@@ -1,0 +1,13 @@
+/* Shared RZ demo strip. Each product owns everything else. */
+.rz-strip {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 8px max(16px, env(safe-area-inset-left)); padding-top: max(8px, env(safe-area-inset-top));
+  background: #16151f; color: #c4c1d0;
+  font: 500 13px/1.3 system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+.rz-strip a { color: #f3f0f1; text-decoration: none; padding: 6px 0; }
+.rz-strip a:hover { text-decoration: underline; }
+.rz-strip b { color: #e7a8c1; font-weight: 600; }
+.rz-offscreen { position: fixed; left: -9999px; top: 0; }
+@media (max-width: 520px) { .rz-strip .rz-strip-note { display: none; } }
+[hidden] { display: none !important; }
