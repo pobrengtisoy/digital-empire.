@@ -1,3 +1,18 @@
 {
-  "buildPath": "comp"
+  "buildPath": "comp",
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "oversized-h1",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-11-17T17:13:57.377Z",
+        "reason": "Claude verified in render: the h1's long sentence is screen-reader-only text; the visible headline is the short business name"
+      }
+    ]
+  }
 }
