@@ -29,7 +29,7 @@ Earlier demos are still in the repository and still deployed but no longer liste
 
 ## Backend (Phase 1: RZ Menu ordering)
 
-A Cloudflare Worker (`worker/index.js`) answers `/api/*`; everything else is served as static files. Data lives in Cloudflare D1 (binding `DB`, database `rz-empire`, created automatically by Wrangler on deploy). Tables create themselves on first request.
+A Cloudflare Worker (`worker/index.js`) answers `/api/*`; everything else is served as static files. Data lives in Cloudflare D1 (binding `DB`, database `rz-empire`, created in the Cloudflare dashboard and referenced by ID in `wrangler.jsonc`). Tables create themselves on first request.
 
 - **Owner dashboard:** `/dashboard/` — create an account, edit the menu, receive orders (refreshes every 10 s, sound and browser alerts while open), move orders through New → Accepted → Preparing → Ready → Completed, change shop settings.
 - **Live menu for a real shop:** `/products/menu/?shop=<link-name>` loads that shop's menu, places real orders and shows the customer live status. Without `?shop=` the page stays the browser-only demo.

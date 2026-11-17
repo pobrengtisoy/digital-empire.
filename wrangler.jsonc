@@ -7,8 +7,15 @@
     "binding": "ASSETS",
     "run_worker_first": ["/api/*"]
   },
-  // Database for real shops (orders, menus, owner accounts). Wrangler creates it on first deploy.
+  // Lets Cloudflare build preview links for non-production branches (`wrangler preview`).
+  // Previews use their own database so test orders never touch live data.
+  "previews": {
+    "d1_databases": [
+      { "binding": "DB", "database_name": "rz-empire-preview", "database_id": "11f8b4d3-e31f-45ff-821c-b8249d40ff7f" }
+    ]
+  },
+  // Database for real shops (orders, menus, owner accounts). Created in the Cloudflare dashboard.
   "d1_databases": [
-    { "binding": "DB", "database_name": "rz-empire" }
+    { "binding": "DB", "database_name": "rz-empire", "database_id": "af0b0365-7ba0-47c3-a41b-d8f8f47c28e3" }
   ]
 }
