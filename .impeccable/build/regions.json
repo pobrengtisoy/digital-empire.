@@ -1,0 +1,216 @@
+{
+ "regions": [
+  {
+   "id": "masthead",
+   "kind": "chrome",
+   "pixelBox": {
+    "x": 0,
+    "y": 0,
+    "w": 1376,
+    "h": 48
+   },
+   "note": "plain indigo-black top bar slightly lighter than the wall"
+  },
+  {
+   "id": "brand",
+   "kind": "text",
+   "pixelBox": {
+    "x": 18,
+    "y": 6,
+    "w": 230,
+    "h": 34
+   },
+   "note": "RZ mark at left in white brush letters, then RZ Digital Empire in small grey sans"
+  },
+  {
+   "id": "nav",
+   "kind": "control",
+   "pixelBox": {
+    "x": 1056,
+    "y": 8,
+    "w": 300,
+    "h": 30
+   },
+   "note": "three nav links Products, How it works, Start a project in light grey sans"
+  },
+  {
+   "id": "wall",
+   "kind": "texture",
+   "pixelBox": {
+    "x": 6,
+    "y": 345,
+    "w": 44,
+    "h": 60
+   },
+   "note": "indigo-black fabric wall ground, fine woven grain"
+  },
+  {
+   "id": "lead-tarp",
+   "kind": "plate",
+   "pixelBox": {
+    "x": 52,
+    "y": 84,
+    "w": 844,
+    "h": 264
+   },
+   "note": "large white glossy vinyl tarp with soft folds, brass grommets along top and bottom edges, indigo strip at top edge"
+  },
+  {
+   "id": "print-head",
+   "kind": "plate",
+   "pixelBox": {
+    "x": 56,
+    "y": 88,
+    "w": 836,
+    "h": 76
+   },
+   "note": "print-head carriage: brushed steel rail across the tarp top with a black and crimson carriage block mid-way (sits on the white tarp; the tarp below is not part of this plate, shipped as a transparent cut-out)",
+   "bleed": true
+  },
+  {
+   "id": "lead-name",
+   "kind": "text",
+   "pixelBox": {
+    "x": 116,
+    "y": 140,
+    "w": 716,
+    "h": 124
+   },
+   "note": "Kape ni Lola in huge crimson and black brush lettering, freshly printed"
+  },
+  {
+   "id": "name-field",
+   "kind": "control",
+   "pixelBox": {
+    "x": 318,
+    "y": 270,
+    "w": 184,
+    "h": 30
+   },
+   "note": "text field reading Type your business name, grey sans, no visible box"
+  },
+  {
+   "id": "print-button",
+   "kind": "control",
+   "pixelBox": {
+    "x": 506,
+    "y": 265,
+    "w": 120,
+    "h": 38
+   },
+   "note": "Print my proof button, crimson outline and crimson text on white"
+  },
+  {
+   "id": "tagline",
+   "kind": "text",
+   "pixelBox": {
+    "x": 108,
+    "y": 360,
+    "w": 730,
+    "h": 32
+   },
+   "note": "one quiet line in light grey sans on the wall: Four working demos. Five more on the press."
+  },
+  {
+   "id": "arena-tarp",
+   "kind": "plate",
+   "pixelBox": {
+    "x": 52,
+    "y": 414,
+    "w": 844,
+    "h": 304
+   },
+   "note": "black glossy vinyl tarp with crimson and black checkerboard bands top and bottom, brass grommets"
+  },
+  {
+   "id": "arena-title",
+   "kind": "text",
+   "pixelBox": {
+    "x": 164,
+    "y": 496,
+    "w": 618,
+    "h": 108
+   },
+   "note": "RZ Arena - tournament brackets in white brush lettering with a brush underline"
+  },
+  {
+   "id": "ledger-tarp",
+   "kind": "plate",
+   "pixelBox": {
+    "x": 908,
+    "y": 82,
+    "w": 418,
+    "h": 254
+   },
+   "note": "deep crimson vinyl tarp printed with a darker crimson hemp-leaf geometric pattern, grommets at corners"
+  },
+  {
+   "id": "ledger-title",
+   "kind": "text",
+   "pixelBox": {
+    "x": 980,
+    "y": 148,
+    "w": 290,
+    "h": 126
+   },
+   "note": "RZ Ledger - invoices in white brush lettering"
+  },
+  {
+   "id": "insight-tarp",
+   "kind": "plate",
+   "pixelBox": {
+    "x": 908,
+    "y": 350,
+    "w": 418,
+    "h": 238
+   },
+   "note": "flame orange vinyl tarp with black ink brush swirls, grommets at corners"
+  },
+  {
+   "id": "insight-title",
+   "kind": "text",
+   "pixelBox": {
+    "x": 964,
+    "y": 412,
+    "w": 302,
+    "h": 120
+   },
+   "note": "RZ Insight - reports in black brush lettering"
+  },
+  {
+   "id": "form-tarp",
+   "kind": "plate",
+   "bleed": true,
+   "pixelBox": {
+    "x": 908,
+    "y": 602,
+    "w": 418,
+    "h": 166
+   },
+   "note": "indigo-violet glossy vinyl tarp, grommets at top corners, continues below the fold"
+  },
+  {
+   "id": "form-title",
+   "kind": "text",
+   "pixelBox": {
+    "x": 976,
+    "y": 652,
+    "w": 280,
+    "h": 116
+   },
+   "note": "RZ Form - your website in blossom pink brush lettering"
+  },
+  {
+   "id": "next-tarps",
+   "kind": "plate",
+   "bleed": true,
+   "pixelBox": {
+    "x": 52,
+    "y": 730,
+    "w": 844,
+    "h": 38
+   },
+   "note": "tops of two more hanging tarps, crimson and steel blue, with grommets, cut by the fold"
+  }
+ ]
+}

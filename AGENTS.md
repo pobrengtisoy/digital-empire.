@@ -3,7 +3,9 @@
 ## Brand ownership and design direction
 
 - **Company brand:** RZ. **Marketplace brand:** RZ Digital Empire.
-- Strong independent editorial direction: charcoal, warm paper and lime at the marketplace level; a unique art direction for each product.
+- Marketplace direction (Nov 2026 redesign, user-approved): a print shop's sample wall of hanging vinyl tarps on an indigo-black wall; deep crimson, flame orange, blossom pink and white tarp stock; Japanese geometric textile patterns (hemp-leaf, checkerboard) as printed material; Kaushan Script brush lettering for display, Archivo for reading. The palette is a colour mood only: never use characters, logos or artwork from any existing show or comic. Each product keeps its own art direction.
+- The homepage (`index.html`, `home.css`, `home.js`) is the first surface in this world. Edition Office, RZ Form and the three tools still use the previous look (`styles.css`) until they are redesigned.
+- Design context: `PRODUCT.md`, `.impeccable/surfaces/index-html.md` (direction contract), approved mock-up `.impeccable/build/approved-comp.png`.
 - Avoid generic AI-generated SaaS aesthetics, random rounded cards, repetitive feature tiles, glassmorphism, stock-illustration gradients, and off-the-shelf dashboard templates.
 - Keep typography intentional, details refined, and touch interactions excellent on iPhone and iPad.
 - Build one reusable product system, but give each product its own distinct visual signature.

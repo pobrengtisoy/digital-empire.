@@ -1,0 +1,1216 @@
+{
+  "tool": "comp-spec",
+  "version": 1,
+  "createdAt": "2026-11-17T16:59:12.393Z",
+  "comp": ".impeccable/mocks/comp-blade-wall.png",
+  "warnings": [
+    "region print-head: \"bleed\": true set in the regions file (the clipped-artwork refusal is overridden: the page crops it there)",
+    "region form-tarp: \"bleed\": true set in the regions file (the clipped-artwork refusal is overridden: the page crops it there)",
+    "region next-tarps: \"bleed\": true set in the regions file (the clipped-artwork refusal is overridden: the page crops it there)"
+  ],
+  "uncoveredInkCells": [],
+  "compSize": {
+    "width": 1376,
+    "height": 768
+  },
+  "aspect": 1.7917,
+  "orientation": "landscape",
+  "palette": [
+    {
+      "hex": "#15141a",
+      "coverage": 0.5726
+    },
+    {
+      "hex": "#eae9e9",
+      "coverage": 0.1487
+    },
+    {
+      "hex": "#841b2f",
+      "coverage": 0.1465
+    },
+    {
+      "hex": "#282346",
+      "coverage": 0.067
+    },
+    {
+      "hex": "#dc5821",
+      "coverage": 0.0651
+    }
+  ],
+  "bands": [
+    {
+      "y": 0.0423,
+      "strength": 0.2249
+    },
+    {
+      "y": 0.1127,
+      "strength": 0.2141
+    },
+    {
+      "y": 0.1408,
+      "strength": 0.4335
+    },
+    {
+      "y": 0.169,
+      "strength": 0.2252
+    },
+    {
+      "y": 0.1972,
+      "strength": 0.6709
+    },
+    {
+      "y": 0.2535,
+      "strength": 0.3138
+    },
+    {
+      "y": 0.3239,
+      "strength": 0.5406
+    },
+    {
+      "y": 0.4366,
+      "strength": 1
+    },
+    {
+      "y": 0.4648,
+      "strength": 0.3678
+    },
+    {
+      "y": 0.6761,
+      "strength": 0.7004
+    },
+    {
+      "y": 0.7042,
+      "strength": 0.276
+    },
+    {
+      "y": 0.7324,
+      "strength": 0.2413
+    },
+    {
+      "y": 0.7606,
+      "strength": 0.7177
+    },
+    {
+      "y": 0.9296,
+      "strength": 0.2917
+    },
+    {
+      "y": 0.9577,
+      "strength": 0.3186
+    }
+  ],
+  "regions": [
+    {
+      "id": "masthead",
+      "kind": "chrome",
+      "note": "plain indigo-black top bar slightly lighter than the wall",
+      "grid": null,
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 0.0625
+      },
+      "px": {
+        "x": 0,
+        "y": 0,
+        "w": 1376,
+        "h": 48
+      },
+      "aspect": 28.6667,
+      "palette": [
+        {
+          "hex": "#181818",
+          "coverage": 0.9688
+        },
+        {
+          "hex": "#adadb1",
+          "coverage": 0.0107
+        },
+        {
+          "hex": "#f2f2f2",
+          "coverage": 0.0092
+        },
+        {
+          "hex": "#434345",
+          "coverage": 0.0057
+        },
+        {
+          "hex": "#777779",
+          "coverage": 0.0056
+        }
+      ],
+      "detail": {
+        "energy": 14.1362
+      },
+      "medium": "semantic",
+      "plate": null,
+      "text": null,
+      "surface": {
+        "flat": true,
+        "rules": false
+      }
+    },
+    {
+      "id": "brand",
+      "kind": "text",
+      "note": "RZ mark at left in white brush letters, then RZ Digital Empire in small grey sans",
+      "grid": null,
+      "box": {
+        "x": 0.0131,
+        "y": 0.0078,
+        "w": 0.1672,
+        "h": 0.0443
+      },
+      "px": {
+        "x": 18,
+        "y": 6,
+        "w": 230,
+        "h": 34
+      },
+      "aspect": 6.7647,
+      "palette": [
+        {
+          "hex": "#161618",
+          "coverage": 0.8549
+        },
+        {
+          "hex": "#f4f4f5",
+          "coverage": 0.0703
+        },
+        {
+          "hex": "#c1c1c4",
+          "coverage": 0.0286
+        },
+        {
+          "hex": "#67686c",
+          "coverage": 0.0242
+        },
+        {
+          "hex": "#99999e",
+          "coverage": 0.022
+        }
+      ],
+      "detail": {
+        "energy": 45.9462
+      },
+      "medium": "semantic",
+      "plate": null,
+      "text": null,
+      "surface": {
+        "flat": false,
+        "rules": false
+      },
+      "type": {
+        "comp": {
+          "lines": 1,
+          "glyphs": 16,
+          "capHeightPx": 15.4,
+          "inkIsDark": false,
+          "allCaps": false,
+          "advance": 0.4214,
+          "advTall": null,
+          "advX": 0.4862,
+          "gap": 0.0972,
+          "xRatio": 0.7141,
+          "stemW": 0.0947,
+          "contrast": 0.8761,
+          "serif": 1.0252,
+          "densTall": null,
+          "densX": 0.4305,
+          "weight": 0.4305
+        },
+        "widthClass": "condensed",
+        "weightClass": "regular"
+      }
+    },
+    {
+      "id": "nav",
+      "kind": "control",
+      "note": "three nav links Products, How it works, Start a project in light grey sans",
+      "grid": null,
+      "box": {
+        "x": 0.7674,
+        "y": 0.0104,
+        "w": 0.218,
+        "h": 0.0391
+      },
+      "px": {
+        "x": 1056,
+        "y": 8,
+        "w": 300,
+        "h": 30
+      },
+      "aspect": 10,
+      "palette": [
+        {
+          "hex": "#171718",
+          "coverage": 0.854
+        },
+        {
+          "hex": "#c0c0c4",
+          "coverage": 0.07
+        },
+        {
+          "hex": "#8a898e",
+          "coverage": 0.035
+        },
+        {
+          "hex": "#59595b",
+          "coverage": 0.025
+        },
+        {
+          "hex": "#3b3744",
+          "coverage": 0.016
+        }
+      ],
+      "detail": {
+        "energy": 43.1156
+      },
+      "medium": "semantic",
+      "plate": null,
+      "text": null,
+      "surface": {
+        "flat": false,
+        "rules": false
+      }
+    },
+    {
+      "id": "wall",
+      "kind": "texture",
+      "note": "indigo-black fabric wall ground, fine woven grain",
+      "grid": null,
+      "box": {
+        "x": 0.0044,
+        "y": 0.4492,
+        "w": 0.032,
+        "h": 0.0781
+      },
+      "px": {
+        "x": 6,
+        "y": 345,
+        "w": 44,
+        "h": 60
+      },
+      "aspect": 0.7333,
+      "palette": [
+        {
+          "hex": "#1d1d2e",
+          "coverage": 0.9333
+        },
+        {
+          "hex": "#1b2828",
+          "coverage": 0.0667
+        }
+      ],
+      "detail": {
+        "energy": 1.4868
+      },
+      "medium": "raster",
+      "plate": "assets/plates/wall.png",
+      "text": null
+    },
+    {
+      "id": "lead-tarp",
+      "kind": "plate",
+      "note": "large white glossy vinyl tarp with soft folds, brass grommets along top and bottom edges, indigo strip at top edge",
+      "grid": null,
+      "box": {
+        "x": 0.0378,
+        "y": 0.1094,
+        "w": 0.6134,
+        "h": 0.3438
+      },
+      "px": {
+        "x": 52,
+        "y": 84,
+        "w": 844,
+        "h": 264
+      },
+      "aspect": 3.197,
+      "palette": [
+        {
+          "hex": "#e9e9e9",
+          "coverage": 0.5628
+        },
+        {
+          "hex": "#1d1d25",
+          "coverage": 0.2458
+        },
+        {
+          "hex": "#868686",
+          "coverage": 0.0746
+        },
+        {
+          "hex": "#8f1d36",
+          "coverage": 0.0727
+        },
+        {
+          "hex": "#b3b3b4",
+          "coverage": 0.044
+        }
+      ],
+      "detail": {
+        "energy": 50.4451
+      },
+      "medium": "raster",
+      "plate": "assets/plates/lead-tarp.png",
+      "text": null
+    },
+    {
+      "id": "print-head",
+      "kind": "plate",
+      "note": "print-head carriage: brushed steel rail across the tarp top with a black and crimson carriage block mid-way (sits on the white tarp; the tarp below is not part of this plate, shipped as a transparent cut-out)",
+      "grid": null,
+      "bleed": true,
+      "box": {
+        "x": 0.0407,
+        "y": 0.1146,
+        "w": 0.6076,
+        "h": 0.099
+      },
+      "px": {
+        "x": 56,
+        "y": 88,
+        "w": 836,
+        "h": 76
+      },
+      "aspect": 11,
+      "palette": [
+        {
+          "hex": "#7f7e7e",
+          "coverage": 0.3105
+        },
+        {
+          "hex": "#232133",
+          "coverage": 0.309
+        },
+        {
+          "hex": "#2b2b2b",
+          "coverage": 0.1478
+        },
+        {
+          "hex": "#b5b5b5",
+          "coverage": 0.1304
+        },
+        {
+          "hex": "#e9e8e8",
+          "coverage": 0.1024
+        }
+      ],
+      "detail": {
+        "energy": 51.9655
+      },
+      "medium": "raster",
+      "plate": "assets/plates/print-head.png",
+      "text": null
+    },
+    {
+      "id": "lead-name",
+      "kind": "text",
+      "note": "Kape ni Lola in huge crimson and black brush lettering, freshly printed",
+      "grid": null,
+      "box": {
+        "x": 0.0843,
+        "y": 0.1823,
+        "w": 0.5203,
+        "h": 0.1615
+      },
+      "px": {
+        "x": 116,
+        "y": 140,
+        "w": 716,
+        "h": 124
+      },
+      "aspect": 5.7742,
+      "palette": [
+        {
+          "hex": "#ebeaea",
+          "coverage": 0.6136
+        },
+        {
+          "hex": "#8f1d37",
+          "coverage": 0.1781
+        },
+        {
+          "hex": "#1b181e",
+          "coverage": 0.1099
+        },
+        {
+          "hex": "#9d9c9c",
+          "coverage": 0.0705
+        },
+        {
+          "hex": "#666666",
+          "coverage": 0.0279
+        }
+      ],
+      "detail": {
+        "energy": 60.9459
+      },
+      "medium": "semantic",
+      "plate": null,
+      "text": null,
+      "surface": {
+        "flat": true,
+        "rules": false
+      },
+      "type": {
+        "comp": {
+          "lines": 1,
+          "glyphs": 8,
+          "capHeightPx": 112.5,
+          "inkIsDark": true,
+          "allCaps": true,
+          "advance": 0.5867,
+          "advTall": 0.5867,
+          "advX": null,
+          "gap": 0.0622,
+          "xRatio": null,
+          "stemW": 0.1594,
+          "contrast": 5.0659,
+          "serif": 0.9476,
+          "densTall": 0.428,
+          "densX": null,
+          "weight": 0.428
+        },
+        "widthClass": "condensed",
+        "weightClass": "regular",
+        "chosen": {
+          "family": "Galdeano",
+          "weight": 400,
+          "fontSizePx": 185,
+          "source": "index",
+          "fp": {
+            "lines": 1,
+            "glyphs": 13,
+            "capHeightPx": 112.5,
+            "inkIsDark": true,
+            "allCaps": true,
+            "advance": 0.5378,
+            "advTall": 0.5378,
+            "advX": null,
+            "gap": 0.0978,
+            "xRatio": null,
+            "stemW": 0.1506,
+            "contrast": 1.2261,
+            "serif": 3.7426,
+            "densTall": 0.3939,
+            "densX": null,
+            "weight": 0.3939
+          },
+          "stamp": "0c550c9de0a8"
+        }
+      }
+    },
+    {
+      "id": "name-field",
+      "kind": "control",
+      "note": "text field reading Type your business name, grey sans, no visible box",
+      "grid": null,
+      "box": {
+        "x": 0.2311,
+        "y": 0.3516,
+        "w": 0.1337,
+        "h": 0.0391
+      },
+      "px": {
+        "x": 318,
+        "y": 270,
+        "w": 184,
+        "h": 30
+      },
+      "aspect": 6.1333,
+      "palette": [
+        {
+          "hex": "#e8e8e8",
+          "coverage": 0.8387
+        },
+        {
+          "hex": "#444444",
+          "coverage": 0.0919
+        },
+        {
+          "hex": "#919291",
+          "coverage": 0.0548
+        },
+        {
+          "hex": "#b8bbbb",
+          "coverage": 0.0081
+        },
+        {
+          "hex": "#6c6c68",
+          "coverage": 0.0065
+        }
+      ],
+      "detail": {
+        "energy": 31.4978
+      },
+      "medium": "semantic",
+      "plate": null,
+      "text": null,
+      "surface": {
+        "flat": true,
+        "rules": false
+      }
+    },
+    {
+      "id": "print-button",
+      "kind": "control",
+      "note": "Print my proof button, crimson outline and crimson text on white",
+      "grid": null,
+      "box": {
+        "x": 0.3677,
+        "y": 0.3451,
+        "w": 0.0872,
+        "h": 0.0495
+      },
+      "px": {
+        "x": 506,
+        "y": 265,
+        "w": 120,
+        "h": 38
+      },
+      "aspect": 3.1579,
+      "palette": [
+        {
+          "hex": "#ece9ea",
+          "coverage": 0.7416
+        },
+        {
+          "hex": "#6f212c",
+          "coverage": 0.1034
+        },
+        {
+          "hex": "#cf9199",
+          "coverage": 0.0875
+        },
+        {
+          "hex": "#96545c",
+          "coverage": 0.0378
+        },
+        {
+          "hex": "#b28e91",
+          "coverage": 0.0298
+        }
+      ],
+      "detail": {
+        "energy": 39.7013
+      },
+      "medium": "semantic",
+      "plate": null,
+      "text": null,
+      "surface": {
+        "flat": true,
+        "rules": false
+      }
+    },
+    {
+      "id": "tagline",
+      "kind": "text",
+      "note": "one quiet line in light grey sans on the wall: Four working demos. Five more on the press.",
+      "grid": null,
+      "box": {
+        "x": 0.0785,
+        "y": 0.4688,
+        "w": 0.5305,
+        "h": 0.0417
+      },
+      "px": {
+        "x": 108,
+        "y": 360,
+        "w": 730,
+        "h": 32
+      },
+      "aspect": 22.8125,
+      "palette": [
+        {
+          "hex": "#191928",
+          "coverage": 0.8521
+        },
+        {
+          "hex": "#e1e1e5",
+          "coverage": 0.0454
+        },
+        {
+          "hex": "#33383c",
+          "coverage": 0.0423
+        },
+        {
+          "hex": "#bababf",
+          "coverage": 0.0351
+        },
+        {
+          "hex": "#67676b",
+          "coverage": 0.0252
+        }
+      ],
+      "detail": {
+        "energy": 39.0251
+      },
+      "medium": "semantic",
+      "plate": null,
+      "text": null,
+      "surface": {
+        "flat": false,
+        "rules": false
+      },
+      "type": {
+        "comp": {
+          "lines": 1,
+          "glyphs": 72,
+          "capHeightPx": 13,
+          "inkIsDark": false,
+          "allCaps": false,
+          "advance": 0.5763,
+          "advTall": 0.3842,
+          "advX": 0.5763,
+          "gap": 0.1153,
+          "xRatio": 0.7452,
+          "stemW": 0.1568,
+          "contrast": 1.0619,
+          "serif": null,
+          "densTall": 0.5077,
+          "densX": 0.5495,
+          "weight": 0.5077
+        },
+        "widthClass": "condensed",
+        "weightClass": "medium"
+      }
+    },
+    {
+      "id": "arena-tarp",
+      "kind": "plate",
+      "note": "black glossy vinyl tarp with crimson and black checkerboard bands top and bottom, brass grommets",
+      "grid": null,
+      "box": {
+        "x": 0.0378,
+        "y": 0.5391,
+        "w": 0.6134,
+        "h": 0.3958
+      },
+      "px": {
+        "x": 52,
+        "y": 414,
+        "w": 844,
+        "h": 304
+      },
+      "aspect": 2.7763,
+      "palette": [
+        {
+          "hex": "#0f0f10",
+          "coverage": 0.7607
+        },
+        {
+          "hex": "#801d2d",
+          "coverage": 0.1297
+        },
+        {
+          "hex": "#e6e6e6",
+          "coverage": 0.06
+        },
+        {
+          "hex": "#591e27",
+          "coverage": 0.0257
+        },
+        {
+          "hex": "#2e090d",
+          "coverage": 0.0239
+        }
+      ],
+      "detail": {
+        "energy": 41.6936
+      },
+      "medium": "raster",
+      "plate": "assets/plates/arena-tarp.png",
+      "text": null
+    },
+    {
+      "id": "arena-title",
+      "kind": "text",
+      "note": "RZ Arena - tournament brackets in white brush lettering with a brush underline",
+      "grid": null,
+      "box": {
+        "x": 0.1192,
+        "y": 0.6458,
+        "w": 0.4491,
+        "h": 0.1406
+      },
+      "px": {
+        "x": 164,
+        "y": 496,
+        "w": 618,
+        "h": 108
+      },
+      "aspect": 5.7222,
+      "palette": [
+        {
+          "hex": "#101010",
+          "coverage": 0.7155
+        },
+        {
+          "hex": "#e7e7e7",
+          "coverage": 0.2393
+        },
+        {
+          "hex": "#434343",
+          "coverage": 0.0177
+        },
+        {
+          "hex": "#767676",
+          "coverage": 0.0138
+        },
+        {
+          "hex": "#a8a8a8",
+          "coverage": 0.0138
+        }
+      ],
+      "detail": {
+        "energy": 81.7276
+      },
+      "medium": "semantic",
+      "plate": null,
+      "text": null,
+      "surface": {
+        "flat": true,
+        "rules": false
+      },
+      "type": {
+        "comp": {
+          "lines": 1,
+          "glyphs": 7,
+          "capHeightPx": 85.7,
+          "inkIsDark": false,
+          "allCaps": false,
+          "advance": 1.0966,
+          "advTall": 1.3533,
+          "advX": 1.0266,
+          "gap": 0.0233,
+          "xRatio": 0.8425,
+          "stemW": 0.0949,
+          "contrast": 0.9657,
+          "serif": null,
+          "densTall": 0.3933,
+          "densX": 0.4853,
+          "weight": 0.3933
+        },
+        "widthClass": "wide",
+        "weightClass": "regular"
+      }
+    },
+    {
+      "id": "ledger-tarp",
+      "kind": "plate",
+      "note": "deep crimson vinyl tarp printed with a darker crimson hemp-leaf geometric pattern, grommets at corners",
+      "grid": null,
+      "box": {
+        "x": 0.6599,
+        "y": 0.1068,
+        "w": 0.3038,
+        "h": 0.3307
+      },
+      "px": {
+        "x": 908,
+        "y": 82,
+        "w": 418,
+        "h": 254
+      },
+      "aspect": 1.6457,
+      "palette": [
+        {
+          "hex": "#871b2f",
+          "coverage": 0.7587
+        },
+        {
+          "hex": "#14131b",
+          "coverage": 0.1051
+        },
+        {
+          "hex": "#f7f4f5",
+          "coverage": 0.0664
+        },
+        {
+          "hex": "#a33c52",
+          "coverage": 0.0576
+        },
+        {
+          "hex": "#631b2c",
+          "coverage": 0.0123
+        }
+      ],
+      "detail": {
+        "energy": 29.3841
+      },
+      "medium": "raster",
+      "plate": "assets/plates/ledger-tarp.png",
+      "text": null
+    },
+    {
+      "id": "ledger-title",
+      "kind": "text",
+      "note": "RZ Ledger - invoices in white brush lettering",
+      "grid": null,
+      "box": {
+        "x": 0.7122,
+        "y": 0.1927,
+        "w": 0.2108,
+        "h": 0.1641
+      },
+      "px": {
+        "x": 980,
+        "y": 148,
+        "w": 290,
+        "h": 126
+      },
+      "aspect": 2.3016,
+      "palette": [
+        {
+          "hex": "#881a30",
+          "coverage": 0.7543
+        },
+        {
+          "hex": "#f7f4f4",
+          "coverage": 0.196
+        },
+        {
+          "hex": "#7f3948",
+          "coverage": 0.0206
+        },
+        {
+          "hex": "#b47d86",
+          "coverage": 0.0155
+        },
+        {
+          "hex": "#a34158",
+          "coverage": 0.0135
+        }
+      ],
+      "detail": {
+        "energy": 44.0048
+      },
+      "medium": "semantic",
+      "plate": null,
+      "text": null,
+      "surface": {
+        "flat": true,
+        "rules": false
+      },
+      "type": {
+        "comp": {
+          "lines": 1,
+          "glyphs": 6,
+          "capHeightPx": 46.3,
+          "inkIsDark": false,
+          "allCaps": false,
+          "advance": 0.8415,
+          "advTall": 0.8415,
+          "advX": 1.122,
+          "gap": 0.0216,
+          "xRatio": 0.6473,
+          "stemW": 0.1866,
+          "contrast": 1.0196,
+          "serif": 1.0843,
+          "densTall": 0.5199,
+          "densX": 0.5188,
+          "weight": 0.5199
+        },
+        "widthClass": "wide",
+        "weightClass": "medium"
+      }
+    },
+    {
+      "id": "insight-tarp",
+      "kind": "plate",
+      "note": "flame orange vinyl tarp with black ink brush swirls, grommets at corners",
+      "grid": null,
+      "box": {
+        "x": 0.6599,
+        "y": 0.4557,
+        "w": 0.3038,
+        "h": 0.3099
+      },
+      "px": {
+        "x": 908,
+        "y": 350,
+        "w": 418,
+        "h": 238
+      },
+      "aspect": 1.7563,
+      "palette": [
+        {
+          "hex": "#db5821",
+          "coverage": 0.6644
+        },
+        {
+          "hex": "#110e11",
+          "coverage": 0.1946
+        },
+        {
+          "hex": "#812f11",
+          "coverage": 0.0623
+        },
+        {
+          "hex": "#561f0f",
+          "coverage": 0.0405
+        },
+        {
+          "hex": "#ae451f",
+          "coverage": 0.0383
+        }
+      ],
+      "detail": {
+        "energy": 29.035
+      },
+      "medium": "raster",
+      "plate": "assets/plates/insight-tarp.png",
+      "text": null
+    },
+    {
+      "id": "insight-title",
+      "kind": "text",
+      "note": "RZ Insight - reports in black brush lettering",
+      "grid": null,
+      "box": {
+        "x": 0.7006,
+        "y": 0.5365,
+        "w": 0.2195,
+        "h": 0.1563
+      },
+      "px": {
+        "x": 964,
+        "y": 412,
+        "w": 302,
+        "h": 120
+      },
+      "aspect": 2.5167,
+      "palette": [
+        {
+          "hex": "#de5922",
+          "coverage": 0.702
+        },
+        {
+          "hex": "#100b0a",
+          "coverage": 0.1882
+        },
+        {
+          "hex": "#df743d",
+          "coverage": 0.0451
+        },
+        {
+          "hex": "#bb5a37",
+          "coverage": 0.033
+        },
+        {
+          "hex": "#2f0908",
+          "coverage": 0.0317
+        }
+      ],
+      "detail": {
+        "energy": 26.3888
+      },
+      "medium": "semantic",
+      "plate": null,
+      "text": null,
+      "surface": {
+        "flat": true,
+        "rules": false
+      },
+      "type": {
+        "comp": {
+          "lines": 1,
+          "glyphs": 8,
+          "capHeightPx": 48,
+          "inkIsDark": true,
+          "allCaps": false,
+          "advance": 0.6042,
+          "advTall": 0.8125,
+          "advX": 0.5833,
+          "gap": 0.0625,
+          "xRatio": 0.6458,
+          "stemW": 0.1826,
+          "contrast": 1.0927,
+          "serif": 0.7169,
+          "densTall": 0.5228,
+          "densX": 0.6343,
+          "weight": 0.5228
+        },
+        "widthClass": "condensed",
+        "weightClass": "medium"
+      }
+    },
+    {
+      "id": "form-tarp",
+      "kind": "plate",
+      "note": "indigo-violet glossy vinyl tarp, grommets at top corners, continues below the fold",
+      "grid": null,
+      "bleed": true,
+      "box": {
+        "x": 0.6599,
+        "y": 0.7839,
+        "w": 0.3038,
+        "h": 0.2161
+      },
+      "px": {
+        "x": 908,
+        "y": 602,
+        "w": 418,
+        "h": 166
+      },
+      "aspect": 2.5181,
+      "palette": [
+        {
+          "hex": "#2b2447",
+          "coverage": 0.7359
+        },
+        {
+          "hex": "#13131a",
+          "coverage": 0.1225
+        },
+        {
+          "hex": "#e7a7c1",
+          "coverage": 0.1041
+        },
+        {
+          "hex": "#5a4c6c",
+          "coverage": 0.027
+        },
+        {
+          "hex": "#987897",
+          "coverage": 0.0104
+        }
+      ],
+      "detail": {
+        "energy": 28.4673
+      },
+      "medium": "raster",
+      "plate": "assets/plates/form-tarp.png",
+      "text": null
+    },
+    {
+      "id": "form-title",
+      "kind": "text",
+      "note": "RZ Form - your website in blossom pink brush lettering",
+      "grid": null,
+      "box": {
+        "x": 0.7093,
+        "y": 0.849,
+        "w": 0.2035,
+        "h": 0.151
+      },
+      "px": {
+        "x": 976,
+        "y": 652,
+        "w": 280,
+        "h": 116
+      },
+      "aspect": 2.4138,
+      "palette": [
+        {
+          "hex": "#2d2549",
+          "coverage": 0.72
+        },
+        {
+          "hex": "#e7a8c1",
+          "coverage": 0.2322
+        },
+        {
+          "hex": "#684c6a",
+          "coverage": 0.0235
+        },
+        {
+          "hex": "#aa83a0",
+          "coverage": 0.0174
+        },
+        {
+          "hex": "#290b32",
+          "coverage": 0.0069
+        }
+      ],
+      "detail": {
+        "energy": 36.7767
+      },
+      "medium": "semantic",
+      "plate": null,
+      "text": null,
+      "surface": {
+        "flat": true,
+        "rules": false
+      },
+      "type": {
+        "comp": {
+          "lines": 2,
+          "glyphs": 17,
+          "capHeightPx": 42.6,
+          "inkIsDark": false,
+          "allCaps": false,
+          "advance": 0.5586,
+          "advTall": 0.6621,
+          "advX": 0.5418,
+          "gap": 0.0542,
+          "xRatio": 0.6322,
+          "stemW": 0.1769,
+          "contrast": 1.0089,
+          "serif": 0.5787,
+          "densTall": 0.524,
+          "densX": 0.5879,
+          "weight": 0.524
+        },
+        "widthClass": "condensed",
+        "weightClass": "medium"
+      }
+    },
+    {
+      "id": "next-tarps",
+      "kind": "plate",
+      "note": "tops of two more hanging tarps, crimson and steel blue, with grommets, cut by the fold",
+      "grid": null,
+      "bleed": true,
+      "box": {
+        "x": 0.0378,
+        "y": 0.9505,
+        "w": 0.6134,
+        "h": 0.0495
+      },
+      "px": {
+        "x": 52,
+        "y": 730,
+        "w": 844,
+        "h": 38
+      },
+      "aspect": 22.2105,
+      "palette": [
+        {
+          "hex": "#74172f",
+          "coverage": 0.3402
+        },
+        {
+          "hex": "#16161e",
+          "coverage": 0.301
+        },
+        {
+          "hex": "#223252",
+          "coverage": 0.2011
+        },
+        {
+          "hex": "#263e4e",
+          "coverage": 0.1439
+        },
+        {
+          "hex": "#371121",
+          "coverage": 0.0138
+        }
+      ],
+      "detail": {
+        "energy": 20.74
+      },
+      "medium": "raster",
+      "plate": "assets/plates/next-tarps.png",
+      "text": null
+    }
+  ],
+  "compSha256": "92dd8aa6f703e6c61ae1efe71395837bf2602f3ea8a4dc4f1d5cf1b8631dfa3a",
+  "regionsSource": {
+    "path": ".impeccable/build/regions.json",
+    "sha256": "819057f4888fee7c0bfd87976131b0108ebe3c9796e0b7ad1d76c82bf92ec460"
+  }
+}

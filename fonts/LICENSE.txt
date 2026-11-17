@@ -1,0 +1,7 @@
+Self-hosted web fonts used by the RZ Digital Empire homepage.
+
+Kaushan Script, Copyright (c) 2011 Pablo Impallari (www.impallari.com), with Reserved Font Name Kaushan Script.
+Archivo, Copyright 2020 The Archivo Project Authors (https://github.com/Omnibus-Type/Archivo).
+
+Both are licensed under the SIL Open Font License, Version 1.1:
+https://openfontlicense.org/open-font-license-official-text/
