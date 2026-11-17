@@ -13,14 +13,12 @@
 
 ## Working demos
 
-- RZ Ledger: `tools/invoice.html`
-- RZ Arena: `tools/bracket.html`
-- RZ Insight: `tools/report.html`
-- RZ Edition Office: `templates.html`
-- RZ Form website edition: `site-template.html`, `site-template.js`, `site-template.css` — full editable landing-page sample with local logo/background/brand/copy/contact editor.
-- All website template edits are client-side previews. No customer deployment, full source export, license, checkout or order fulfillment is implemented yet.
-- Reusable editable appearance editor: `brand-lab.js` / `brand-lab.css`
-- Product catalog: `products.js`
+The homepage lists ten products (catalog in `products.js`), each a self-contained page in `products/<name>/` with its own fonts, palette and art direction suited to its trade:
+RZ Menu, RZ Shop, RZ Booking, RZ Stay, RZ Listahan, RZ Invite, RZ Liga, RZ Quote, RZ Sahod, RZ Tindahan.
+- Shared helpers: `products/kit.js`, `products/kit.css`; fonts self-hosted in `products/fonts/`; homepage screenshots in `assets/shots/` (regenerate when a product's look changes).
+- Each product must stay visually distinct from the homepage and from the others while staying clean and presentable.
+- Older demos remain but are unlisted: RZ Ledger `tools/invoice.html`, RZ Arena `tools/bracket.html` (playoff link from RZ Liga), RZ Insight `tools/report.html`, RZ Form `site-template.*`, RZ Edition Office `templates.html`, Brand Desk `brand-lab.*`.
+- All demos are client-side only. No checkout, accounts, server orders, licences or hosted customer sites exist.
 
 ## Customization rules
 

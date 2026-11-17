@@ -155,17 +155,18 @@
       return;
     }
     found.forEach(p => {
-      const li = el('li');
-      const slip = el('button', 'slip');
-      slip.type = 'button';
-      slip.dataset.product = p.id;
-      const live = p.status === 'live';
-      const name = el('span', 'slip-name', p.name);
-      name.append(el('span', 'slip-desc', p.description));
-      slip.append(el('span', 'slip-no', `No. ${p.id}`), name, el('span', `slip-state ${live ? 'live' : 'planned'}`, live ? 'Live demo' : 'Planned'));
-      slip.setAttribute('aria-label', `${p.name}, ${live ? 'live demo' : 'planned'}. View details`);
-      li.append(slip);
-      list.append(li);
+      const li = el('li', 'card');
+      const img = document.createElement('img');
+      img.src = p.shot; img.alt = `${p.name} screenshot`; img.width = 960; img.height = 600; img.loading = 'lazy'; img.decoding = 'async';
+      const shot = el('a', 'card-shot'); shot.href = p.href; shot.setAttribute('aria-hidden', 'true'); shot.tabIndex = -1; shot.append(img);
+      const body = el('div', 'card-body');
+      body.append(el('p', 'card-kind', `${p.id} · ${p.kind}`), el('h3', 'card-name', p.name), el('p', 'card-desc', p.description));
+      const actions = el('div', 'card-actions');
+      const open = el('a', 'card-open', 'Try the demo'); open.href = p.href;
+      const more = el('button', 'card-more', 'Details'); more.type = 'button'; more.dataset.product = p.id;
+      more.setAttribute('aria-label', `Details about ${p.name}`);
+      actions.append(open, more); body.append(actions);
+      li.append(shot, body); list.append(li);
     });
   }
 
@@ -187,9 +188,9 @@
     if (!slip) return;
     const p = products.find(item => item.id === slip.dataset.product);
     if (!p) return;
-    const live = p.status === 'live';
+    const live = true;
     const status = $('#dialogStatus');
-    status.textContent = live ? `Live demo · ${p.kind}` : `Planned · ${p.kind}`;
+    status.textContent = `Working demo · ${p.kind}`;
     status.classList.toggle('planned', !live);
     $('#dialogTitle').textContent = p.name;
     $('#dialogLede').textContent = p.description;
@@ -200,7 +201,7 @@
     open.hidden = !live;
     if (live && p.href) open.href = p.href;
     $('#dialogBrief').hidden = live;
-    $('#dialogNote').textContent = live ? 'Working demo. Not for sale yet.' : 'Concept only. Not built or for sale yet.';
+    $('#dialogNote').textContent = 'Free to try. Not sold online yet; we set it up for your business directly.';
     productDialog.showModal();
   });
 

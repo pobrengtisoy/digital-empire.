@@ -27,13 +27,14 @@ Every RZ product is brandable by the buyer in the browser, before purchase, with
 ## Operating Context
 
 - Static site (HTML/CSS/JS, no build step) served by Cloudflare Workers static assets; production branch `main`.
-- Working demos: RZ Ledger (`tools/invoice.html`), RZ Arena (`tools/bracket.html`), RZ Insight (`tools/report.html`), RZ Form website template (`site-template.*`), RZ Edition Office catalog (`templates.html`), shared Brand Desk (`brand-lab.*`), catalog data (`products.js`).
+- Product lineup (Nov 2026, user-chosen): RZ Menu, RZ Shop, RZ Booking, RZ Stay, RZ Listahan, RZ Invite, RZ Liga, RZ Quote, RZ Sahod, RZ Tindahan, each a working browser-only demo in `products/<name>/`. Older unlisted demos: RZ Ledger, RZ Arena (playoffs for RZ Liga), RZ Insight, RZ Form, RZ Edition Office.
+- Orders, bookings and RSVPs are handed off by copying a message and opening the owner's Messenger; nothing is sent to a server.
 - Customisation is saved in the visitor's browser and can be exported/imported as JSON. Uploaded images stay on the device.
 - Market: Philippines. Copy is English. Money examples use Philippine pesos (₱) and local business names.
 
 ## Capabilities and Constraints
 
-- 9 catalogued concepts: 4 working demos, 5 planned only (Table / QR, Slot / Booking, Shift Ledger, Signal Bot, Caption Lab, and others listed in `products.js`).
+- 10 catalogued products, all with working demos. None are sold online yet; RZ sets each up for a client directly.
 - NOT implemented, and never to be claimed: checkout or payments, customer accounts, server-side orders, owner dashboard, licensed downloads, hosted customer websites, custom domains, source ZIP export, contact inbox. The custom-project brief only copies text to the clipboard.
 - Repository is public: no credentials, private sellable source or client assets.
 - Must preserve all existing invoice, bracket, report and site-editor logic.
@@ -45,7 +46,7 @@ Every RZ product is brandable by the buyer in the browser, before purchase, with
 
 - Names: company **RZ**; marketplace **RZ Digital Empire**; product names RZ Ledger, RZ Arena, RZ Insight, RZ Form, RZ Edition Office.
 - The RZ SVG mark (`rz-mark.svg`) is a placeholder kept until the user supplies an approved logo.
-- Each product must carry its own distinct visual signature inside one reusable product system.
+- Each product must carry its own distinct visual signature suited to its trade (user direction: a restaurant product should look like a restaurant), clean, classy and presentable.
 - Touch interaction must be excellent on iPhone and iPad.
 - The user has chosen a full redesign (Nov 2026): the previous charcoal / warm paper / lime editorial look is evidence, not a commitment.
 
