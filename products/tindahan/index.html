@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#14532d">
+<title>RZ Tindahan — sales and stock for small shops</title>
+<meta name="description" content="RZ Tindahan demo: ring up sales, compute change, track stock and see today's sales and profit. Works offline.">
+<link rel="icon" type="image/svg+xml" href="../../rz-mark.svg">
+<link rel="stylesheet" href="../fonts/tindahan.css">
+<link rel="stylesheet" href="../kit.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="rz-strip"><a href="../../index.html">← RZ Digital Empire</a><span class="rz-strip-note"><b>RZ Tindahan</b> demo · saved on this device</span><button type="button" class="strip-btn" data-open="settings">Settings</button></div>
+
+<header class="head">
+  <h1 id="storeName">Sari-Sari ni Mang Tonyo</h1>
+  <nav class="tabs" role="tablist" aria-label="Views">
+    <button role="tab" aria-selected="true" aria-controls="v-sell" id="t-sell">Benta</button>
+    <button role="tab" aria-selected="false" aria-controls="v-stock" id="t-stock">Stock <span class="badge" id="lowBadge" hidden></span></button>
+    <button role="tab" aria-selected="false" aria-controls="v-today" id="t-today">Ngayong araw</button>
+  </nav>
+</header>
+
+<main>
+  <section id="v-sell" role="tabpanel" aria-labelledby="t-sell" class="sell">
+    <div class="shelf">
+      <label class="search"><span class="sr">Search items</span><input id="q" type="search" placeholder="Hanapin ang item"></label>
+      <div class="grid" id="grid"></div>
+    </div>
+    <aside class="receipt" aria-labelledby="rcTitle">
+      <div class="paper">
+        <p class="rc-store" id="rcStore"></p>
+        <h2 id="rcTitle" class="sr">Current sale</h2>
+        <p class="rc-meta" id="rcMeta"></p>
+        <ul class="rc-lines" id="rcLines"></ul>
+        <p class="rc-empty" id="rcEmpty">Tap an item to add it.</p>
+        <div class="rc-total"><span>TOTAL</span><b id="rcTotal">0.00</b></div>
+        <label class="cash"><span>Cash received</span><input id="cash" type="number" min="0" step="1" inputmode="decimal" placeholder="0"></label>
+        <div class="quick" id="quick"></div>
+        <div class="rc-change"><span>Change</span><b id="rcChange">—</b></div>
+      </div>
+      <div class="rc-actions">
+        <button type="button" class="ghost" id="clearSale">Clear</button>
+        <button type="button" class="primary" id="doneSale" disabled>Complete sale</button>
+      </div>
+      <p class="ok" id="sellStatus" role="status"></p>
+    </aside>
+  </section>
+
+  <section id="v-stock" role="tabpanel" aria-labelledby="t-stock" class="panel" hidden>
+    <div class="panel-head"><h2>Stock</h2><button type="button" class="primary" data-open="addItem">+ New item</button></div>
+    <div class="table-wrap">
+      <table class="stock">
+        <thead><tr><th scope="col" class="tl">Item</th><th scope="col">Cost</th><th scope="col">Price</th><th scope="col">Margin</th><th scope="col">Stock</th><th scope="col">Restock</th></tr></thead>
+        <tbody id="stockRows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="v-today" role="tabpanel" aria-labelledby="t-today" class="panel" hidden>
+    <div class="panel-head"><h2 id="todayTitle">Today</h2><button type="button" class="ghost" id="csvBtn">Download CSV</button></div>
+    <dl class="kpis">
+      <div><dt>Benta</dt><dd id="kRev">₱0</dd></div>
+      <div><dt>Tubo (gross profit)</dt><dd id="kProfit">₱0</dd></div>
+      <div><dt>Transactions</dt><dd id="kCount">0</dd></div>
+    </dl>
+    <div class="today-grid">
+      <div class="card"><h3>Pinakamabenta</h3><ol class="top" id="topItems"></ol></div>
+      <div class="card"><h3>Sales log</h3><ul class="log" id="log"></ul></div>
+    </div>
+  </section>
+</main>
+
+<dialog id="addItem" class="dlg" aria-labelledby="aiTitle">
+  <form method="dialog" id="itemForm" class="form">
+    <h2 id="aiTitle">New item</h2>
+    <label class="fld">Name<input name="name" required maxlength="40"></label>
+    <div class="three">
+      <label class="fld">Cost (₱)<input name="cost" type="number" min="0" step="0.25" required></label>
+      <label class="fld">Price (₱)<input name="price" type="number" min="0" step="0.25" required></label>
+      <label class="fld">Stock<input name="stock" type="number" min="0" step="1" required></label>
+    </div>
+    <div class="dlg-actions"><button type="button" class="ghost" data-close>Cancel</button><button class="primary" type="submit">Add item</button></div>
+  </form>
+</dialog>
+
+<dialog id="settings" class="dlg" aria-labelledby="stTitle">
+  <form method="dialog" id="settingsForm" class="form">
+    <h2 id="stTitle">Settings</h2>
+    <label class="fld">Store name<input name="store" maxlength="40" required></label>
+    <label class="fld">Low-stock warning at<input name="low" type="number" min="0" max="100" step="1"></label>
+    <div class="dlg-actions">
+      <button type="button" class="ghost" id="exportBtn">Save backup</button>
+      <button type="button" class="ghost" id="resetBtn">Reset sample</button>
+      <button class="primary" type="submit">Save</button>
+    </div>
+  </form>
+</dialog>
+
+<script src="../kit.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
