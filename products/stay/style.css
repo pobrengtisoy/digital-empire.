@@ -1,6 +1,6 @@
 /* RZ Stay — lagoon, sand and late-afternoon light. */
 :root {
-  --lagoon: #0f4c4f; --lagoon-2: #17676a; --sea: #2a9d9a; --sand: #f3ece0; --sand-2: #e6dbc8; --coral: #d9694b;
+  --lagoon: #0f4c4f; --lagoon-2: #17676a; --sea: #2a9d9a; --sand: #f3ece0; --sand-2: #e6dbc8; --coral: #b4502f;
   --ink: #183032; --ink-2: #5a6b69; --card: #fffdf9; --booked: #d9d2c4;
   --display: "Marcellus", "Trajan Pro", Georgia, serif;
   --sans: "Nunito Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -23,7 +23,7 @@ button { cursor: pointer; }
 .hero-loc { margin: 0 0 6px; font-weight: 600; color: #d6f0ec; }
 .hero h1 { margin: 0; font: 400 clamp(3.4rem, 11vw, 8.5rem)/.95 var(--display); letter-spacing: .01em; }
 .hero-cta { display: inline-flex; align-items: center; min-height: 48px; margin-top: 18px; padding: 0 22px; border-radius: 999px; background: var(--coral); color: #fff; font-weight: 700; text-decoration: none; transition: background .2s, transform .15s; }
-.hero-cta:hover { background: #c75a3e; transform: translateY(-1px); }
+.hero-cta:hover { background: #9a4327; transform: translateY(-1px); }
 
 .intro { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 32px; align-items: center; padding-top: clamp(40px, 6vw, 80px); padding-bottom: 32px; }
 .lede { margin: 0; font: 400 clamp(1.4rem, 2.6vw, 2rem)/1.35 var(--display); color: var(--lagoon); text-wrap: pretty; }
