@@ -27,6 +27,17 @@ Earlier demos are still in the repository and still deployed but no longer liste
 
 **Not implemented:** checkout, payments, customer accounts, server-side orders or bookings, owner dashboards, hosted customer sites, licences. Do not claim these exist.
 
+## Backend (Phase 1: RZ Menu ordering)
+
+A Cloudflare Worker (`worker/index.js`) answers `/api/*`; everything else is served as static files. Data lives in Cloudflare D1 (binding `DB`, database `rz-empire`, created automatically by Wrangler on deploy). Tables create themselves on first request.
+
+- **Owner dashboard:** `/dashboard/` — create an account, edit the menu, receive orders (refreshes every 10 s, sound and browser alerts while open), move orders through New → Accepted → Preparing → Ready → Completed, change shop settings.
+- **Live menu for a real shop:** `/products/menu/?shop=<link-name>` loads that shop's menu, places real orders and shows the customer live status. Without `?shop=` the page stays the browser-only demo.
+- **Security:** PBKDF2 password hashing, random session tokens stored hashed, HttpOnly SameSite cookies, same-origin check on every write, prices always recomputed on the server, input limits, rate limits on sign-up, log-in and ordering.
+- **Gmail alerts:** owners can save an email and switch alerts on, but sending starts only after a custom domain is connected to Cloudflare (Cloudflare email sending needs one).
+- **Personal data:** orders hold customer names, numbers and addresses. The Philippine Data Privacy Act applies; a privacy notice is shown on the order form. Owners can delete orders. A full privacy policy and data-retention rule are still to do.
+- **Local development:** `npx wrangler dev --local` runs the Worker with a local D1 database.
+
 ## Local development
 
 Pure HTML, CSS and JavaScript; no build process required.
