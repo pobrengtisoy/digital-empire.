@@ -3,7 +3,7 @@
   const { el, $, $$, peso, load, save, clean, sendMessage, messengerUser } = window.RZ;
 
   const SAMPLE = { name: 'Kusina ni Aling Nena', tagline: 'Lutong bahay since 1987', hours: 'Open daily · 7:00 AM – 9:00 PM', messenger: '', gcash: '0917 123 4567', fee: 49 };
-  const MENU = [
+  let MENU = [
     { id: 'ulam', title: 'Ulam', note: 'Served with one cup of rice', items: [
       ['adobo', 'Chicken Pork Adobo', 'Slow-braised in cane vinegar, soy and garlic', 165, 'Best seller'],
       ['sinigang', 'Sinigang na Baboy', 'Pork belly in tamarind broth with kangkong and labanos', 185],
@@ -26,10 +26,17 @@
       ['kapebarako', 'Kapeng Barako', 'Brewed, hot', 45],
     ]},
   ];
-  const ITEMS = Object.fromEntries(MENU.flatMap(s => s.items.map(([id, name, desc, price, tag]) => [id, { id, name, desc, price, tag }])));
+  const indexItems = () => Object.fromEntries(MENU.flatMap(s => s.items.map(([id, name, desc, price, tag]) => [id, { id, name, desc, price, tag }])));
+  let ITEMS = indexItems();
 
-  let shop = load('rz-menu-shop', SAMPLE);
-  let cart = load('rz-menu-cart', {});
+  // Live mode: ?shop=<link-name> loads a real shop from the RZ backend.
+  const SLUG = (new URLSearchParams(location.search).get('shop') || '').toLowerCase();
+  const LIVE = /^[a-z0-9][a-z0-9-]{1,38}[a-z0-9]$/.test(SLUG);
+  const CART_KEY = LIVE ? `rz-menu-cart-${SLUG}` : 'rz-menu-cart';
+  const LAST_KEY = `rz-menu-last-${SLUG}`;
+
+  let shop = LIVE ? { name: '', tagline: '', hours: '', gcash: '', fee: 0, accepting: true } : load('rz-menu-shop', SAMPLE);
+  let cart = load(CART_KEY, {});
 
   /* ---------- shop identity ---------- */
   function applyShop() {
@@ -84,8 +91,8 @@
         el('span', {}, q),
         el('button', { type: 'button', 'aria-label': `One more ${ITEMS[id].name}`, onclick: () => bump(id, 1) }, '+')),
       el('span', { class: 'ln-sum' }, peso(ITEMS[id].price * q, true)))));
-    $('#cartEmpty').hidden = lines.length > 0;
-    $('#sendBtn').disabled = lines.length === 0;
+    $('#cartEmpty').hidden = lines.length > 0 || !$('#placed').hidden;
+    $('#sendBtn').disabled = lines.length === 0 || (LIVE && !shop.accepting);
     const fab = $('#cartFab');
     fab.hidden = lines.length === 0;
     $('#fabCount').textContent = count();
@@ -106,7 +113,7 @@
     if (!cart[id]) delete cart[id];
     commit(); renderMenu();
   }
-  function commit() { save('rz-menu-cart', cart); renderCart(); }
+  function commit() { save(CART_KEY, cart); renderCart(); }
 
   form.addEventListener('change', e => {
     if (e.target.name !== 'type') return;
@@ -119,6 +126,7 @@
   form.addEventListener('submit', e => {
     e.preventDefault();
     if (!count()) return;
+    if (LIVE) { placeLiveOrder(); return; }
     const d = new FormData(form);
     const lines = Object.entries(cart).map(([id, q]) => `${q} × ${ITEMS[id].name} — ${peso(ITEMS[id].price * q)}`);
     const where = clean(d.get('where'), 160);
@@ -133,6 +141,82 @@
     ].filter(x => x !== null).join('\n');
     sendMessage(msg, shop.messenger, $('#status'));
   });
+
+  /* ---------- live ordering ---------- */
+  async function placeLiveOrder() {
+    const d = new FormData(form); const btn = $('#sendBtn'); const st = $('#status');
+    const type = orderType();
+    btn.disabled = true; st.textContent = 'Sending your order…';
+    try {
+      const res = await fetch(`/api/public/${SLUG}/orders`, {
+        method: 'POST', headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ type, name: d.get('name'), contact: d.get('contact'), location: d.get('where'), notes: d.get('notes'),
+          items: Object.entries(cart).filter(([id, q]) => ITEMS[id] && q > 0).map(([id, qty]) => ({ id, qty })) }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || 'Could not send your order. Please try again.');
+      cart = {}; commit(); renderMenu(); form.reset(); st.textContent = '';
+      save(LAST_KEY, { id: data.id, code: data.code, type });
+      showPlaced(data.id, data.code, type);
+    } catch (err) { st.textContent = err.message; btn.disabled = false; }
+  }
+
+  const STATUS_TEXT = { new: 'Waiting for the kitchen to accept', accepted: 'Accepted', preparing: 'Being prepared', ready: 'Ready!', completed: 'Completed — thank you!', cancelled: 'Cancelled by the shop' };
+  let statusTimer = null;
+  function showPlaced(id, code, type) {
+    form.hidden = true; $('#placed').hidden = false; $('#cartEmpty').hidden = true; $('#placedCode').textContent = code;
+    const pay = type === 'Delivery' ? 'delivery' : 'pick-up';
+    $('#placedNote').textContent = shop.gcash ? `Pay by GCash to ${shop.gcash}, or cash on ${pay}. Keep this page open to see updates.` : 'Keep this page open to see updates.';
+    const check = async () => {
+      try {
+        const r = await fetch(`/api/public/orders/${id}`);
+        if (!r.ok) throw new Error('unavailable');
+        const o = await r.json();
+        $('#placedText').textContent = STATUS_TEXT[o.status] || o.status;
+        const pip = $('#placedPip');
+        pip.classList.toggle('done', ['ready', 'completed'].includes(o.status));
+        pip.classList.toggle('stop', o.status === 'cancelled');
+        if (['completed', 'cancelled'].includes(o.status)) clearInterval(statusTimer);
+      } catch { $('#placedText').textContent = 'Checking…'; }
+    };
+    check(); clearInterval(statusTimer); statusTimer = setInterval(check, 15000);
+  }
+  $('#newOrder').addEventListener('click', () => { clearInterval(statusTimer); save(LAST_KEY, null); $('#placed').hidden = true; form.hidden = false; renderCart(); });
+
+  async function loadLive() {
+    $('[data-open="settings"]').hidden = true;
+    $('.rz-strip-note').textContent = 'Powered by RZ Menu';
+    $('#contactField').hidden = false;
+    $('#sendBtn').textContent = 'Place order';
+    $('#privacy').hidden = false;
+    $('#menu').replaceChildren(el('p', { class: 'sec-note' }, 'Loading the menu…'));
+    try {
+      const r = await fetch(`/api/public/${SLUG}/menu`);
+      const data = await r.json().catch(() => ({}));
+      if (!r.ok) throw new Error(data.error || 'This menu could not be loaded.');
+      const b = data.business;
+      shop = { name: b.name, tagline: b.tagline, hours: b.hours, gcash: b.gcash, fee: b.deliveryFee, accepting: b.accepting };
+      $('#privacy').textContent = `Your name, number and address are shared only with ${b.name} to prepare your order.`;
+      const cats = new Map();
+      data.items.forEach(it => { if (!cats.has(it.category)) cats.set(it.category, []); cats.get(it.category).push([it.id, it.name, it.description, it.price, it.tag]); });
+      MENU = [...cats].map(([title, items], i) => ({ id: `c${i}`, title, note: '', items }));
+      ITEMS = indexItems();
+      Object.keys(cart).forEach(id => { if (!ITEMS[id]) delete cart[id]; });
+      if (MENU.length) renderMenu();
+      else $('#menu').replaceChildren(el('p', { class: 'sec-note' }, 'The menu is being prepared. Please check back soon.'));
+      const closed = $('#closedNote');
+      closed.hidden = shop.accepting;
+      closed.textContent = `${shop.name} is not taking online orders right now.`;
+      applyShop(); renderCart();
+      if (io) $$('.menu-sec').forEach(sec => io.observe(sec));
+      const last = load(LAST_KEY, null);
+      if (last && last.id) showPlaced(last.id, last.code, last.type);
+    } catch (err) {
+      $('#shopName').textContent = 'Menu not found'; $('#tagline').textContent = ''; $('#hours').textContent = '';
+      $('#menu').replaceChildren(el('p', { class: 'sec-note' }, err.message));
+      $('#cart').hidden = true;
+    }
+  }
 
   /* mobile sheet */
   const cartEl = $('#cart');
@@ -159,6 +243,6 @@
     entries.forEach(en => { if (en.isIntersecting) $$('#cats a').forEach(a => a.classList.toggle('on', a.getAttribute('href') === `#${en.target.id}`)); });
   }, { rootMargin: '-40% 0px -55% 0px' });
 
-  renderMenu(); applyShop(); renderCart();
-  if (io) $$('.menu-sec').forEach(s => io.observe(s));
+  if (LIVE) loadLive();
+  else { renderMenu(); applyShop(); renderCart(); if (io) $$('.menu-sec').forEach(sec => io.observe(sec)); }
 })();

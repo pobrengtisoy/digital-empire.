@@ -32,6 +32,7 @@
     </div>
     <ul class="cart-list" id="cartList"></ul>
     <p class="cart-empty" id="cartEmpty">Tap a dish to add it.</p>
+    <p class="closed" id="closedNote" hidden></p>
     <form class="cart-form" id="orderForm">
       <fieldset class="seg">
         <legend>Order type</legend>
@@ -40,6 +41,7 @@
         <label><input type="radio" name="type" value="Delivery"><span>Delivery</span></label>
       </fieldset>
       <label class="fld">Your name<input name="name" required maxlength="60" autocomplete="name"></label>
+      <label class="fld" id="contactField" hidden>Mobile number<input name="contact" maxlength="20" inputmode="tel" autocomplete="tel"></label>
       <label class="fld" id="whereField"><span id="whereLabel">Table number</span><input name="where" maxlength="160"></label>
       <label class="fld">Notes for the kitchen<textarea name="notes" rows="2" maxlength="300" placeholder="Less spicy, extra rice…"></textarea></label>
       <dl class="totals">
@@ -50,7 +52,15 @@
       <p class="pay" id="payNote"></p>
       <button class="send" type="submit" id="sendBtn" disabled>Send order on Messenger</button>
       <p class="status" id="status" role="status"></p>
+      <p class="privacy" id="privacy" hidden></p>
     </form>
+    <div class="placed" id="placed" hidden>
+      <p class="placed-k">Order sent</p>
+      <p class="placed-code" id="placedCode"></p>
+      <p class="placed-status"><span class="pip" id="placedPip"></span><span id="placedText"></span></p>
+      <p class="fine" id="placedNote"></p>
+      <button type="button" class="ghost" id="newOrder">Start a new order</button>
+    </div>
   </aside>
 </main>
 

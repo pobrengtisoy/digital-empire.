@@ -28,7 +28,8 @@ Every RZ product is brandable by the buyer in the browser, before purchase, with
 
 - Static site (HTML/CSS/JS, no build step) served by Cloudflare Workers static assets; production branch `main`.
 - Product lineup (Nov 2026, user-chosen): RZ Menu, RZ Shop, RZ Booking, RZ Stay, RZ Listahan, RZ Invite, RZ Liga, RZ Quote, RZ Sahod, RZ Tindahan, each a working browser-only demo in `products/<name>/`. Older unlisted demos: RZ Ledger, RZ Arena (playoffs for RZ Liga), RZ Insight, RZ Form, RZ Edition Office.
-- Orders, bookings and RSVPs are handed off by copying a message and opening the owner's Messenger; nothing is sent to a server.
+- RZ Menu has a real backend (Cloudflare Worker + D1): owner accounts, owner dashboard, live menu links and server-side orders with status updates. The other products still hand off by copying a message and opening Messenger.
+- Owner alerts: dashboard first; optional Gmail alerts once a custom domain is connected (user choice, Nov 2026).
 - Customisation is saved in the visitor's browser and can be exported/imported as JSON. Uploaded images stay on the device.
 - Market: Philippines. Copy is English. Money examples use Philippine pesos (₱) and local business names.
 

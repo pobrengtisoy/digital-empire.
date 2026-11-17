@@ -76,6 +76,15 @@ button { cursor: pointer; }
 .status { margin: 0; min-height: 1.4em; color: #2e6b35; font-weight: 600; font-size: .92rem; }
 
 .cart-fab { display: none; }
+.closed { margin: 12px 0 0; padding: 10px 12px; border-radius: 8px; background: #f6e1df; color: var(--red); font-weight: 600; }
+.privacy { margin: 0; color: var(--ink-2); font-size: .8rem; }
+.placed { margin-top: 14px; padding: 18px; border-radius: 12px; background: var(--stock); border: 2px dashed var(--gold); text-align: center; display: grid; gap: 6px; }
+.placed-k { margin: 0; font-weight: 700; color: var(--ink-2); }
+.placed-code { margin: 0; font: 400 2.6rem/1 var(--serif); color: var(--red); }
+.placed-status { margin: 4px 0 0; display: flex; justify-content: center; align-items: center; gap: 8px; font-weight: 700; }
+.pip { width: 10px; height: 10px; border-radius: 50%; background: var(--gold); }
+.pip.done { background: #2e6b35; } .pip.stop { background: var(--red); }
+.fine { margin: 0; color: var(--ink-2); font-size: .88rem; }
 .foot { text-align: center; color: var(--ink-2); font-size: .9rem; padding: 0 20px 40px; }
 
 .sheet { width: min(460px, calc(100vw - 24px)); border: 0; border-radius: 14px; padding: 24px; background: #fff; color: var(--ink); box-shadow: 0 30px 60px rgba(0,0,0,.3); }
