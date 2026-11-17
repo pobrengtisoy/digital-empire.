@@ -7,8 +7,8 @@
     "binding": "ASSETS",
     "run_worker_first": ["/api/*"]
   },
-  // Database for real shops (orders, menus, owner accounts). Wrangler creates it on first deploy.
+  // Database for real shops (orders, menus, owner accounts). Created in the Cloudflare dashboard.
   "d1_databases": [
-    { "binding": "DB", "database_name": "rz-empire" }
+    { "binding": "DB", "database_name": "rz-empire", "database_id": "af0b0365-7ba0-47c3-a41b-d8f8f47c28e3" }
   ]
 }
