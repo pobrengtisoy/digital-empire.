@@ -82,9 +82,8 @@ button { cursor: pointer; }
 .placed-k { margin: 0; font-weight: 700; color: var(--ink-2); }
 .placed-code { margin: 0; font: 400 2.6rem/1 var(--serif); color: var(--red); }
 .placed-status { margin: 4px 0 0; display: flex; justify-content: center; align-items: center; gap: 8px; font-weight: 700; }
-.pip { width: 10px; height: 10px; border-radius: 50%; background: var(--gold); animation: pulse 1.6s ease-in-out infinite; }
-.pip.done { background: #2e6b35; animation: none; } .pip.stop { background: var(--red); animation: none; }
-@keyframes pulse { 50% { opacity: .35; } }
+.pip { width: 10px; height: 10px; border-radius: 50%; background: var(--gold); }
+.pip.done { background: #2e6b35; } .pip.stop { background: var(--red); }
 .fine { margin: 0; color: var(--ink-2); font-size: .88rem; }
 .foot { text-align: center; color: var(--ink-2); font-size: .9rem; padding: 0 20px 40px; }
 
