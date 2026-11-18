@@ -1,0 +1,20 @@
+/* Terms and Privacy — one long paper sheet on the indigo wall, easy to read on a phone. */
+.doc { width: min(720px, calc(100% - 24px)); margin: clamp(16px, 5vw, 48px) auto 64px; padding: clamp(22px, 5vw, 48px); background: var(--paper); color: var(--p-ink); border-radius: 14px; box-shadow: 0 16px 34px rgba(0,0,0,.35); }
+.doc .k { color: var(--crimson); }
+.doc h1 { margin: 4px 0 6px; font: 400 clamp(2.4rem, 7vw, 3.4rem)/1.05 var(--brush); color: var(--crimson); }
+.lede { margin: 0 0 18px; color: var(--p-ink-2); font-size: 1.05rem; }
+.toc { display: flex; flex-wrap: wrap; gap: 8px; padding-bottom: 20px; border-bottom: 1px solid var(--line); }
+.toc a { display: inline-flex; align-items: center; min-height: 40px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--line); background: #fff; color: var(--p-ink); text-decoration: none; font-weight: 600; font-size: .92rem; }
+.toc a:hover { border-color: var(--crimson); }
+.doc section { padding-top: 8px; scroll-margin-top: 16px; }
+.doc h2 { margin: 28px 0 4px; font-size: 1.45rem; letter-spacing: -.01em; }
+.doc h3 { margin: 20px 0 4px; font-size: 1.02rem; }
+.doc p, .doc li { color: #3b3542; max-width: 62ch; }
+.doc p { margin: 0 0 10px; }
+.doc ul { margin: 0 0 10px; padding-left: 20px; }
+.doc li { margin: 5px 0; }
+.doc b { color: var(--p-ink); }
+.doc p a, .doc li a { color: var(--crimson); }
+.callout { padding: 14px 16px; border-left: 4px solid var(--crimson); background: #f6ece9; border-radius: 0 10px 10px 0; }
+.fine-end { margin-top: 28px !important; padding-top: 16px; border-top: 1px solid var(--line); font-size: .9rem; color: var(--p-ink-2) !important; }
+.doc .cta { margin-top: 6px; }

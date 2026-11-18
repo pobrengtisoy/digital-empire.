@@ -169,6 +169,23 @@ async function logout(env, request) {
   return json({ ok: true }, 200, { 'set-cookie': cookieHeader('', 0, request) });
 }
 
+// Owner deletes their own account: business, menu, orders and sessions. Password is checked again first.
+async function deleteAccount(env, request, user) {
+  await rateLimit(env, `delete:${user.user_id}`, 5, 900);
+  const b = await readJSON(request);
+  const row = await env.DB.prepare('SELECT pass_hash, salt FROM users WHERE id = ?').bind(user.user_id).first();
+  const attempt = await hashPassword(String(b.password || ''), row ? row.salt : '00'.repeat(16));
+  if (!row || !safeEqual(attempt, row.pass_hash)) throw new HttpError(401, 'That password is not right.');
+  await env.DB.batch([
+    env.DB.prepare('DELETE FROM orders WHERE business_id = ?').bind(user.id),
+    env.DB.prepare('DELETE FROM menu_items WHERE business_id = ?').bind(user.id),
+    env.DB.prepare('DELETE FROM sessions WHERE user_id = ?').bind(user.user_id),
+    env.DB.prepare('DELETE FROM users WHERE id = ?').bind(user.user_id),
+    env.DB.prepare('DELETE FROM businesses WHERE id = ?').bind(user.id),
+  ]);
+  return json({ ok: true }, 200, { 'set-cookie': cookieHeader('', 0, request) });
+}
+
 async function updateBusiness(env, request, user) {
   const b = await readJSON(request);
   const fee = money(b.deliveryFee ?? user.delivery_fee);
@@ -314,6 +331,7 @@ async function api(request, env, url) {
       return json({ ok: true });
     }
   }
+  if (pathname === '/api/account' && method === 'DELETE') return deleteAccount(env, request, user);
   if (pathname === '/api/business' && method === 'PUT') return updateBusiness(env, request, user);
   if (pathname === '/api/menu' && method === 'GET') return json({ items: await listMenu(env, user.id, false) });
   if (pathname === '/api/menu' && method === 'PUT') return replaceMenu(env, request, user);

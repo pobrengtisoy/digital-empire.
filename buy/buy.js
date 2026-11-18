@@ -27,7 +27,7 @@
     $('#pDue').textContent = peso(due(p));
     $('#amt').textContent = peso(due(p));
     $('#amt2').textContent = peso(due(p));
-    $('#pAfter').textContent = p.monthly ? `Then ${peso(p.monthly)} a month from the second month. Stop anytime.` : `One payment ${p.unit || ''}. No monthly fee.`;
+    $('#pAfter').textContent = p.monthly ? `Then ${peso(p.monthly)} a month from the second month. To stop, tell us before your next due date.` : `One payment ${p.unit || ''}. No monthly fee.`;
     $('#getMonthly').hidden = !p.monthly;
     $('#pDemo').href = c.href ? `../${c.href}` : '../index.html';
     document.title = `Buy ${p.name} — RZ Digital Empire`;

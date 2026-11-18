@@ -68,7 +68,7 @@ Repository: `pobrengtisoy/digital-empire.` (yes, the trailing dot is part of the
 - `.assetsignore` keeps internal docs/config out of static bundle
 - Account's initial successful deployment was confirmed in the user's screenshot
 
-User-provided live address: `https://digital-empire.ronnieredugo.workers.dev/`.
+Live address: `https://digital-empire.rzdigital.workers.dev/`.
 
 We verified V0.5 content in GitHub. The external checker did not independently render the deployed V0.5 pages, so **re-check Cloudflare deployment status** before calling the updated live site confirmed.
 
@@ -79,7 +79,8 @@ We verified V0.5 content in GitHub. The external checker did not independently r
 - Imported files are bounded and parsed as data. User copy is inserted with `textContent` rather than HTML.
 - RZ has no backend customer records, secure downloads, receipt validation, order inbox or hosted client site provisions yet.
 - The repository is public. **Never commit credentials, payment keys, licensed private product source code or customer files** here.
-- Before commercial launch, implement a secure customer project and storefront backend, private deliverables, real payment verification, legal terms and privacy policy.
+- Terms and Privacy: `/terms/`. Owners can delete their account from Dashboard → Settings.
+- Still to do for a full launch: backends for the other nine products, customer custom domains, automatic payment verification and email sending.
 - The RZ mark is an original temporary code-drawn identity and may be replaced with the official approved RZ company logo if provided. The logo upload field serves the demo customer identity, not a permanent rebrand of the RZ marketplace itself.
 
 ## Next priorities

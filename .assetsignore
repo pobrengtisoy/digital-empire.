@@ -20,3 +20,4 @@ package-lock.json
 *.map
 *.md
 **/.DS_Store
+.gitignore
