@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b0912">
+<title>RZ Gabi — club website, VIP tables and guest list</title>
+<meta name="description" content="RZ Gabi demo: a nightclub website with event lineups, VIP table booking on a live floor plan, guest list with QR entry passes, and a door check-in console.">
+<link rel="icon" type="image/svg+xml" href="../../rz-mark.svg">
+<link rel="stylesheet" href="../fonts/gabi.css">
+<link rel="stylesheet" href="../kit.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="site">
+<div class="rz-strip" id="strip"><a href="../../index.html">← RZ Digital Empire</a>
+  <span class="plan-preview" role="group" aria-label="Preview a plan"><span class="pp-label">Preview plan</span><button type="button" data-plan="site">Site</button><button type="button" data-plan="vip">VIP</button><button type="button" data-plan="full" aria-pressed="true">Full</button></span>
+  <a href="console.html">Club console</a><a class="rz-buy" href="../../buy/?p=gabi">Buy</a></div>
+
+<header class="nav" id="nav">
+  <a class="logo" href="#top"><span class="neon" id="navName"></span></a>
+  <nav aria-label="Sections">
+    <a href="#events">Events</a>
+    <a href="#tables" data-min="vip">Tables</a>
+    <a href="#list" data-min="full">Guest list</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#visit">Visit</a>
+  </nav>
+  <a class="cta small" href="#tables" data-min="vip">Book a table</a>
+</header>
+
+<main id="top" hidden>
+  <section class="hero" aria-labelledby="clubName">
+    <img class="hero-img" id="heroImg" src="../../assets/gabi/hero.webp" alt="" width="1376" height="768" decoding="async" fetchpriority="high">
+    <div class="hero-in">
+      <p class="tonight" id="tonight" hidden><i aria-hidden="true"></i><span id="tonightText"></span></p>
+      <h1 class="club neon flicker" id="clubName"></h1>
+      <p class="tagline" id="tagline"></p>
+      <div class="hero-cta">
+        <a class="cta" href="#tables" data-min="vip">Book a VIP table</a>
+        <a class="cta ghost" href="#list" data-min="full">Get on the guest list</a>
+        <a class="cta ghost" href="#events" data-max="site">See what’s on</a>
+      </div>
+      <p class="hero-meta" id="heroMeta"></p>
+    </div>
+  </section>
+
+  <section class="events" id="events" aria-labelledby="evTitle">
+    <div class="sec-head"><p class="kicker">Line-up</p><h2 id="evTitle">This week</h2></div>
+    <ol class="posters" id="posters"></ol>
+    <p class="empty" id="noEvents" hidden>New nights are announced every week. Follow us for the next line-up.</p>
+  </section>
+
+  <section class="tables" id="tables" data-min="vip" aria-labelledby="tbTitle">
+    <div class="sec-head"><p class="kicker">VIP <span class="plan-tag">VIP plan</span></p><h2 id="tbTitle">Book a table</h2>
+      <p class="sec-sub">Pick a night, tap a table on the floor plan, choose a package. The club confirms by text.</p></div>
+    <div class="nights" id="nights" role="group" aria-label="Choose a night"></div>
+    <div class="book">
+      <div class="floor" id="floor" aria-label="Floor plan">
+        <div class="stage">DJ</div>
+        <div class="dance">Dance floor</div>
+        <div class="barzone">Bar</div>
+        <ul class="spots" id="spots"></ul>
+        <p class="legend"><span class="l-free">Available</span><span class="l-taken">Taken</span><span class="l-pick">Your pick</span></p>
+      </div>
+      <form class="book-form" id="bookForm" novalidate>
+        <div class="pick" id="pickInfo"><p class="muted">Tap a gold table on the floor plan.</p></div>
+        <fieldset class="pkgs" id="pkgBox" hidden><legend>Package</legend><div id="pkgs"></div></fieldset>
+        <div class="fields" id="bookFields" hidden>
+          <div class="two">
+            <label class="fld">Your name<input name="name" required maxlength="60" autocomplete="name"></label>
+            <label class="fld">Mobile<input name="mobile" required maxlength="20" inputmode="tel" autocomplete="tel" placeholder="09xx xxx xxxx"></label>
+          </div>
+          <div class="two">
+            <label class="fld">Guests<input name="guests" type="number" min="1" required inputmode="numeric"></label>
+            <label class="fld" data-min="full">Promo code (optional)<input name="promo" maxlength="16" autocapitalize="characters"></label>
+          </div>
+          <label class="fld">Deposit reference (optional)<input name="reference" maxlength="40" autocapitalize="characters" placeholder="GCash / Maya reference if you paid a deposit"></label>
+          <p class="fine" id="depositNote"></p>
+          <label class="fld">Notes (optional)<input name="notes" maxlength="300" placeholder="Birthday, arrival time, requests"></label>
+          <button class="cta wide" type="submit" id="bookBtn">Request this table</button>
+          <p class="err" role="alert"></p>
+        </div>
+        <div class="done" id="bookDone" hidden role="status"></div>
+      </form>
+    </div>
+  </section>
+
+  <section class="list" id="list" data-min="full" aria-labelledby="glTitle">
+    <img class="list-img" id="listImg" src="../../assets/gabi/door.webp" alt="" width="1200" height="896" loading="lazy">
+    <div class="list-in">
+      <p class="kicker">Guest list <span class="plan-tag">Full plan</span></p>
+      <h2 id="glTitle">Skip the line.</h2>
+      <p class="sec-sub">Get your name on the list and a QR pass for the door.</p>
+      <form class="gl-form" id="glForm" novalidate>
+        <label class="fld">Night<select name="eventId" required></select></label>
+        <div class="two">
+          <label class="fld">Your name<input name="name" required maxlength="60" autocomplete="name"></label>
+          <label class="fld">Mobile<input name="mobile" required maxlength="20" inputmode="tel" autocomplete="tel"></label>
+        </div>
+        <div class="two">
+          <label class="fld">Friends with you<select name="plus"><option value="0">Just me</option><option value="1">+1</option><option value="2">+2</option><option value="3">+3</option><option value="4">+4</option><option value="5">+5</option></select></label>
+          <label class="fld">Promo code (optional)<input name="promo" maxlength="16" autocapitalize="characters"></label>
+        </div>
+        <button class="cta wide" type="submit">Get my pass</button>
+        <p class="err" role="alert"></p>
+      </form>
+    </div>
+  </section>
+
+  <section class="gallery" id="gallery" aria-labelledby="gaTitle">
+    <div class="sec-head"><p class="kicker">Inside</p><h2 id="gaTitle">The room</h2></div>
+    <ul class="shots" id="shots"></ul>
+  </section>
+
+  <section class="visit" id="visit" aria-labelledby="viTitle">
+    <div>
+      <p class="kicker">Visit</p>
+      <h2 id="viTitle"></h2>
+      <p class="about" id="about"></p>
+    </div>
+    <dl class="facts" id="facts"></dl>
+    <div class="contact" id="contact"></div>
+  </section>
+  <footer class="foot"><p>© <span id="year"></span> <span id="footName"></span> · Drink responsibly · Website by RZ Gabi</p></footer>
+</main>
+
+<main class="missing" id="missing" hidden><h1>Page not found</h1><p id="missingText">This club’s page does not exist.</p></main>
+
+<script src="../kit.js"></script>
+<script src="vendor/qrcode.js"></script>
+<script type="module" src="site.js"></script>
+</body>
+</html>

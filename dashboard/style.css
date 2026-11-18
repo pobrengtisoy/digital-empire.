@@ -121,3 +121,7 @@ legend { padding-right: 8px; font-weight: 700; }
   .top-right .link:first-child { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition-duration: .01ms !important; } }
+
+/* RZ Gabi plan switch (admins) */
+.gabi-plan { margin-top: 28px; }
+.gabi-clubs { margin: 6px 0 0; padding-left: 18px; color: var(--ink-2); font-size: .88rem; }

@@ -165,11 +165,11 @@
       const body = el('div', 'card-body');
       body.append(el('p', 'card-kind', `${p.id} · ${p.kind}`), el('h3', 'card-name', p.name), el('p', 'card-desc', p.description));
       const price = el('p', 'card-price');
-      price.append(el('b', '', peso(p.setup)), el('span', '', priceNote(p)));
+      price.append(el('b', '', `${p.plans ? 'from ' : ''}${peso(p.setup)}`), el('span', '', priceNote(p)));
       body.append(price);
       const actions = el('div', 'card-actions');
       const buy = el('a', 'card-buy', 'Buy'); buy.href = `buy/?p=${encodeURIComponent(p.key)}`;
-      buy.setAttribute('aria-label', `Buy ${p.name}, ${peso(p.setup)}`);
+      buy.setAttribute('aria-label', `Buy ${p.name}, ${p.plans ? 'from ' : ''}${peso(p.setup)}`);
       const open = el('a', 'card-open', 'Try the demo'); open.href = p.href;
       const more = el('button', 'card-more', 'Details'); more.type = 'button'; more.dataset.product = p.id;
       more.setAttribute('aria-label', `Details about ${p.name}`);
@@ -209,7 +209,7 @@
     open.hidden = !live;
     if (live && p.href) open.href = p.href;
     $('#dialogBrief').hidden = live;
-    $('#dialogNote').textContent = `${peso(p.setup)}${priceNote(p)}. Free to try first.`;
+    $('#dialogNote').textContent = p.plans ? `${p.plans.length} plans, from ${peso(p.setup)}${priceNote(p)}. Free to try first.` : `${peso(p.setup)}${priceNote(p)}. Free to try first.`;
     $('#dialogBuy').href = `buy/?p=${encodeURIComponent(p.key)}`;
     productDialog.showModal();
   });

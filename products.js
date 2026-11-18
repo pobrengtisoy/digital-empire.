@@ -1,5 +1,5 @@
 // Source-controlled catalog for the RZ Digital Empire homepage.
-// Every product has a working demo. RZ Menu, RZ Mine, RZ Upa and RZ Bahay also run on real accounts. Prices are shown here; the official prices live in worker/index.js (PRICES) — keep both in step.
+// Every product has a working demo. RZ Menu, RZ Mine, RZ Upa, RZ Bahay and RZ Gabi also run on real accounts. Products with plans list them in `plans`; each plan key has its own price in worker/index.js. Prices are shown here; the official prices live in worker/index.js (PRICES) — keep both in step.
 window.DECatalog = [
   { id: '01', category: 'food', kind: 'Restaurants & cafés', name: 'RZ Menu', key: 'menu', setup: 3699, monthly: 449, unit: '', href: 'products/menu/index.html', shot: 'assets/shots/menu.webp',
     description: 'An online menu where customers build their order and send it straight to your Messenger.',
@@ -53,4 +53,13 @@ window.DECatalog = [
     description: 'Your own listings website: house and lots, condos and lots with photos, search, a loan calculator and buyer inquiries in one inbox.',
     detail: 'Post listings with up to 12 photos each, mark them reserved or sold, filter by buy or rent, type, city, budget and bedrooms, show a monthly amortization estimate, and receive viewing requests in your console. Works on a real agent account with your own link.',
     tags: ['Listings website', 'Photo gallery', 'Loan calculator', 'Inquiry inbox'] },
+  { id: '14', category: 'bookings', kind: 'Clubs, bars & lounges', name: 'RZ Gabi', key: 'gabi', setup: 7999, monthly: 699, unit: '', href: 'products/gabi/index.html', shot: 'assets/shots/gabi.webp',
+    description: 'A club website after dark: nightly line-ups, VIP tables on a live floor plan, guest list with QR passes and a door console.',
+    detail: 'One system in three plans. Site: events, line-ups, gallery and club info. VIP: table booking on your floor plan with bottle packages and a booking inbox. Full: guest list with QR entry passes, phone check-in at the door, promoter codes and nightly reports. Upgrade any time without moving sites.',
+    tags: ['Club website', 'VIP tables', 'QR guest list', 'Promoter reports'],
+    plans: [
+      { key: 'gabi-site', label: 'Site', setup: 7999, monthly: 699, features: ['Club website with your photos', 'Events and DJ line-ups', 'Gallery, dress code, location'] },
+      { key: 'gabi-vip', label: 'VIP', setup: 14999, monthly: 999, features: ['Everything in Site', 'VIP table booking on your floor plan', 'Bottle packages and booking inbox'] },
+      { key: 'gabi-full', label: 'Full', setup: 29999, monthly: 1999, features: ['Everything in VIP', 'Guest list with QR entry passes', 'Door check-in, promoter codes, reports'] },
+    ] },
 ];

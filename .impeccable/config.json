@@ -39,6 +39,17 @@
         ],
         "createdAt": "2026-11-17T17:47:35.064Z",
         "reason": "Claude decision: ruled notebook lines are the product's concept (a paper listahan), not decoration"
+      },
+      {
+        "rule": "dark-glow",
+        "value": "*",
+        "files": [
+          "products/gabi/index.html",
+          "products/gabi/console.html",
+          "products/gabi/pass.html"
+        ],
+        "createdAt": "2026-11-18T09:42:19.000Z",
+        "reason": "Claude decision: the glowing neon sign (club name) is the trade's signature for this nightclub product; glow was removed from buttons, posters and panels and kept only on the sign and the selected table ring"
       }
     ]
   }

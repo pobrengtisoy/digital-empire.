@@ -6,9 +6,14 @@
   const catalog = Array.isArray(window.DECatalog) ? window.DECatalog : [];
 
   // Prices shown from the catalog first, then replaced by the server's official list.
-  const prices = Object.fromEntries(catalog.map(p => [p.key, { name: p.name, setup: p.setup, monthly: p.monthly, unit: p.unit }]));
+  // Products with plans (RZ Gabi) are bought by plan key; the product key opens its first plan.
+  const prices = Object.fromEntries(catalog.flatMap(p => (p.plans
+    ? p.plans.map(pl => [pl.key, { name: `${p.name} · ${pl.label} plan`, setup: pl.setup, monthly: pl.monthly, unit: '' }])
+    : [[p.key, { name: p.name, setup: p.setup, monthly: p.monthly, unit: p.unit }]])));
+  const productOf = k => catalog.find(p => p.key === k || p.plans?.some(pl => pl.key === k)) || {};
   let key = new URLSearchParams(location.search).get('p');
-  if (!prices[key]) key = catalog[0]?.key || 'menu';
+  if (catalog.find(p => p.key === key)?.plans) key = productOf(key).plans[0].key;
+  if (!prices[key]) key = catalog[0]?.plans ? catalog[0].plans[0].key : catalog[0]?.key || 'menu';
 
   const select = $('#pSelect');
   select.replaceChildren(...catalog.map(p => { const o = document.createElement('option'); o.value = p.key; o.textContent = `${p.name} — ${p.kind}`; return o; }));
@@ -16,8 +21,9 @@
   function due(p) { return (Number(p.setup) || 0) + (Number(p.monthly) || 0); }
 
   function render() {
-    const p = prices[key]; const c = catalog.find(x => x.key === key) || {};
-    select.value = key;
+    const p = prices[key]; const c = productOf(key);
+    select.value = c.key;
+    renderPlans(c);
     $('#pName').textContent = p.name;
     $('#pKind').textContent = c.kind ? `For ${c.kind.toLowerCase()}` : '';
     $('#setupLabel').textContent = p.unit ? `Price (${p.unit})` : 'One-time setup';
@@ -33,8 +39,25 @@
     document.title = `Buy ${p.name} — RZ Digital Empire`;
   }
 
+  function renderPlans(c) {
+    const box = $('#planPick'); box.hidden = !c.plans;
+    if (!c.plans) { box.replaceChildren(); return; }
+    box.replaceChildren(...c.plans.map(pl => {
+      const label = document.createElement('label'); label.className = 'plan';
+      const input = document.createElement('input'); input.type = 'radio'; input.name = 'plan'; input.value = pl.key; input.checked = pl.key === key;
+      input.addEventListener('change', () => { key = pl.key; render(); history.replaceState(null, '', `?p=${encodeURIComponent(key)}`); });
+      const card = document.createElement('span'); card.className = 'plan-in';
+      const top = document.createElement('b'); top.textContent = pl.label;
+      const pr = document.createElement('em'); pr.textContent = `${peso(prices[pl.key].setup)} + ${peso(prices[pl.key].monthly)}/mo`;
+      const ul = document.createElement('ul');
+      pl.features.forEach(f => { const li = document.createElement('li'); li.textContent = f; ul.append(li); });
+      card.append(top, pr, ul); label.append(input, card); return label;
+    }));
+  }
+
   select.addEventListener('change', () => {
-    key = select.value; render();
+    const c = catalog.find(x => x.key === select.value);
+    key = c?.plans ? c.plans[0].key : select.value; render();
     history.replaceState(null, '', `?p=${encodeURIComponent(key)}`);
   });
 

@@ -214,7 +214,24 @@
   let sales = [];
   const SALE_LABEL = { pending: 'Check payment', paid: 'Paid', 'setting-up': 'Setting up', done: 'Done', refunded: 'Refunded', cancelled: 'Cancelled' };
   let salesReq = 0;
+  /* RZ Gabi plans: set after a club pays. */
+  async function loadGabiClubs() {
+    try {
+      const { clubs } = await api('/admin/gabi');
+      $('#gabiClubs').replaceChildren(...clubs.map(c => el('li', '', `${c.name} · ${c.slug} · ${c.plan.toUpperCase()}`)));
+    } catch { /* not an admin or no clubs yet */ }
+  }
+  $('#gabiPlanForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const f = e.target.elements; const msg = $('#gabiPlanMsg');
+    try {
+      const r = await api('/admin/gabi', { method: 'PATCH', body: { slug: f.slug.value.trim().toLowerCase(), plan: f.plan.value } });
+      msg.textContent = `${r.name} is now on the ${r.plan.toUpperCase()} plan.`; f.slug.value = ''; loadGabiClubs();
+    } catch (ex) { msg.textContent = ex.message; }
+  });
+
   async function loadSales() {
+    loadGabiClubs();
     const mine = ++salesReq; // ignore answers to older requests
     try { const list = (await api('/admin/purchases')).purchases; if (mine === salesReq) { sales = list; renderSales(); } }
     catch (e) { if (mine === salesReq) $('#sales').replaceChildren(el('li', 'empty', e.message)); }

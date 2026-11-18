@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b0912">
+<meta name="robots" content="noindex">
+<title>RZ Gabi — club console</title>
+<link rel="icon" type="image/svg+xml" href="../../rz-mark.svg">
+<link rel="stylesheet" href="../fonts/gabi.css">
+<link rel="stylesheet" href="../kit.css">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="console.css">
+</head>
+<body class="console">
+<div class="rz-strip" id="strip"><a href="index.html">← Demo club site</a>
+  <span class="plan-preview" role="group" aria-label="Preview a plan"><span class="pp-label">Preview plan</span><button type="button" data-plan="site">Site</button><button type="button" data-plan="vip">VIP</button><button type="button" data-plan="full" aria-pressed="true">Full</button></span>
+  <a href="?live">Club login</a><a class="rz-buy" href="../../buy/?p=gabi">Buy</a></div>
+
+<section class="c-auth" id="authView" hidden aria-labelledby="authTitle">
+  <p class="neon c-auth-logo">GABI</p>
+  <h1 id="authTitle">Your club, after dark</h1>
+  <p class="muted">Events, VIP tables, guest list and the door, in one console.</p>
+  <div class="tabs2" role="tablist">
+    <button type="button" role="tab" id="tabLogin" aria-selected="true" aria-controls="loginForm">Log in</button>
+    <button type="button" role="tab" id="tabSignup" aria-selected="false" aria-controls="signupForm">Create account</button>
+  </div>
+  <form id="loginForm" class="stack" role="tabpanel" aria-labelledby="tabLogin">
+    <label class="fld">Email<input name="email" type="email" required autocomplete="username"></label>
+    <label class="fld">Password<input name="password" type="password" required autocomplete="current-password"></label>
+    <button class="cta wide" type="submit">Log in</button>
+    <p class="err" role="alert"></p>
+  </form>
+  <form id="signupForm" class="stack" role="tabpanel" aria-labelledby="tabSignup" hidden>
+    <label class="fld">Club name<input name="businessName" required maxlength="60" autocomplete="organization"></label>
+    <label class="fld">Website name<input name="slug" required minlength="3" maxlength="40" pattern="[a-z0-9][a-z0-9\-]{1,38}[a-z0-9]" autocapitalize="none" spellcheck="false" placeholder="club-sinag"></label>
+    <label class="fld">Email<input name="email" type="email" required autocomplete="username"></label>
+    <label class="fld">Password (10+ characters)<input name="password" type="password" required minlength="10" autocomplete="new-password"></label>
+    <p class="fine">By creating an account you agree to the <a href="../../terms/">Terms and Privacy</a> and to use guests’ details only for their bookings and entry.</p>
+    <button class="cta wide" type="submit">Open my console</button>
+    <p class="err" role="alert"></p>
+  </form>
+</section>
+
+<div id="appView" hidden>
+  <header class="c-top">
+    <div>
+      <p class="kicker">Club console · <span id="planName"></span> plan</p>
+      <h1 class="neon" id="cName"></h1>
+      <p class="c-link"><a id="siteLink" target="_blank" rel="noopener"></a> <button type="button" class="linkbtn" id="copySite">Copy link</button></p>
+    </div>
+    <button type="button" class="linkbtn" id="logoutBtn" hidden>Log out</button>
+  </header>
+  <nav class="c-tabs" aria-label="Console">
+    <button type="button" data-tab="door" aria-pressed="true">Tonight</button>
+    <button type="button" data-tab="events" aria-pressed="false">Events</button>
+    <button type="button" data-tab="bookings" data-min="vip" aria-pressed="false">Tables <span class="n" id="nPending"></span></button>
+    <button type="button" data-tab="crowd" data-min="full" aria-pressed="false">Guests &amp; promoters</button>
+    <button type="button" data-tab="profile" aria-pressed="false">Club page</button>
+  </nav>
+  <p class="toast" id="toast" role="status"></p>
+
+  <main class="c-main">
+    <!-- Tonight / door -->
+    <section class="tab" id="tab-door" aria-label="Tonight">
+      <div class="row-between"><label class="fld inline">Night<select id="doorNight"></select></label></div>
+      <dl class="stats" id="doorStats"></dl>
+      <div class="door" data-min="full">
+        <h2>Door check-in</h2>
+        <form class="scan" id="scanForm" autocomplete="off">
+          <input id="scanCode" maxlength="16" placeholder="Pass code, e.g. K7Q2MX" autocapitalize="characters" spellcheck="false" aria-label="Pass code">
+          <button class="cta" type="submit">Check in</button>
+          <button class="cta ghost" type="button" id="camBtn" hidden>Scan QR</button>
+        </form>
+        <video id="cam" playsinline muted hidden></video>
+        <div class="verdict" id="verdict" role="status" hidden></div>
+      </div>
+      <div class="upsell-slot" data-only="site vip" id="doorUpsell"></div>
+      <div data-min="vip"><h2>Tables tonight</h2><ul class="cards" id="doorTables"></ul><p class="empty" id="doorTablesEmpty" hidden>No tables booked for this night yet.</p></div>
+      <div data-min="full"><div class="row-between"><h2>Guest list</h2><input class="search" id="guestSearch" placeholder="Search name or code" aria-label="Search guest list"></div><ul class="glist" id="doorGuests"></ul></div>
+    </section>
+
+    <!-- Events -->
+    <section class="tab" id="tab-events" hidden aria-label="Events">
+      <div class="row-between"><h2>Nights</h2><button type="button" class="cta small" id="newEvent">+ New night</button></div>
+      <ul class="cards" id="evList"></ul>
+    </section>
+
+    <!-- Tables / bookings -->
+    <section class="tab" id="tab-bookings" hidden aria-label="Tables">
+      <div class="lock-slot"></div><div class="tab-body">
+      <h2>Booking requests</h2>
+      <ul class="cards" id="resList"></ul>
+      <p class="empty" id="resEmpty" hidden>No upcoming bookings yet. Share your club link to start.</p>
+      <div class="split">
+        <div>
+          <div class="row-between"><h2>Floor plan</h2><button type="button" class="cta small ghost" id="newTable">+ Table</button></div>
+          <p class="fine">Select a table, then tap the floor plan to move it.</p>
+          <div class="floor edit" id="editFloor"><div class="stage">DJ</div><div class="dance">Dance floor</div><div class="barzone">Bar</div><ul class="spots" id="editSpots"></ul></div>
+          <ul class="mini-list" id="tableList"></ul>
+        </div>
+        <div>
+          <div class="row-between"><h2>Packages</h2><button type="button" class="cta small ghost" id="newPkg">+ Package</button></div>
+          <ul class="mini-list" id="pkgList"></ul>
+        </div>
+      </div>
+      </div>
+    </section>
+
+    <!-- Guests & promoters -->
+    <section class="tab" id="tab-crowd" hidden aria-label="Guests and promoters">
+      <div class="lock-slot"></div><div class="tab-body">
+      <h2>Promoters</h2>
+      <form class="inline-form" id="promoForm">
+        <label class="fld">Name<input name="name" required maxlength="50"></label>
+        <label class="fld">Promo code<input name="code" required maxlength="16" autocapitalize="characters"></label>
+        <button class="cta small" type="submit">Add</button>
+      </form>
+      <p class="err" id="promoErr" role="alert"></p>
+      <div class="table-wrap"><table class="report" id="promoReport"><thead><tr><th scope="col">Promoter</th><th scope="col">Code</th><th scope="col" class="num">On list</th><th scope="col" class="num">Came in</th><th scope="col" class="num">Tables</th><th scope="col" class="num">Table spend</th><th scope="col"></th></tr></thead><tbody></tbody></table></div>
+      <h2>Nights report</h2>
+      <div class="table-wrap"><table class="report" id="nightReport"><thead><tr><th scope="col">Night</th><th scope="col" class="num">On list</th><th scope="col" class="num">Came in</th><th scope="col" class="num">Show rate</th><th scope="col" class="num">Tables</th><th scope="col" class="num">Table spend</th></tr></thead><tbody></tbody></table></div>
+      </div>
+    </section>
+
+    <!-- Club page -->
+    <section class="tab" id="tab-profile" hidden aria-label="Club page">
+      <form class="stack profile" id="profileForm">
+        <section class="ph-box"><h2>Photos <span class="fine">· first is the big hero photo · up to 16</span></h2>
+          <ul class="ph-list" id="phList"></ul>
+          <label class="cta small ghost ph-add">+ Add photos<input type="file" id="phInput" accept="image/jpeg,image/png,image/webp" multiple class="sr"></label>
+          <p class="fine" id="phStatus" role="status"></p></section>
+        <div class="two"><label class="fld">Club name<input name="name" required maxlength="60"></label><label class="fld">Headline<input name="tagline" maxlength="120" placeholder="Where the night turns gold."></label></div>
+        <label class="fld">About<textarea name="about" rows="3" maxlength="800"></textarea></label>
+        <div class="two"><label class="fld">Street / area<input name="address" maxlength="140"></label><label class="fld">City<input name="city" maxlength="60"></label></div>
+        <div class="two"><label class="fld">Open<input name="hours" maxlength="80" placeholder="Thu–Sat · 10 PM until late"></label><label class="fld">Age<select name="age"><option>18+</option><option>21+</option></select></label></div>
+        <label class="fld">Dress code<input name="dressCode" maxlength="120"></label>
+        <div class="three"><label class="fld">Mobile<input name="mobile" maxlength="20" inputmode="tel"></label><label class="fld">Messenger username<input name="messenger" maxlength="50"></label><label class="fld">Instagram<input name="instagram" maxlength="30"></label></div>
+        <button class="cta" type="submit">Save club page</button>
+        <p class="err" role="alert"></p>
+      </form>
+    </section>
+  </main>
+</div>
+
+<!-- Editors -->
+<dialog class="c-dlg" id="evDlg" aria-labelledby="evDlgTitle"><button type="button" class="x" data-close aria-label="Close">×</button>
+  <h2 id="evDlgTitle">Night</h2>
+  <form class="stack" id="evForm">
+    <div class="two"><label class="fld">Date<input name="date" type="date" required></label><label class="fld">Doors<input name="doors" maxlength="40" placeholder="10 PM"></label></div>
+    <label class="fld">Name of the night<input name="title" required maxlength="80" placeholder="Neon Heat"></label>
+    <label class="fld">Line-up (comma between names, headliner first)<input name="lineup" maxlength="600" placeholder="DJ Kidlat, Mara Vee"></label>
+    <div class="two"><label class="fld">Music<input name="genre" maxlength="60" placeholder="House · Tech house"></label><label class="fld">Cover / entrance<input name="cover" maxlength="60" placeholder="₱500 with 1 drink"></label></div>
+    <label class="fld">Note (optional)<input name="note" maxlength="400"></label>
+    <div class="two"><label class="check"><input type="checkbox" name="featured"> Featured night</label><label class="check"><input type="checkbox" name="off"> Hide from website</label></div>
+    <div class="row-between"><button class="cta" type="submit">Save night</button><button class="linkbtn danger" type="button" id="evDelete">Delete</button></div>
+    <p class="err" role="alert"></p>
+  </form></dialog>
+<dialog class="c-dlg" id="tbDlg" aria-labelledby="tbDlgTitle"><button type="button" class="x" data-close aria-label="Close">×</button>
+  <h2 id="tbDlgTitle">Table</h2>
+  <form class="stack" id="tbForm">
+    <div class="two"><label class="fld">Name<input name="name" required maxlength="30" placeholder="VIP 1"></label><label class="fld">Area<input name="zone" maxlength="30" placeholder="Main floor"></label></div>
+    <div class="two"><label class="fld">Seats up to<input name="capacity" type="number" min="1" max="60" required inputmode="numeric"></label><label class="fld">Minimum spend ₱<input name="minSpend" type="number" min="0" step="1" required inputmode="numeric"></label></div>
+    <div class="row-between"><button class="cta" type="submit">Save table</button><button class="linkbtn danger" type="button" id="tbDelete">Delete</button></div>
+    <p class="err" role="alert"></p>
+  </form></dialog>
+<dialog class="c-dlg" id="pkDlg" aria-labelledby="pkDlgTitle"><button type="button" class="x" data-close aria-label="Close">×</button>
+  <h2 id="pkDlgTitle">Package</h2>
+  <form class="stack" id="pkForm">
+    <div class="two"><label class="fld">Name<input name="name" required maxlength="50" placeholder="Gold"></label><label class="fld">Price ₱<input name="price" type="number" min="1" step="1" required inputmode="numeric"></label></div>
+    <label class="fld">Good for up to (guests)<input name="pax" type="number" min="1" max="60" required inputmode="numeric"></label>
+    <label class="fld">What’s included<textarea name="inclusions" rows="3" maxlength="400" placeholder="2 premium bottles, mixers, sparkler service"></textarea></label>
+    <div class="row-between"><button class="cta" type="submit">Save package</button><button class="linkbtn danger" type="button" id="pkDelete">Delete</button></div>
+    <p class="err" role="alert"></p>
+  </form></dialog>
+
+<script src="../kit.js"></script>
+<script type="module" src="console.js"></script>
+</body>
+</html>
