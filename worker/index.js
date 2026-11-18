@@ -6,6 +6,8 @@
  * same-origin checks on writes, server-side pricing, size limits and rate limits.
  */
 
+import { MINE_SCHEMA, mineRoutes } from './mine.js';
+
 const SESSION_DAYS = 30;
 const COOKIE = 'rz_sess';
 const PBKDF2_ITER = 100000;
@@ -26,6 +28,7 @@ const PRICES = {
   quote: { name: 'RZ Quote', setup: 2199, monthly: 299 },
   sahod: { name: 'RZ Sahod', setup: 2699, monthly: 349 },
   tindahan: { name: 'RZ Tindahan', setup: 2699, monthly: 349 },
+  mine: { name: 'RZ Mine', setup: 2999, monthly: 349 },
 };
 const PURCHASE_STATUSES = ['pending', 'paid', 'setting-up', 'done', 'refunded', 'cancelled'];
 const firstPayment = p => p.setup + p.monthly;
@@ -41,6 +44,7 @@ const SCHEMA = [
   `CREATE TABLE IF NOT EXISTS ratelimits (k TEXT PRIMARY KEY, count INTEGER NOT NULL, reset_at INTEGER NOT NULL)`,
   `CREATE TABLE IF NOT EXISTS purchases (id TEXT PRIMARY KEY, code TEXT NOT NULL, product TEXT NOT NULL, product_name TEXT NOT NULL, setup REAL NOT NULL, monthly REAL NOT NULL, amount REAL NOT NULL, buyer_name TEXT NOT NULL, business TEXT DEFAULT '', mobile TEXT NOT NULL, email TEXT DEFAULT '', notes TEXT DEFAULT '', reference TEXT NOT NULL, status TEXT NOT NULL, created_at TEXT NOT NULL, updated_at TEXT NOT NULL)`,
   `CREATE INDEX IF NOT EXISTS idx_purchases_created ON purchases (created_at)`,
+  ...MINE_SCHEMA,
 ];
 
 let schemaReady = null;
@@ -182,6 +186,7 @@ async function deleteAccount(env, request, user) {
     env.DB.prepare('DELETE FROM sessions WHERE user_id = ?').bind(user.user_id),
     env.DB.prepare('DELETE FROM users WHERE id = ?').bind(user.user_id),
     env.DB.prepare('DELETE FROM businesses WHERE id = ?').bind(user.id),
+    ...['mine_claims', 'mine_carts', 'mine_items', 'mine_lives'].map(t => env.DB.prepare(`DELETE FROM ${t} WHERE business_id = ?`).bind(user.id)),
   ]);
   return json({ ok: true }, 200, { 'set-cookie': cookieHeader('', 0, request) });
 }
@@ -282,6 +287,9 @@ async function createPurchase(env, request) {
   return json({ code, product: price.name, amount: firstPayment(price), status: 'pending' }, 201);
 }
 
+/* ---------- RZ Mine ---------- */
+const mine = mineRoutes({ json, HttpError, text, multiline, money, randomHex, now, readJSON, rateLimit });
+
 /* ---------- router ---------- */
 async function api(request, env, url) {
   if (!env.DB) throw new HttpError(503, 'The database is not connected yet.');
@@ -310,6 +318,8 @@ async function api(request, env, url) {
   if (pathname === '/api/public/prices' && method === 'GET') return json({ prices: Object.fromEntries(Object.entries(PRICES).map(([k, p]) => [k, { ...p, firstPayment: firstPayment(p) }])) });
   if (pathname === '/api/public/purchases' && method === 'POST') return createPurchase(env, request);
 
+  if (pathname.startsWith('/api/public/mine/')) { const r = await mine.publicRoute(env, request, pathname, method); if (r) return r; }
+
   if (pathname === '/api/auth/signup' && method === 'POST') return signup(env, request);
   if (pathname === '/api/auth/login' && method === 'POST') return login(env, request);
   if (pathname === '/api/auth/logout' && method === 'POST') return logout(env, request);
@@ -331,6 +341,7 @@ async function api(request, env, url) {
       return json({ ok: true });
     }
   }
+  if (pathname.startsWith('/api/mine/')) { const r = await mine.owner(env, request, user, pathname, method); if (r) return r; }
   if (pathname === '/api/account' && method === 'DELETE') return deleteAccount(env, request, user);
   if (pathname === '/api/business' && method === 'PUT') return updateBusiness(env, request, user);
   if (pathname === '/api/menu' && method === 'GET') return json({ items: await listMenu(env, user.id, false) });

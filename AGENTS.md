@@ -13,12 +13,12 @@
 
 ## Working demos
 
-The homepage lists ten products (catalog in `products.js`), each a self-contained page in `products/<name>/` with its own fonts, palette and art direction suited to its trade:
-RZ Menu, RZ Shop, RZ Booking, RZ Stay, RZ Listahan, RZ Invite, RZ Liga, RZ Quote, RZ Sahod, RZ Tindahan.
+The homepage lists eleven products (catalog in `products.js`), each a self-contained page in `products/<name>/` with its own fonts, palette and art direction suited to its trade:
+RZ Menu, RZ Shop, RZ Booking, RZ Stay, RZ Listahan, RZ Invite, RZ Liga, RZ Quote, RZ Sahod, RZ Tindahan, RZ Mine.
 - Shared helpers: `products/kit.js`, `products/kit.css`; fonts self-hosted in `products/fonts/`; homepage screenshots in `assets/shots/` (regenerate when a product's look changes).
 - Each product must stay visually distinct from the homepage and from the others while staying clean and presentable.
 - Older demos remain but are unlisted: RZ Ledger `tools/invoice.html`, RZ Arena `tools/bracket.html` (playoff link from RZ Liga), RZ Insight `tools/report.html`, RZ Form `site-template.*`, RZ Edition Office `templates.html`, Brand Desk `brand-lab.*`.
-- Backend (Phase 1): `worker/index.js` + D1 serve `/api/*`. RZ Menu has real owner accounts, a dashboard (`dashboard/`), live menus (`products/menu/?shop=slug`) and server-side orders. The other nine products are still browser-only demos.
+- Backend (Phase 1): `worker/index.js` + D1 serve `/api/*`. RZ Menu has real owner accounts, a dashboard (`dashboard/`), live menus (`products/menu/?shop=slug`) and server-side orders. RZ Mine (live-selling “mine” tracker, `worker/mine.js`) also runs on real accounts: demo at `products/mine/`, seller console at `products/mine/?seller`, buyer checkout links at `products/mine/cart.html?c=<48-hex token>`. Winners are computed from claim order and stock on every read, so undoing a claim promotes the next backup. The other nine products are still browser-only demos.
 - Buying: `/buy/` checkout with QR Ph (manual payment check), purchases stored server-side, RZ Sales tab for `ADMIN_EMAILS` (Cloudflare secret). Official prices live in `worker/index.js` `PRICES`; `products.js` only displays them. No automatic payment confirmation, licences or hosted customer domains yet. Email alerts are not sending yet (need a custom domain).
 - Terms and Privacy live at `/terms/` (setup 1–24 hours, payments final with fix-instead-of-refund, refund only if RZ cannot deliver or on overpayment; Data Privacy Act RA 10173). Keep checkout, dashboard and terms wording consistent. Owners can delete their own account (`DELETE /api/account`, password re-check).
 - Never trust client prices or IDs; keep the same-origin check, rate limits and HttpOnly session cookie. Never commit secrets; use Cloudflare secrets.
@@ -33,7 +33,7 @@ RZ Menu, RZ Shop, RZ Booking, RZ Stay, RZ Listahan, RZ Invite, RZ Liga, RZ Quote
 
 ## Commercial safety
 
-- RZ Menu now has real owner accounts, a dashboard and server-side orders. There is a QR Ph checkout with **manual** payment checking, but still **no automatic payment verification, licensed downloads or email sending**, and the other nine products have no backend yet.
+- RZ Menu and RZ Mine now have real owner accounts and server-side data. There is a QR Ph checkout with **manual** payment checking, but still **no automatic payment verification, licensed downloads or email sending**, and the other nine products have no backend yet.
 - Never claim these exist until implemented and verified.
 - Repository is currently public. Do not commit credentials, private source code meant for sale, unpublished proprietary client assets or secrets.
 - For actual sales, separate public demos and private product source, implement legally compliant business and payment processes, and verify entitlements server-side.

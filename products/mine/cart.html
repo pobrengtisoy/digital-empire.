@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#17120c">
+<meta name="robots" content="noindex">
+<meta name="referrer" content="no-referrer">
+<title>Your mine list</title>
+<link rel="icon" type="image/svg+xml" href="../../rz-mark.svg">
+<link rel="stylesheet" href="../fonts/mine.css">
+<link rel="stylesheet" href="../kit.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="buyer">
+<div class="rz-strip" id="strip" hidden><a href="index.html">← Back to the RZ Mine demo</a><span class="rz-strip-note"><b>RZ Mine</b> demo · what your buyer sees</span><a class="rz-buy" href="../../buy/?p=mine">Buy</a></div>
+
+<main class="bag" id="bag" hidden>
+  <header class="bag-head">
+    <p class="bag-shop" id="bShop"></p>
+    <h1>Your mine list</h1>
+    <p class="bag-sub" id="bSub"></p>
+  </header>
+
+  <ul class="bag-items" id="bItems"></ul>
+  <section class="waiting" id="bWaitBox" hidden aria-labelledby="waitTitle">
+    <h2 id="waitTitle">You’re a backup for</h2>
+    <p class="fine">If the first buyer doesn’t pay, it’s yours. The seller will update this list.</p>
+    <ul class="bag-items wait" id="bWait"></ul>
+  </section>
+
+  <dl class="bill">
+    <div><dt>Items</dt><dd id="bSubtotal"></dd></div>
+    <div><dt>Shipping</dt><dd id="bShip"></dd></div>
+    <div class="due"><dt>Total to pay</dt><dd id="bTotal"></dd></div>
+  </dl>
+
+  <p class="state" id="bState" role="status" hidden></p>
+
+  <section class="pay" id="bPay" aria-labelledby="payTitle">
+    <h2 id="payTitle">Pay and send your details</h2>
+    <ol class="steps">
+      <li id="bGcashStep">Send <b id="bAmt"></b> by GCash or Maya to <b id="bGcash"></b> <button type="button" class="chip" id="copyNum">Copy number</button></li>
+      <li>Copy the reference number from your receipt.</li>
+      <li>Fill in the form below so the seller can ship your items.</li>
+    </ol>
+    <form class="form" id="payForm" novalidate>
+      <label class="fld">Mobile number<input name="contact" required maxlength="20" inputmode="tel" autocomplete="tel" placeholder="09xx xxx xxxx"></label>
+      <label class="fld">Delivery address<textarea name="address" required rows="3" maxlength="300" autocomplete="street-address" placeholder="House no., street, barangay, city — or write “Meet-up”"></textarea></label>
+      <label class="fld">Payment reference number<input name="reference" required maxlength="40" autocapitalize="characters" spellcheck="false"></label>
+      <label class="fld">Note to the seller (optional)<input name="notes" maxlength="300"></label>
+      <button class="btn big" type="submit" id="sendPay">Send to seller</button>
+      <p class="err" id="payErr" role="alert"></p>
+    </form>
+  </section>
+  <p class="fine foot">Your details go only to <span id="bShop2"></span> for this order. Checkout by RZ Mine.</p>
+</main>
+
+<main class="bag missing" id="missing" hidden>
+  <h1>Link not found</h1>
+  <p id="missingText">This checkout link is not valid. Ask the seller to send it again.</p>
+</main>
+
+<script src="../kit.js"></script>
+<script src="logic.js"></script>
+<script src="cart.js"></script>
+</body>
+</html>
