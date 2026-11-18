@@ -104,8 +104,16 @@
   let S = null; let lives = []; let showCarts = 'all';
 
   function flash(msg, kind) { const f = $('#flash'); f.textContent = msg; f.className = `flash ${kind || ''}`; }
+  // Several saves can be in flight on slow data; only the newest request's state is drawn.
+  let issued = 0; let drawn = 0;
   async function run(fn, errEl) {
-    try { if (errEl) errEl.textContent = ''; const r = await fn(); if (r && r.live) { S = r; render(); } return r; }
+    const seq = ++issued;
+    try {
+      if (errEl) errEl.textContent = '';
+      const r = await fn();
+      if (r && r.live && seq > drawn && (!S || r.live.id === S.live.id || seq === issued)) { drawn = seq; S = r; render(); }
+      return r;
+    }
     catch (e) { if (e.status === 401 && SELLER) { showAuth(); return null; } if (errEl) errEl.textContent = e.message; else flash(e.message, 'bad'); return null; }
   }
 
@@ -228,20 +236,31 @@
   $('#mineForm').addEventListener('submit', async e => {
     e.preventDefault();
     const f = e.target.elements;
-    const claim = { code: f.code.value, buyer: f.buyer.value, qty: Number(f.qty.value) || 1 };
-    const r = await run(() => store.addClaims(S.live.id, [claim]));
-    if (!r) return;
-    const c = r.claims[0];
-    flash(c.won ? `${c.buyer} got ${c.code} ${c.itemName}.` : `${c.code} is taken. ${c.buyer} is backup #${c.position}.`, c.won ? 'good' : 'warn');
+    const claim = { code: M.code(f.code.value), buyer: f.buyer.value.trim(), qty: Number(f.qty.value) || 1 };
+    // Clear at once so the seller can type the next mine while this one saves.
     f.code.value = ''; f.buyer.value = ''; f.qty.value = '1'; f.code.focus();
+    flash(`Saving ${claim.code} for ${claim.buyer}…`);
+    const r = await run(() => store.addClaims(S.live.id, [claim]));
+    if (!r) {
+      if (!f.code.value && !f.buyer.value) { f.code.value = claim.code; f.buyer.value = claim.buyer; f.qty.value = String(claim.qty); }
+      return;
+    }
+    const c = r.claims.find(x => x.code === claim.code && M.key(x.buyer) === M.key(claim.buyer));
+    if (c) flash(c.won ? `${c.buyer} got ${c.code} ${c.itemName}.` : `${c.code} is taken. ${c.buyer} is backup #${c.position}.`, c.won ? 'good' : 'warn');
   });
 
   $('#itemForm').addEventListener('submit', async e => {
     e.preventDefault();
     const f = e.target.elements;
-    const r = await run(() => store.addItem(S.live.id, { code: f.code.value, name: f.name.value, price: Number(f.price.value), stock: Number(f.stock.value) || 1 }), $('#itemErr'));
+    const sent = { code: f.code.value, name: f.name.value, price: f.price.value, stock: f.stock.value };
+    const r = await run(() => store.addItem(S.live.id, { code: sent.code, name: sent.name, price: Number(sent.price), stock: Number(sent.stock) || 1 }), $('#itemErr'));
     if (!r) return;
-    f.name.value = ''; f.price.value = ''; f.stock.value = '1'; f.code.value = nextCode(); f.name.focus();
+    // Only clear what the seller has not already changed while this was saving.
+    if (f.code.value === sent.code) f.code.value = nextCode();
+    if (f.name.value === sent.name) f.name.value = '';
+    if (f.price.value === sent.price) f.price.value = '';
+    if (f.stock.value === sent.stock) f.stock.value = '1';
+    f.name.focus();
   });
 
   $('#livePick').addEventListener('change', e => run(() => store.get(e.target.value)));
