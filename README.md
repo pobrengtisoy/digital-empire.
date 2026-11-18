@@ -6,7 +6,7 @@ A source-controlled, handcrafted editorial digital-products showroom running on 
 
 ## Product lineup (November 2026)
 
-Eleven working product demos, each with its own visual identity for its trade. RZ Menu and RZ Mine also run on real seller accounts (see Backend below); the rest are browser-only. Every page has a “Make it yours” panel (name, details, Messenger username) saved in the visitor's browser. Order, booking and RSVP pages copy a ready-made message and open the owner's Messenger chat; they do not send anything to a server.
+Twelve working product demos, each with its own visual identity for its trade. RZ Menu, RZ Mine and RZ Upa also run on real accounts (see Backend below); the rest are browser-only. Every page has a “Make it yours” panel (name, details, Messenger username) saved in the visitor's browser. Order, booking and RSVP pages copy a ready-made message and open the owner's Messenger chat; they do not send anything to a server.
 
 | # | Product | For | Page |
 |---|---|---|---|

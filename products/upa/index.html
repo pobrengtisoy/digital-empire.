@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#22306e">
+<title>RZ Upa — rent book for boarding houses and apartments</title>
+<meta name="description" content="RZ Upa demo: rooms and tenants, monthly bills from electric and water meter readings, payments, late reminders and a statement link for each tenant.">
+<link rel="icon" type="image/svg+xml" href="../../rz-mark.svg">
+<link rel="stylesheet" href="../fonts/upa.css">
+<link rel="stylesheet" href="../kit.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="rz-strip" id="strip"><a href="../../index.html">← RZ Digital Empire</a><span class="rz-strip-note"><b>RZ Upa</b> demo · sample boarding house</span><a href="?owner">Owner login</a><a class="rz-buy" href="../../buy/?p=upa">Buy</a></div>
+
+<section class="auth" id="authView" hidden aria-labelledby="authTitle">
+  <p class="auth-stamp" aria-hidden="true">RENT BOOK</p>
+  <h1 id="authTitle">Your rent book, online</h1>
+  <p class="lead">Rooms, tenants, meter readings, bills and payments. Each tenant gets their own statement link.</p>
+  <div class="auth-tabs" role="tablist">
+    <button type="button" role="tab" id="tabLogin" aria-selected="true" aria-controls="loginForm">Log in</button>
+    <button type="button" role="tab" id="tabSignup" aria-selected="false" aria-controls="signupForm">Create account</button>
+  </div>
+  <form id="loginForm" class="form" role="tabpanel" aria-labelledby="tabLogin">
+    <label class="fld">Email<input name="email" type="email" required autocomplete="username"></label>
+    <label class="fld">Password<input name="password" type="password" required autocomplete="current-password"></label>
+    <button class="btn" type="submit">Log in</button>
+    <p class="err" role="alert"></p>
+  </form>
+  <form id="signupForm" class="form" role="tabpanel" aria-labelledby="tabSignup" hidden>
+    <label class="fld">Property name<input name="businessName" required maxlength="60" autocomplete="organization" placeholder="Casa Rosario Boarding House"></label>
+    <label class="fld">Email<input name="email" type="email" required autocomplete="username"></label>
+    <label class="fld">Password (10+ characters)<input name="password" type="password" required minlength="10" autocomplete="new-password"></label>
+    <p class="fine">By creating an account you agree to the <a href="../../terms/">Terms and Privacy</a> and to use your tenants’ details only for renting.</p>
+    <button class="btn" type="submit">Open my rent book</button>
+    <p class="err" role="alert"></p>
+  </form>
+</section>
+
+<div class="app" id="appView" hidden>
+  <header class="cover">
+    <div class="cover-top">
+      <div>
+        <p class="kicker">Rent book</p>
+        <h1 class="prop" id="propName">Casa Rosario</h1>
+      </div>
+      <div class="cover-actions">
+        <button type="button" class="link" id="openSettings">Settings</button>
+        <button type="button" class="link" id="logoutBtn" hidden>Log out</button>
+      </div>
+    </div>
+    <nav class="tabs" aria-label="Rent book">
+      <button type="button" data-tab="overview" aria-pressed="true">This month</button>
+      <button type="button" data-tab="rooms" aria-pressed="false">Rooms</button>
+      <button type="button" data-tab="billing" aria-pressed="false">Meter &amp; bills</button>
+      <button type="button" data-tab="payments" aria-pressed="false">Payments</button>
+    </nav>
+  </header>
+
+  <p class="toast" id="toast" role="status"></p>
+
+  <main class="sheet">
+    <!-- This month -->
+    <section class="tab" id="tab-overview" aria-labelledby="ovTitle">
+      <h2 id="ovTitle" class="sheet-title"><span id="ovMonth"></span></h2>
+      <dl class="slip">
+        <div><dt>Billed this month</dt><dd id="mBilled"></dd></div>
+        <div><dt>Collected this month</dt><dd id="mCollected"></dd></div>
+        <div class="owe"><dt>Still to collect</dt><dd id="mOutstanding"></dd></div>
+        <div><dt>Rooms occupied</dt><dd id="mOcc"></dd></div>
+      </dl>
+      <div class="nudge" id="billNudge" hidden>
+        <p>No bills yet for <b id="nudgeMonth"></b>.</p>
+        <button type="button" class="btn" id="goBill">Read meters and bill</button>
+      </div>
+      <section class="block" id="pendingBlock" aria-labelledby="pendTitle">
+        <h3 id="pendTitle">Payments to check</h3>
+        <p class="fine">Tenants sent these from their statement link. Check your GCash or Maya, then confirm.</p>
+        <ul class="rows" id="pendingList"></ul>
+      </section>
+      <section class="block" aria-labelledby="lateTitle">
+        <h3 id="lateTitle">Late</h3>
+        <ul class="rows" id="lateList"></ul>
+        <p class="empty" id="lateEmpty">Nobody is late. Salamat!</p>
+      </section>
+    </section>
+
+    <!-- Rooms -->
+    <section class="tab" id="tab-rooms" hidden aria-labelledby="roomsTitle">
+      <div class="sheet-head">
+        <h2 id="roomsTitle" class="sheet-title">Rooms and tenants</h2>
+        <button type="button" class="btn ghost" id="addRoomBtn">+ Add room</button>
+      </div>
+      <ul class="doors" id="doors"></ul>
+      <p class="empty" id="roomsEmpty" hidden>Add your first room, with its monthly rent and its meter readings today.</p>
+      <details class="past" id="pastBox" hidden>
+        <summary>Moved out (<span id="pastCount">0</span>)</summary>
+        <ul class="rows" id="pastList"></ul>
+      </details>
+    </section>
+
+    <!-- Meter & bills -->
+    <section class="tab" id="tab-billing" hidden aria-labelledby="billTitle">
+      <div class="sheet-head">
+        <h2 id="billTitle" class="sheet-title">Meter readings</h2>
+        <label class="mini">Month<select id="billPeriod"></select></label>
+      </div>
+      <p class="fine" id="rateNote"></p>
+      <div class="ledger-wrap">
+        <table class="ledger" id="readTable">
+          <thead><tr><th scope="col">Room</th><th scope="col">Electric (kWh)</th><th scope="col" class="w-col">Water (m³)</th><th scope="col" class="num">Each pays</th></tr></thead>
+          <tbody id="readRows"></tbody>
+        </table>
+      </div>
+      <p class="empty" id="readEmpty" hidden>Every occupied room is billed for this month.</p>
+      <button type="button" class="btn" id="makeBills">Create bills</button>
+      <p class="err" id="billErr" role="alert"></p>
+
+      <h3 class="sub">Bills for <span id="billsMonth"></span></h3>
+      <ul class="rows bills" id="billList"></ul>
+      <p class="empty" id="billsEmpty" hidden>No bills for this month yet.</p>
+    </section>
+
+    <!-- Payments -->
+    <section class="tab" id="tab-payments" hidden aria-labelledby="payTitle">
+      <h2 id="payTitle" class="sheet-title">Record a payment</h2>
+      <form class="form pay-form" id="payForm">
+        <label class="fld wide">Tenant<select name="tenantId" required></select></label>
+        <label class="fld">Amount ₱<input name="amount" type="number" min="1" step="0.01" required inputmode="decimal"></label>
+        <label class="fld">Date<input name="paidOn" type="date" required></label>
+        <label class="fld">Paid by<select name="method"><option>Cash</option><option>GCash</option><option>Maya</option><option>Bank</option></select></label>
+        <label class="fld">Reference (optional)<input name="reference" maxlength="40" autocapitalize="characters"></label>
+        <label class="fld wide">Note (optional)<input name="note" maxlength="120"></label>
+        <button class="btn wide" type="submit">Record payment</button>
+        <p class="err wide" role="alert"></p>
+      </form>
+      <h3 class="sub">Receipts</h3>
+      <ul class="stubs" id="stubs"></ul>
+      <p class="empty" id="stubsEmpty" hidden>No payments yet.</p>
+    </section>
+  </main>
+</div>
+
+<!-- Room editor -->
+<dialog id="roomDlg" class="dlg" aria-labelledby="roomDlgTitle">
+  <button type="button" class="dlg-x" data-close aria-label="Close">×</button>
+  <h2 id="roomDlgTitle">Room</h2>
+  <form id="roomForm" class="form">
+    <label class="fld">Room name<input name="name" required maxlength="40" placeholder="Room 1"></label>
+    <label class="fld">Monthly rent per tenant ₱<input name="rent" type="number" min="0" step="1" required inputmode="numeric"></label>
+    <div class="two">
+      <label class="fld">Electric meter now<input name="elecMeter" type="number" min="0" step="0.01" required inputmode="decimal"></label>
+      <label class="fld">Water meter now<input name="waterMeter" type="number" min="0" step="0.01" inputmode="decimal"></label>
+    </div>
+    <button class="btn" type="submit">Save room</button>
+    <button class="btn ghost danger" type="button" id="roomDelete" hidden>Remove room</button>
+    <p class="err" role="alert"></p>
+  </form>
+</dialog>
+
+<!-- Tenant editor / add -->
+<dialog id="tenantDlg" class="dlg" aria-labelledby="tenantDlgTitle">
+  <button type="button" class="dlg-x" data-close aria-label="Close">×</button>
+  <h2 id="tenantDlgTitle">Tenant</h2>
+  <form id="tenantForm" class="form">
+    <label class="fld">Name<input name="name" required maxlength="60" autocomplete="off"></label>
+    <div class="two">
+      <label class="fld">Room<select name="unitId" required></select></label>
+      <label class="fld">Mobile<input name="mobile" maxlength="20" inputmode="tel" autocomplete="off"></label>
+    </div>
+    <div class="two">
+      <label class="fld">Monthly rent ₱<input name="rent" type="number" min="0" step="1" required inputmode="numeric"></label>
+      <label class="fld">Due every month on day<input name="dueDay" type="number" min="1" max="31" required inputmode="numeric"></label>
+    </div>
+    <div class="two">
+      <label class="fld">Deposit held ₱<input name="deposit" type="number" min="0" step="1" inputmode="numeric"></label>
+      <label class="fld">Move-in date<input name="moveIn" type="date" required></label>
+    </div>
+    <button class="btn" type="submit">Save tenant</button>
+    <p class="err" role="alert"></p>
+  </form>
+</dialog>
+
+<!-- Tenant card -->
+<dialog id="cardDlg" class="dlg wide-dlg" aria-labelledby="cardName">
+  <button type="button" class="dlg-x" data-close aria-label="Close">×</button>
+  <p class="kicker" id="cardRoom"></p>
+  <h2 id="cardName"></h2>
+  <p class="card-bal"><span>Balance</span><b id="cardBal"></b><span class="stamp late" id="cardLate" hidden></span></p>
+  <p class="fine" id="cardMeta"></p>
+  <div class="card-actions">
+    <button type="button" class="btn" id="cardRemind">Copy reminder</button>
+    <button type="button" class="btn ghost" id="cardLink">Copy statement link</button>
+    <a class="btn ghost" id="cardOpen" target="_blank" rel="noopener">Open statement</a>
+    <button type="button" class="btn ghost" id="cardPay">Record payment</button>
+    <button type="button" class="btn ghost" id="cardEdit">Edit</button>
+  </div>
+  <p class="ok" id="cardNote" role="status"></p>
+  <h3 class="sub">Bills</h3>
+  <ul class="rows" id="cardBills"></ul>
+  <h3 class="sub">Payments</h3>
+  <ul class="rows" id="cardPays"></ul>
+  <div class="card-foot">
+    <button type="button" class="link" id="cardMove"></button>
+    <button type="button" class="link danger" id="cardDelete"></button>
+  </div>
+</dialog>
+
+<!-- Bill extras -->
+<dialog id="billDlg" class="dlg" aria-labelledby="billDlgTitle">
+  <button type="button" class="dlg-x" data-close aria-label="Close">×</button>
+  <h2 id="billDlgTitle">Bill</h2>
+  <p class="fine" id="billDlgSub"></p>
+  <form id="billForm" class="form">
+    <label class="fld">Rent this month ₱<input name="rent" type="number" min="0" step="0.01" required inputmode="decimal"></label>
+    <fieldset class="extras"><legend>Extra charges</legend><div id="extraRows"></div>
+      <button type="button" class="link" id="addExtra">+ Add a charge (wifi, gas, repair…)</button></fieldset>
+    <button class="btn" type="submit">Save bill</button>
+    <button class="btn ghost danger" type="button" id="billDelete">Delete this bill</button>
+    <p class="err" role="alert"></p>
+  </form>
+</dialog>
+
+<!-- Settings -->
+<dialog id="setDlg" class="dlg" aria-labelledby="setTitle">
+  <button type="button" class="dlg-x" data-close aria-label="Close">×</button>
+  <h2 id="setTitle">Settings</h2>
+  <form id="setForm" class="form">
+    <label class="fld">Property name<input name="name" required maxlength="60"></label>
+    <label class="fld">GCash / Maya number shown to tenants<input name="gcash" maxlength="30" inputmode="tel"></label>
+    <label class="fld">Electricity rate ₱ per kWh<input name="elecRate" type="number" min="0" step="0.01" required inputmode="decimal"></label>
+    <label class="fld">Water<select name="waterMode"><option value="meter">By meter reading</option><option value="fixed">Fixed monthly fee</option><option value="none">Included in rent</option></select></label>
+    <div class="two">
+      <label class="fld">Water ₱ per m³<input name="waterRate" type="number" min="0" step="0.01" inputmode="decimal"></label>
+      <label class="fld">Fixed water fee ₱<input name="waterFixed" type="number" min="0" step="1" inputmode="numeric"></label>
+    </div>
+    <p class="fine" id="setNote">In the demo, settings are saved on this device only. <button type="button" class="link" id="resetDemo">Reset the demo</button></p>
+    <button class="btn" type="submit">Save settings</button>
+    <p class="err" role="alert"></p>
+  </form>
+</dialog>
+
+<script src="../kit.js"></script>
+<script type="module" src="app.js"></script>
+</body>
+</html>

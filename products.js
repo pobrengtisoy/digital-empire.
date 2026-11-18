@@ -1,5 +1,5 @@
 // Source-controlled catalog for the RZ Digital Empire homepage.
-// Every product has a working demo. RZ Menu and RZ Mine also run on real seller accounts. Prices are shown here; the official prices live in worker/index.js (PRICES) — keep both in step.
+// Every product has a working demo. RZ Menu, RZ Mine and RZ Upa also run on real accounts. Prices are shown here; the official prices live in worker/index.js (PRICES) — keep both in step.
 window.DECatalog = [
   { id: '01', category: 'food', kind: 'Restaurants & cafés', name: 'RZ Menu', key: 'menu', setup: 3699, monthly: 449, unit: '', href: 'products/menu/index.html', shot: 'assets/shots/menu.webp',
     description: 'An online menu where customers build their order and send it straight to your Messenger.',
@@ -45,4 +45,8 @@ window.DECatalog = [
     description: 'Record every “mine” during your live, see who got each item first, and send each buyer a checkout link with their total.',
     detail: 'Hang items with codes, type or paste mine comments, automatic first-come winners with backups, totals per buyer with shipping, and a private link where buyers pay by GCash or Maya and send their address. Works on a real seller account.',
     tags: ['Live selling', 'Mine tracker', 'Auto totals', 'Buyer checkout link'] },
+  { id: '12', category: 'tools', kind: 'Boarding houses & apartments', name: 'RZ Upa', key: 'upa', setup: 3999, monthly: 449, unit: '', href: 'products/upa/index.html', shot: 'assets/shots/upa.webp',
+    description: 'Your rent book online: monthly bills from meter readings, payments, late reminders and a statement link for each tenant.',
+    detail: 'Rooms and bedspacers, electric and water sub-meter billing split fairly, extra charges, payments that clear the oldest bill first, late-day counts, copy-ready reminders, and a private statement page where tenants send their GCash or Maya reference. Works on a real owner account.',
+    tags: ['Rent & bills', 'Sub-meter billing', 'Late reminders', 'Tenant statement'] },
 ];

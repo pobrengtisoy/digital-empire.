@@ -7,6 +7,7 @@
  */
 
 import { MINE_SCHEMA, mineRoutes } from './mine.js';
+import { UPA_SCHEMA, upaRoutes } from './upa.js';
 
 const SESSION_DAYS = 30;
 const COOKIE = 'rz_sess';
@@ -29,6 +30,7 @@ const PRICES = {
   sahod: { name: 'RZ Sahod', setup: 2699, monthly: 349 },
   tindahan: { name: 'RZ Tindahan', setup: 2699, monthly: 349 },
   mine: { name: 'RZ Mine', setup: 2999, monthly: 349 },
+  upa: { name: 'RZ Upa', setup: 3999, monthly: 449 },
 };
 const PURCHASE_STATUSES = ['pending', 'paid', 'setting-up', 'done', 'refunded', 'cancelled'];
 const firstPayment = p => p.setup + p.monthly;
@@ -45,6 +47,7 @@ const SCHEMA = [
   `CREATE TABLE IF NOT EXISTS purchases (id TEXT PRIMARY KEY, code TEXT NOT NULL, product TEXT NOT NULL, product_name TEXT NOT NULL, setup REAL NOT NULL, monthly REAL NOT NULL, amount REAL NOT NULL, buyer_name TEXT NOT NULL, business TEXT DEFAULT '', mobile TEXT NOT NULL, email TEXT DEFAULT '', notes TEXT DEFAULT '', reference TEXT NOT NULL, status TEXT NOT NULL, created_at TEXT NOT NULL, updated_at TEXT NOT NULL)`,
   `CREATE INDEX IF NOT EXISTS idx_purchases_created ON purchases (created_at)`,
   ...MINE_SCHEMA,
+  ...UPA_SCHEMA,
 ];
 
 let schemaReady = null;
@@ -186,7 +189,7 @@ async function deleteAccount(env, request, user) {
     env.DB.prepare('DELETE FROM sessions WHERE user_id = ?').bind(user.user_id),
     env.DB.prepare('DELETE FROM users WHERE id = ?').bind(user.user_id),
     env.DB.prepare('DELETE FROM businesses WHERE id = ?').bind(user.id),
-    ...['mine_claims', 'mine_carts', 'mine_items', 'mine_lives'].map(t => env.DB.prepare(`DELETE FROM ${t} WHERE business_id = ?`).bind(user.id)),
+    ...['mine_claims', 'mine_carts', 'mine_items', 'mine_lives', 'upa_payments', 'upa_bills', 'upa_tenants', 'upa_units', 'upa_settings'].map(t => env.DB.prepare(`DELETE FROM ${t} WHERE business_id = ?`).bind(user.id)),
   ]);
   return json({ ok: true }, 200, { 'set-cookie': cookieHeader('', 0, request) });
 }
@@ -289,6 +292,7 @@ async function createPurchase(env, request) {
 
 /* ---------- RZ Mine ---------- */
 const mine = mineRoutes({ json, HttpError, text, multiline, money, randomHex, now, readJSON, rateLimit });
+const upa = upaRoutes({ json, HttpError, text, money, randomHex, now, readJSON, rateLimit });
 
 /* ---------- router ---------- */
 async function api(request, env, url) {
@@ -319,6 +323,7 @@ async function api(request, env, url) {
   if (pathname === '/api/public/purchases' && method === 'POST') return createPurchase(env, request);
 
   if (pathname.startsWith('/api/public/mine/')) { const r = await mine.publicRoute(env, request, pathname, method); if (r) return r; }
+  if (pathname.startsWith('/api/public/upa/')) { const r = await upa.publicRoute(env, request, pathname, method); if (r) return r; }
 
   if (pathname === '/api/auth/signup' && method === 'POST') return signup(env, request);
   if (pathname === '/api/auth/login' && method === 'POST') return login(env, request);
@@ -342,6 +347,7 @@ async function api(request, env, url) {
     }
   }
   if (pathname.startsWith('/api/mine/')) { const r = await mine.owner(env, request, user, pathname, method); if (r) return r; }
+  if (pathname === '/api/upa' || pathname.startsWith('/api/upa/')) { const r = await upa.owner(env, request, user, pathname, method); if (r) return r; }
   if (pathname === '/api/account' && method === 'DELETE') return deleteAccount(env, request, user);
   if (pathname === '/api/business' && method === 'PUT') return updateBusiness(env, request, user);
   if (pathname === '/api/menu' && method === 'GET') return json({ items: await listMenu(env, user.id, false) });
