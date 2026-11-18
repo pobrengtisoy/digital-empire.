@@ -1,5 +1,5 @@
 // Source-controlled catalog for the RZ Digital Empire homepage.
-// Every product has a working demo. RZ Menu, RZ Mine and RZ Upa also run on real accounts. Prices are shown here; the official prices live in worker/index.js (PRICES) — keep both in step.
+// Every product has a working demo. RZ Menu, RZ Mine, RZ Upa and RZ Bahay also run on real accounts. Prices are shown here; the official prices live in worker/index.js (PRICES) — keep both in step.
 window.DECatalog = [
   { id: '01', category: 'food', kind: 'Restaurants & cafés', name: 'RZ Menu', key: 'menu', setup: 3699, monthly: 449, unit: '', href: 'products/menu/index.html', shot: 'assets/shots/menu.webp',
     description: 'An online menu where customers build their order and send it straight to your Messenger.',
@@ -49,4 +49,8 @@ window.DECatalog = [
     description: 'Your rent book online: monthly bills from meter readings, payments, late reminders and a statement link for each tenant.',
     detail: 'Rooms and bedspacers, electric and water sub-meter billing split fairly, extra charges, payments that clear the oldest bill first, late-day counts, copy-ready reminders, and a private statement page where tenants send their GCash or Maya reference. Works on a real owner account.',
     tags: ['Rent & bills', 'Sub-meter billing', 'Late reminders', 'Tenant statement'] },
+  { id: '13', category: 'bookings', kind: 'Real estate agents & brokers', name: 'RZ Bahay', key: 'bahay', setup: 3999, monthly: 449, unit: '', href: 'products/bahay/index.html', shot: 'assets/shots/bahay.webp',
+    description: 'Your own listings website: house and lots, condos and lots with photos, search, a loan calculator and buyer inquiries in one inbox.',
+    detail: 'Post listings with up to 12 photos each, mark them reserved or sold, filter by buy or rent, type, city, budget and bedrooms, show a monthly amortization estimate, and receive viewing requests in your console. Works on a real agent account with your own link.',
+    tags: ['Listings website', 'Photo gallery', 'Loan calculator', 'Inquiry inbox'] },
 ];
