@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#22306e">
+<meta name="robots" content="noindex">
+<meta name="referrer" content="no-referrer">
+<title>Statement of account</title>
+<link rel="icon" type="image/svg+xml" href="../../rz-mark.svg">
+<link rel="stylesheet" href="../fonts/upa.css">
+<link rel="stylesheet" href="../kit.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="tenant">
+<div class="rz-strip" id="strip" hidden><a href="index.html">← Back to the RZ Upa demo</a><span class="rz-strip-note"><b>RZ Upa</b> demo · what your tenant sees</span><a class="rz-buy" href="../../buy/?p=upa">Buy</a></div>
+
+<main class="soa" id="soa" hidden>
+  <header class="soa-head">
+    <p class="kicker" id="sProp"></p>
+    <h1>Statement of account</h1>
+    <p class="soa-who"><b id="sName"></b> · <span id="sUnit"></span></p>
+  </header>
+
+  <section class="soa-bal" aria-labelledby="balLabel">
+    <p id="balLabel">Balance today</p>
+    <p class="big" id="sBal"></p>
+    <p class="fine" id="sDue"></p>
+    <span class="stamp late" id="sLate" hidden></span>
+    <span class="stamp ok" id="sOk" hidden>All paid</span>
+  </section>
+
+  <section aria-labelledby="billsTitle">
+    <h2 id="billsTitle">Monthly bills</h2>
+    <ol class="soa-bills" id="sBills"></ol>
+  </section>
+
+  <section class="soa-pay" id="sPay" aria-labelledby="payTitle">
+    <h2 id="payTitle">Paid by GCash or Maya?</h2>
+    <p id="sGcashLine">Send to <b id="sGcash"></b> <button type="button" class="link" id="copyNum">Copy number</button>, then tell your landlord here:</p>
+    <form class="form" id="sForm" novalidate>
+      <div class="two">
+        <label class="fld">Amount sent ₱<input name="amount" type="number" min="1" step="0.01" required inputmode="decimal"></label>
+        <label class="fld">Paid with<select name="method"><option>GCash</option><option>Maya</option><option>Bank</option></select></label>
+      </div>
+      <label class="fld">Reference number<input name="reference" required maxlength="40" autocapitalize="characters" spellcheck="false"></label>
+      <button class="btn" type="submit" id="sSend">Send to landlord</button>
+      <p class="err" id="sErr" role="alert"></p>
+      <p class="ok" id="sOkMsg" role="status"></p>
+    </form>
+  </section>
+
+  <section aria-labelledby="paysTitle">
+    <h2 id="paysTitle">Payments</h2>
+    <ul class="rows" id="sPays"></ul>
+  </section>
+  <p class="fine foot">Only you and <span id="sProp2"></span> can see this page. Keep this link private. Rent book by RZ Upa.</p>
+</main>
+
+<main class="soa missing" id="missing" hidden>
+  <h1>Link not found</h1>
+  <p id="missingText">This link is not valid. Ask your landlord to send it again.</p>
+</main>
+
+<script src="../kit.js"></script>
+<script type="module" src="tenant.js"></script>
+</body>
+</html>
