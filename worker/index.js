@@ -8,6 +8,7 @@
 
 import { MINE_SCHEMA, mineRoutes } from './mine.js';
 import { UPA_SCHEMA, upaRoutes } from './upa.js';
+import { BAHAY_SCHEMA, bahayRoutes } from './bahay.js';
 
 const SESSION_DAYS = 30;
 const COOKIE = 'rz_sess';
@@ -31,6 +32,7 @@ const PRICES = {
   tindahan: { name: 'RZ Tindahan', setup: 2699, monthly: 349 },
   mine: { name: 'RZ Mine', setup: 2999, monthly: 349 },
   upa: { name: 'RZ Upa', setup: 3999, monthly: 449 },
+  bahay: { name: 'RZ Bahay', setup: 3999, monthly: 449 },
 };
 const PURCHASE_STATUSES = ['pending', 'paid', 'setting-up', 'done', 'refunded', 'cancelled'];
 const firstPayment = p => p.setup + p.monthly;
@@ -48,6 +50,7 @@ const SCHEMA = [
   `CREATE INDEX IF NOT EXISTS idx_purchases_created ON purchases (created_at)`,
   ...MINE_SCHEMA,
   ...UPA_SCHEMA,
+  ...BAHAY_SCHEMA,
 ];
 
 let schemaReady = null;
@@ -189,8 +192,9 @@ async function deleteAccount(env, request, user) {
     env.DB.prepare('DELETE FROM sessions WHERE user_id = ?').bind(user.user_id),
     env.DB.prepare('DELETE FROM users WHERE id = ?').bind(user.user_id),
     env.DB.prepare('DELETE FROM businesses WHERE id = ?').bind(user.id),
-    ...['mine_claims', 'mine_carts', 'mine_items', 'mine_lives', 'upa_payments', 'upa_bills', 'upa_tenants', 'upa_units', 'upa_settings'].map(t => env.DB.prepare(`DELETE FROM ${t} WHERE business_id = ?`).bind(user.id)),
+    ...['mine_claims', 'mine_carts', 'mine_items', 'mine_lives', 'upa_payments', 'upa_bills', 'upa_tenants', 'upa_units', 'upa_settings', 'bahay_inquiries', 'bahay_listings', 'bahay_profile'].map(t => env.DB.prepare(`DELETE FROM ${t} WHERE business_id = ?`).bind(user.id)),
   ]);
+  await bahay.purgePhotos(env, user.id);
   return json({ ok: true }, 200, { 'set-cookie': cookieHeader('', 0, request) });
 }
 
@@ -293,6 +297,7 @@ async function createPurchase(env, request) {
 /* ---------- RZ Mine ---------- */
 const mine = mineRoutes({ json, HttpError, text, multiline, money, randomHex, now, readJSON, rateLimit });
 const upa = upaRoutes({ json, HttpError, text, money, randomHex, now, readJSON, rateLimit });
+const bahay = bahayRoutes({ json, HttpError, text, multiline, money, randomHex, now, readJSON, rateLimit });
 
 /* ---------- router ---------- */
 async function api(request, env, url) {
@@ -324,6 +329,7 @@ async function api(request, env, url) {
 
   if (pathname.startsWith('/api/public/mine/')) { const r = await mine.publicRoute(env, request, pathname, method); if (r) return r; }
   if (pathname.startsWith('/api/public/upa/')) { const r = await upa.publicRoute(env, request, pathname, method); if (r) return r; }
+  if (pathname.startsWith('/api/public/bahay/')) { const r = await bahay.publicRoute(env, request, pathname, method); if (r) return r; }
 
   if (pathname === '/api/auth/signup' && method === 'POST') return signup(env, request);
   if (pathname === '/api/auth/login' && method === 'POST') return login(env, request);
@@ -348,6 +354,7 @@ async function api(request, env, url) {
   }
   if (pathname.startsWith('/api/mine/')) { const r = await mine.owner(env, request, user, pathname, method); if (r) return r; }
   if (pathname === '/api/upa' || pathname.startsWith('/api/upa/')) { const r = await upa.owner(env, request, user, pathname, method); if (r) return r; }
+  if (pathname === '/api/bahay' || pathname.startsWith('/api/bahay/')) { const r = await bahay.owner(env, request, user, pathname, method); if (r) return r; }
   if (pathname === '/api/account' && method === 'DELETE') return deleteAccount(env, request, user);
   if (pathname === '/api/business' && method === 'PUT') return updateBusiness(env, request, user);
   if (pathname === '/api/menu' && method === 'GET') return json({ items: await listMenu(env, user.id, false) });

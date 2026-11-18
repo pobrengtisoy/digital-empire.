@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1f3a33">
+<title>RZ Bahay — listings website for real estate agents</title>
+<meta name="description" content="RZ Bahay demo: a real estate agent's own listings website with photos, filters, a loan calculator and inquiries that land in the agent's console.">
+<link rel="icon" type="image/svg+xml" href="../../rz-mark.svg">
+<link rel="stylesheet" href="../fonts/bahay.css">
+<link rel="stylesheet" href="../kit.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="site">
+<div class="rz-strip" id="strip"><a href="../../index.html">← RZ Digital Empire</a><span class="rz-strip-note"><b>RZ Bahay</b> demo · sample agent site</span><a href="console.html">Agent console</a><a class="rz-buy" href="../../buy/?p=bahay">Buy</a></div>
+
+<header class="brandbar">
+  <a class="brand" href="#top" id="top"><span class="monogram" id="mono" aria-hidden="true"></span><span><b id="brandName"></b><small id="agentLine"></small></span></a>
+  <nav class="contact" aria-label="Contact the agent">
+    <a class="btn ghost" id="callBtn" href="#">Call</a>
+    <a class="btn" id="msgBtn" href="#" target="_blank" rel="noopener">Message</a>
+  </nav>
+</header>
+
+<main id="siteMain" hidden>
+  <section class="hero" aria-labelledby="heroTitle">
+    <p class="areas" id="areas"></p>
+    <h1 id="heroTitle"></h1>
+    <form class="finder" id="finder" role="search" aria-label="Find a property">
+      <div class="deal" role="group" aria-label="Buy or rent">
+        <button type="button" data-deal="all" aria-pressed="true">All</button>
+        <button type="button" data-deal="sale" aria-pressed="false">Buy</button>
+        <button type="button" data-deal="rent" aria-pressed="false">Rent</button>
+      </div>
+      <label class="f">Type<select name="type"><option value="">Any type</option></select></label>
+      <label class="f">Where<select name="city"><option value="">Anywhere</option></select></label>
+      <label class="f">Budget<select name="max"><option value="">Any price</option></select></label>
+      <label class="f">Bedrooms<select name="beds"><option value="0">Any</option><option value="1">1+</option><option value="2">2+</option><option value="3">3+</option><option value="4">4+</option></select></label>
+    </form>
+  </section>
+
+  <section class="results" aria-labelledby="resTitle">
+    <div class="res-head"><h2 id="resTitle">Properties</h2><p class="count" id="count" role="status"></p></div>
+    <ul class="grid" id="grid"></ul>
+    <p class="none" id="none" hidden>Nothing matches yet. Try a wider budget, or message me and I’ll look for you.</p>
+  </section>
+
+  <section class="about" aria-labelledby="aboutTitle">
+    <div>
+      <p class="eyebrow">Your agent</p>
+      <h2 id="aboutTitle"></h2>
+      <p class="license" id="license"></p>
+      <p id="about"></p>
+    </div>
+    <form class="form card-form" id="generalForm">
+      <h3>Looking for something else?</h3>
+      <p class="fine">Tell me what you need and your budget. I’ll send matching properties.</p>
+      <label class="fld">Your name<input name="name" required maxlength="60" autocomplete="name"></label>
+      <label class="fld">Mobile<input name="mobile" required maxlength="20" inputmode="tel" autocomplete="tel" placeholder="09xx xxx xxxx"></label>
+      <label class="fld">What are you looking for?<textarea name="message" rows="3" maxlength="1000" placeholder="3BR house in Bacolod, up to ₱6M, Pag-IBIG"></textarea></label>
+      <button class="btn" type="submit">Send</button>
+      <p class="err" role="alert"></p><p class="ok" role="status"></p>
+    </form>
+  </section>
+  <footer class="foot"><p>© <span id="year"></span> <span id="footName"></span>. Listings website by RZ Bahay.</p></footer>
+</main>
+
+<main class="missing" id="missing" hidden><h1>Page not found</h1><p id="missingText">This agent’s page does not exist.</p></main>
+
+<!-- Listing detail -->
+<dialog class="detail" id="detail" aria-labelledby="dTitle">
+  <button type="button" class="dlg-x" data-close aria-label="Close">×</button>
+  <div class="gallery">
+    <ul class="slides" id="slides"></ul>
+    <p class="slide-count" id="slideCount" aria-hidden="true"></p>
+    <ul class="thumbs" id="thumbs" aria-label="Photos"></ul>
+  </div>
+  <div class="d-body">
+    <div class="d-main">
+      <p class="eyebrow" id="dType"></p>
+      <h2 id="dTitle"></h2>
+      <p class="d-where"><span id="dWhere"></span> · <a id="dMap" target="_blank" rel="noopener">See on map</a></p>
+      <p class="d-price"><b id="dPrice"></b> <span id="dNote"></span></p>
+      <ul class="d-specs" id="dSpecs"></ul>
+      <p class="d-desc" id="dDesc"></p>
+      <ul class="chips" id="dFeatures"></ul>
+
+      <section class="calc" id="calc" aria-labelledby="calcTitle">
+        <h3 id="calcTitle">Monthly payment estimate</h3>
+        <div class="calc-grid">
+          <label class="fld">Down payment<select id="cDown"><option>10</option><option selected>20</option><option>30</option><option>50</option></select></label>
+          <label class="fld">Interest a year %<input id="cRate" type="number" min="0" max="30" step="0.125" value="6.5" inputmode="decimal"></label>
+          <label class="fld">Years<select id="cYears"><option>5</option><option>10</option><option>15</option><option selected>20</option><option>25</option><option>30</option></select></label>
+        </div>
+        <p class="calc-out"><span>About</span> <b id="cMonthly"></b> <span>a month</span></p>
+        <p class="fine" id="cLine"></p>
+        <p class="fine">An estimate only. Actual rates and terms come from Pag-IBIG or your bank.</p>
+      </section>
+    </div>
+
+    <form class="form card-form d-ask" id="askForm">
+      <h3>Ask about this property</h3>
+      <label class="fld">Your name<input name="name" required maxlength="60" autocomplete="name"></label>
+      <label class="fld">Mobile<input name="mobile" required maxlength="20" inputmode="tel" autocomplete="tel" placeholder="09xx xxx xxxx"></label>
+      <label class="fld">Email (optional)<input name="email" type="email" maxlength="120" autocomplete="email"></label>
+      <label class="fld">Preferred viewing date (optional)<input name="visitDate" type="date"></label>
+      <label class="fld">Message<textarea name="message" rows="3" maxlength="1000"></textarea></label>
+      <button class="btn" type="submit">Send inquiry</button>
+      <p class="err" role="alert"></p><p class="ok" role="status"></p>
+      <button type="button" class="link" id="shareBtn">Copy link to this property</button>
+    </form>
+  </div>
+</dialog>
+
+<script src="../kit.js"></script>
+<script type="module" src="site.js"></script>
+</body>
+</html>

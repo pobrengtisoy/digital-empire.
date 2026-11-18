@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1f3a33">
+<meta name="robots" content="noindex">
+<title>RZ Bahay — agent console</title>
+<link rel="icon" type="image/svg+xml" href="../../rz-mark.svg">
+<link rel="stylesheet" href="../fonts/bahay.css">
+<link rel="stylesheet" href="../kit.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="console">
+<div class="rz-strip" id="strip"><a href="index.html">← Demo agent site</a><span class="rz-strip-note"><b>RZ Bahay</b> demo · agent console</span><a href="?live">Agent login</a><a class="rz-buy" href="../../buy/?p=bahay">Buy</a></div>
+
+<section class="auth" id="authView" hidden aria-labelledby="authTitle">
+  <p class="eyebrow">RZ Bahay</p>
+  <h1 id="authTitle">Your listings website</h1>
+  <p class="lead">Post properties with photos, share one link, and get buyer inquiries in one inbox.</p>
+  <div class="auth-tabs" role="tablist">
+    <button type="button" role="tab" id="tabLogin" aria-selected="true" aria-controls="loginForm">Log in</button>
+    <button type="button" role="tab" id="tabSignup" aria-selected="false" aria-controls="signupForm">Create account</button>
+  </div>
+  <form id="loginForm" class="form" role="tabpanel" aria-labelledby="tabLogin">
+    <label class="fld">Email<input name="email" type="email" required autocomplete="username"></label>
+    <label class="fld">Password<input name="password" type="password" required autocomplete="current-password"></label>
+    <button class="btn" type="submit">Log in</button>
+    <p class="err" role="alert"></p>
+  </form>
+  <form id="signupForm" class="form" role="tabpanel" aria-labelledby="tabSignup" hidden>
+    <label class="fld">Brand or agency name<input name="businessName" required maxlength="60" autocomplete="organization" placeholder="Reyes Homes & Lots"></label>
+    <label class="fld">Your website name<span class="slug"><span id="slugPre"></span><input name="slug" required minlength="3" maxlength="40" pattern="[a-z0-9][a-z0-9\-]{1,38}[a-z0-9]" placeholder="reyes-homes" autocapitalize="none" spellcheck="false"></span></label>
+    <label class="fld">Email<input name="email" type="email" required autocomplete="username"></label>
+    <label class="fld">Password (10+ characters)<input name="password" type="password" required minlength="10" autocomplete="new-password"></label>
+    <p class="fine">By creating an account you agree to the <a href="../../terms/">Terms and Privacy</a>, to post only properties you are authorised to market, and to use buyers’ details only for their inquiries.</p>
+    <button class="btn" type="submit">Create my website</button>
+    <p class="err" role="alert"></p>
+  </form>
+</section>
+
+<div id="appView" hidden>
+  <header class="c-head">
+    <div>
+      <p class="eyebrow">Agent console</p>
+      <h1 id="cName"></h1>
+      <p class="c-link"><a id="siteLink" target="_blank" rel="noopener"></a> <button type="button" class="link" id="copySite">Copy link</button></p>
+    </div>
+    <button type="button" class="link" id="logoutBtn" hidden>Log out</button>
+  </header>
+  <nav class="c-tabs" aria-label="Console">
+    <button type="button" data-tab="listings" aria-pressed="true">Listings <span class="n" id="nListings"></span></button>
+    <button type="button" data-tab="inquiries" aria-pressed="false">Inquiries <span class="n new" id="nNew"></span></button>
+    <button type="button" data-tab="profile" aria-pressed="false">Profile</button>
+  </nav>
+  <p class="toast" id="toast" role="status"></p>
+
+  <main class="c-main">
+    <section class="tab" id="tab-listings" aria-label="Listings">
+      <div class="c-bar"><button type="button" class="btn" id="newListing">+ New listing</button><p class="fine" id="photoNote"></p></div>
+      <ul class="c-list" id="cList"></ul>
+      <p class="none" id="cEmpty" hidden>No listings yet. Add your first property with photos.</p>
+    </section>
+
+    <section class="tab" id="tab-inquiries" hidden aria-label="Inquiries">
+      <div class="c-bar"><div class="seg" role="group" aria-label="Show">
+        <button type="button" data-show="open" aria-pressed="true">Open</button>
+        <button type="button" data-show="all" aria-pressed="false">All</button>
+      </div></div>
+      <ul class="inbox" id="inbox"></ul>
+      <p class="none" id="inboxEmpty" hidden>No inquiries here. They arrive when buyers use the forms on your website.</p>
+    </section>
+
+    <section class="tab" id="tab-profile" hidden aria-label="Profile">
+      <form class="form profile" id="profileForm">
+        <label class="fld">Brand or agency name<input name="name" required maxlength="60"></label>
+        <div class="two">
+          <label class="fld">Your name<input name="agentName" maxlength="60"></label>
+          <label class="fld">PRC licence no.<input name="license" maxlength="40" placeholder="PRC REB No. 0012345"></label>
+        </div>
+        <div class="two">
+          <label class="fld">Mobile for calls and texts<input name="mobile" maxlength="20" inputmode="tel"></label>
+          <label class="fld">Messenger username<input name="messenger" maxlength="50" placeholder="reyeshomes"></label>
+        </div>
+        <label class="fld">Areas you serve<input name="areas" maxlength="120" placeholder="Bacolod · Talisay · Silay"></label>
+        <label class="fld">Headline on your website<input name="tagline" maxlength="120"></label>
+        <label class="fld">About you<textarea name="about" rows="4" maxlength="800"></textarea></label>
+        <button class="btn" type="submit">Save profile</button>
+        <p class="err" role="alert"></p>
+      </form>
+    </section>
+  </main>
+</div>
+
+<!-- Listing editor -->
+<dialog class="dlg editor" id="editor" aria-labelledby="edTitle">
+  <button type="button" class="dlg-x" data-close aria-label="Close">×</button>
+  <h2 id="edTitle">New listing</h2>
+  <form class="form" id="edForm">
+    <section class="ph-box" aria-labelledby="phTitle">
+      <h3 id="phTitle">Photos <span class="fine">· first photo is the cover · up to 12</span></h3>
+      <ul class="ph-list" id="phList"></ul>
+      <label class="btn ghost ph-add">+ Add photos<input type="file" id="phInput" accept="image/jpeg,image/png,image/webp" multiple class="sr"></label>
+      <p class="fine" id="phStatus" role="status"></p>
+    </section>
+    <label class="fld">Title<input name="title" required maxlength="90" placeholder="3BR house and lot near schools"></label>
+    <div class="three">
+      <label class="fld">For<select name="deal"><option value="sale">Sale</option><option value="rent">Rent</option></select></label>
+      <label class="fld">Type<select name="type"></select></label>
+      <label class="fld">Status<select name="status"><option value="available">Available</option><option value="reserved">Reserved</option><option value="sold">Sold / rented</option><option value="hidden">Hidden</option></select></label>
+    </div>
+    <div class="two">
+      <label class="fld">Price ₱ <small id="priceHint"></small><input name="price" type="number" min="1" step="1" required inputmode="numeric"></label>
+      <label class="fld">Price note (optional)<input name="priceNote" maxlength="60" placeholder="Pag-IBIG accredited"></label>
+    </div>
+    <div class="two">
+      <label class="fld">City / town<input name="city" maxlength="60" placeholder="Bacolod City"></label>
+      <label class="fld">Area or street<input name="address" maxlength="140" placeholder="Mandalagan"></label>
+    </div>
+    <div class="five">
+      <label class="fld">Beds<input name="beds" type="number" min="0" max="50" inputmode="numeric"></label>
+      <label class="fld">Baths<input name="baths" type="number" min="0" max="50" inputmode="numeric"></label>
+      <label class="fld">Floor m²<input name="floorArea" type="number" min="0" step="0.01" inputmode="decimal"></label>
+      <label class="fld">Lot m²<input name="lotArea" type="number" min="0" step="0.01" inputmode="decimal"></label>
+      <label class="fld">Parking<input name="parking" type="number" min="0" max="50" inputmode="numeric"></label>
+    </div>
+    <label class="fld">Features (comma between each)<input name="features" maxlength="600" placeholder="Gated, Carport, Near schools, Clean title"></label>
+    <label class="fld">Description<textarea name="description" rows="4" maxlength="3000"></textarea></label>
+    <label class="check"><input type="checkbox" name="featured"> Show first on my website</label>
+    <div class="ed-actions">
+      <button class="btn" type="submit" id="edSave">Save listing</button>
+      <button class="btn ghost danger" type="button" id="edDelete" hidden>Delete</button>
+    </div>
+    <p class="err" id="edErr" role="alert"></p>
+  </form>
+</dialog>
+
+<script src="../kit.js"></script>
+<script type="module" src="console.js"></script>
+</body>
+</html>
