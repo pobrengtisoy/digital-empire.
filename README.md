@@ -68,7 +68,7 @@ Repository: `pobrengtisoy/digital-empire.` (yes, the trailing dot is part of the
 - `.assetsignore` keeps internal docs/config out of static bundle
 - Account's initial successful deployment was confirmed in the user's screenshot
 
-User-provided live address: `https://digital-empire.ronnieredugo.workers.dev/`.
+Live address: `https://digital-empire.rzdigital.workers.dev/`.
 
 We verified V0.5 content in GitHub. The external checker did not independently render the deployed V0.5 pages, so **re-check Cloudflare deployment status** before calling the updated live site confirmed.
 
