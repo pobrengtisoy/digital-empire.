@@ -54,7 +54,7 @@ export function bahayRoutes(h) {
     return json({ profile: profileOut(p, biz), listings: l.results.map(listingOut), inquiries: i.results.map(inquiryOut), photosReady: !!env.PHOTOS });
   }
 
-  function cleanListing(b, old = {}) {
+  function cleanListing(b, old = { title: '', deal: 'sale', type: 'House and lot', price: 0, priceNote: '', city: '', address: '', beds: 0, baths: 0, parking: 0, lotArea: 0, floorArea: 0, features: [], description: '', status: 'available', featured: false }) {
     const pick = (k, fn) => (b[k] === undefined ? old[k] : fn(b[k]));
     const int = (v, max) => { const n = Math.floor(Number(v) || 0); if (n < 0 || n > max) throw new HttpError(400, 'Check the numbers.'); return n; };
     const area = v => { const n = money(v || 0); if (!Number.isFinite(n) || n > 10_000_000) throw new HttpError(400, 'Check the area.'); return n; };
@@ -69,6 +69,7 @@ export function bahayRoutes(h) {
       status: pick('status', v => (LISTING_STATUSES.includes(v) ? v : 'available')), featured: pick('featured', v => !!v),
     };
     if (!out.title) throw new HttpError(400, 'Give the listing a title, like “3BR house and lot in Bacolod”.');
+    if (!(out.price >= 1)) throw new HttpError(400, 'Enter the price.');
     return out;
   }
 
