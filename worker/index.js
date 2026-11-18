@@ -13,6 +13,23 @@ const RESERVED = new Set(['admin', 'api', 'dashboard', 'login', 'signup', 'rz', 
 const STATUSES = ['new', 'accepted', 'preparing', 'ready', 'completed', 'cancelled'];
 const ORDER_TYPES = ['Dine-in', 'Pick-up', 'Delivery'];
 
+// Official RZ prices (pesos). The checkout always charges from here, never from the browser.
+// Keep in step with products.js, which only displays them.
+const PRICES = {
+  menu: { name: 'RZ Menu', setup: 3699, monthly: 449 },
+  shop: { name: 'RZ Shop', setup: 4199, monthly: 499 },
+  booking: { name: 'RZ Booking', setup: 4199, monthly: 499 },
+  stay: { name: 'RZ Stay', setup: 4699, monthly: 549 },
+  listahan: { name: 'RZ Listahan', setup: 2199, monthly: 299 },
+  invite: { name: 'RZ Invite', setup: 2699, monthly: 0, unit: 'per event' },
+  liga: { name: 'RZ Liga', setup: 3199, monthly: 0, unit: 'per season' },
+  quote: { name: 'RZ Quote', setup: 2199, monthly: 299 },
+  sahod: { name: 'RZ Sahod', setup: 2699, monthly: 349 },
+  tindahan: { name: 'RZ Tindahan', setup: 2699, monthly: 349 },
+};
+const PURCHASE_STATUSES = ['pending', 'paid', 'setting-up', 'done', 'refunded', 'cancelled'];
+const firstPayment = p => p.setup + p.monthly;
+
 const SCHEMA = [
   `CREATE TABLE IF NOT EXISTS businesses (id TEXT PRIMARY KEY, slug TEXT UNIQUE NOT NULL, name TEXT NOT NULL, tagline TEXT DEFAULT '', hours TEXT DEFAULT '', gcash TEXT DEFAULT '', delivery_fee REAL DEFAULT 0, accepting INTEGER DEFAULT 1, notify_email TEXT DEFAULT '', notify_on INTEGER DEFAULT 0, created_at TEXT NOT NULL)`,
   `CREATE TABLE IF NOT EXISTS users (id TEXT PRIMARY KEY, email TEXT UNIQUE NOT NULL, pass_hash TEXT NOT NULL, salt TEXT NOT NULL, business_id TEXT NOT NULL, created_at TEXT NOT NULL)`,
@@ -22,6 +39,8 @@ const SCHEMA = [
   `CREATE TABLE IF NOT EXISTS orders (id TEXT PRIMARY KEY, business_id TEXT NOT NULL, code TEXT NOT NULL, status TEXT NOT NULL, type TEXT NOT NULL, customer_name TEXT NOT NULL, contact TEXT DEFAULT '', location TEXT DEFAULT '', notes TEXT DEFAULT '', items_json TEXT NOT NULL, subtotal REAL NOT NULL, fee REAL NOT NULL, total REAL NOT NULL, created_at TEXT NOT NULL, updated_at TEXT NOT NULL)`,
   `CREATE INDEX IF NOT EXISTS idx_orders_business ON orders (business_id, created_at)`,
   `CREATE TABLE IF NOT EXISTS ratelimits (k TEXT PRIMARY KEY, count INTEGER NOT NULL, reset_at INTEGER NOT NULL)`,
+  `CREATE TABLE IF NOT EXISTS purchases (id TEXT PRIMARY KEY, code TEXT NOT NULL, product TEXT NOT NULL, product_name TEXT NOT NULL, setup REAL NOT NULL, monthly REAL NOT NULL, amount REAL NOT NULL, buyer_name TEXT NOT NULL, business TEXT DEFAULT '', mobile TEXT NOT NULL, email TEXT DEFAULT '', notes TEXT DEFAULT '', reference TEXT NOT NULL, status TEXT NOT NULL, created_at TEXT NOT NULL, updated_at TEXT NOT NULL)`,
+  `CREATE INDEX IF NOT EXISTS idx_purchases_created ON purchases (created_at)`,
 ];
 
 let schemaReady = null;
@@ -218,6 +237,34 @@ async function placeOrder(env, request, slug) {
   return json({ id, code, status: 'new', total, business: biz.name }, 201);
 }
 
+/* ---------- RZ product purchases ---------- */
+const isAdmin = (env, user) => String(env.ADMIN_EMAILS || '').toLowerCase().split(/[\s,]+/).filter(Boolean).includes(String(user.email).toLowerCase());
+const purchaseOut = r => ({ id: r.id, code: r.code, product: r.product, productName: r.product_name, setup: r.setup, monthly: r.monthly, amount: r.amount, buyerName: r.buyer_name, business: r.business, mobile: r.mobile, email: r.email, notes: r.notes, reference: r.reference, status: r.status, createdAt: r.created_at, updatedAt: r.updated_at });
+
+async function createPurchase(env, request) {
+  const ip = request.headers.get('cf-connecting-ip') || 'local';
+  await rateLimit(env, `buy:${ip}`, 5, 600);
+  await rateLimit(env, 'buy:all', 300, 86400);
+  const b = await readJSON(request);
+  const price = PRICES[String(b.product || '')];
+  if (!price) throw new HttpError(400, 'Choose a product to buy.');
+  const name = text(b.name, 60);
+  const mobile = text(b.mobile, 20);
+  const email = text(b.email, 120).toLowerCase();
+  const reference = text(b.reference, 40).toUpperCase();
+  if (!name) throw new HttpError(400, 'Enter your name.');
+  if (!/^[0-9+()\s-]{7,20}$/.test(mobile)) throw new HttpError(400, 'Enter a valid mobile number.');
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new HttpError(400, 'Check your email address.');
+  if (!/^[A-Z0-9-]{6,40}$/.test(reference)) throw new HttpError(400, 'Enter the reference number from your payment receipt.');
+  if (await env.DB.prepare('SELECT 1 FROM purchases WHERE reference = ?').bind(reference).first()) throw new HttpError(409, 'That reference number was already submitted. Message us on Telegram if you need help.');
+  const count = await env.DB.prepare('SELECT COUNT(*) AS n FROM purchases').first();
+  const code = `RZ-${String((count?.n || 0) + 1).padStart(4, '0')}`;
+  const id = randomHex(16);
+  await env.DB.prepare('INSERT INTO purchases (id, code, product, product_name, setup, monthly, amount, buyer_name, business, mobile, email, notes, reference, status, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)')
+    .bind(id, code, b.product, price.name, price.setup, price.monthly, firstPayment(price), name, text(b.business, 80), mobile, email, multiline(b.notes, 500), reference, 'pending', now(), now()).run();
+  return json({ code, product: price.name, amount: firstPayment(price), status: 'pending' }, 201);
+}
+
 /* ---------- router ---------- */
 async function api(request, env, url) {
   if (!env.DB) throw new HttpError(503, 'The database is not connected yet.');
@@ -242,13 +289,31 @@ async function api(request, env, url) {
   }
 
   // Accounts.
+  // Buying RZ products.
+  if (pathname === '/api/public/prices' && method === 'GET') return json({ prices: Object.fromEntries(Object.entries(PRICES).map(([k, p]) => [k, { ...p, firstPayment: firstPayment(p) }])) });
+  if (pathname === '/api/public/purchases' && method === 'POST') return createPurchase(env, request);
+
   if (pathname === '/api/auth/signup' && method === 'POST') return signup(env, request);
   if (pathname === '/api/auth/login' && method === 'POST') return login(env, request);
   if (pathname === '/api/auth/logout' && method === 'POST') return logout(env, request);
 
   // Owner-only.
   const user = await requireUser(env, request);
-  if (pathname === '/api/me' && method === 'GET') return json({ email: user.email, business: ownerBusiness(user) });
+  if (pathname === '/api/me' && method === 'GET') return json({ email: user.email, business: ownerBusiness(user), isAdmin: isAdmin(env, user) });
+  if (pathname.startsWith('/api/admin/')) {
+    if (!isAdmin(env, user)) throw new HttpError(403, 'Only RZ admins can see this.');
+    if (pathname === '/api/admin/purchases' && method === 'GET') {
+      const { results } = await env.DB.prepare('SELECT * FROM purchases ORDER BY created_at DESC LIMIT 300').all();
+      return json({ purchases: results.map(purchaseOut) });
+    }
+    if ((m = pathname.match(/^\/api\/admin\/purchases\/([a-f0-9]{32})$/)) && method === 'PATCH') {
+      const b = await readJSON(request);
+      if (!PURCHASE_STATUSES.includes(b.status)) throw new HttpError(400, 'Unknown status.');
+      const r = await env.DB.prepare('UPDATE purchases SET status = ?, updated_at = ? WHERE id = ?').bind(b.status, now(), m[1]).run();
+      if (!r.meta.changes) throw new HttpError(404, 'Purchase not found.');
+      return json({ ok: true });
+    }
+  }
   if (pathname === '/api/business' && method === 'PUT') return updateBusiness(env, request, user);
   if (pathname === '/api/menu' && method === 'GET') return json({ items: await listMenu(env, user.id, false) });
   if (pathname === '/api/menu' && method === 'PUT') return replaceMenu(env, request, user);

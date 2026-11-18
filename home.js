@@ -126,6 +126,9 @@
 
   /* ---------- Product board ---------- */
   const products = Array.isArray(window.DECatalog) ? window.DECatalog : [];
+  const pesoFmt = new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP', maximumFractionDigits: 0 });
+  const peso = n => pesoFmt.format(Number(n) || 0);
+  const priceNote = p => (p.unit ? ` ${p.unit}` : ` setup + ${peso(p.monthly)}/mo`);
   const list = $('#productList');
   const search = $('#catalogSearch');
   const chips = $$('[data-filter]');
@@ -161,11 +164,16 @@
       const shot = el('a', 'card-shot'); shot.href = p.href; shot.setAttribute('aria-hidden', 'true'); shot.tabIndex = -1; shot.append(img);
       const body = el('div', 'card-body');
       body.append(el('p', 'card-kind', `${p.id} · ${p.kind}`), el('h3', 'card-name', p.name), el('p', 'card-desc', p.description));
+      const price = el('p', 'card-price');
+      price.append(el('b', '', peso(p.setup)), el('span', '', priceNote(p)));
+      body.append(price);
       const actions = el('div', 'card-actions');
+      const buy = el('a', 'card-buy', 'Buy'); buy.href = `buy/?p=${encodeURIComponent(p.key)}`;
+      buy.setAttribute('aria-label', `Buy ${p.name}, ${peso(p.setup)}`);
       const open = el('a', 'card-open', 'Try the demo'); open.href = p.href;
       const more = el('button', 'card-more', 'Details'); more.type = 'button'; more.dataset.product = p.id;
       more.setAttribute('aria-label', `Details about ${p.name}`);
-      actions.append(open, more); body.append(actions);
+      actions.append(buy, open, more); body.append(actions);
       li.append(shot, body); list.append(li);
     });
   }
@@ -201,7 +209,8 @@
     open.hidden = !live;
     if (live && p.href) open.href = p.href;
     $('#dialogBrief').hidden = live;
-    $('#dialogNote').textContent = 'Free to try. Not sold online yet; we set it up for your business directly.';
+    $('#dialogNote').textContent = `${peso(p.setup)}${priceNote(p)}. Free to try first.`;
+    $('#dialogBuy').href = `buy/?p=${encodeURIComponent(p.key)}`;
     productDialog.showModal();
   });
 

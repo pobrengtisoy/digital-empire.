@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#16151f">
+<title>Buy — RZ Digital Empire</title>
+<meta name="description" content="Buy an RZ product: pay by QR Ph with Maya, GCash or any bank app, and RZ sets it up for your business.">
+<link rel="icon" type="image/svg+xml" href="../rz-mark.svg">
+<link rel="stylesheet" href="buy.css">
+</head>
+<body>
+<header class="bar">
+  <a class="brand" href="../index.html"><span class="mark" aria-hidden="true">RZ</span><span>RZ Digital Empire</span></a>
+  <a class="tg" href="https://t.me/BRZBSST" rel="noopener">Questions? Telegram @BRZBSST</a>
+</header>
+
+<main class="wrap">
+  <section class="sum" aria-labelledby="pName">
+    <p class="k">You’re buying</p>
+    <h1 id="pName">RZ Menu</h1>
+    <p class="kind" id="pKind"></p>
+    <label class="pick">Change product<select id="pSelect"></select></label>
+    <dl class="lines">
+      <div><dt id="setupLabel">One-time setup</dt><dd id="pSetup"></dd></div>
+      <div id="monthRow"><dt>First month</dt><dd id="pMonth"></dd></div>
+      <div class="due"><dt>Pay now</dt><dd id="pDue"></dd></div>
+    </dl>
+    <p class="after" id="pAfter"></p>
+    <h2>What you get</h2>
+    <ul class="gets">
+      <li>We set it up with your name, logo and details</li>
+      <li>Your own link to share with customers</li>
+      <li>Help on Telegram while you get started</li>
+      <li id="getMonthly">Hosting and updates every month you stay</li>
+    </ul>
+    <a class="demo" id="pDemo" href="#">Try the demo first</a>
+  </section>
+
+  <section class="pay" aria-labelledby="payTitle">
+    <div class="ticket">
+      <h2 id="payTitle"><span>1</span> Scan and pay</h2>
+      <p class="amt">Amount <b id="amt">₱0</b> <button type="button" class="copy" id="copyAmt">Copy</button></p>
+      <figure class="qr">
+        <img src="../assets/pay/qrph-squareboys.png" alt="QR Ph payment code for SQUAREBOYS" width="456" height="456">
+        <figcaption>Pay to <b>SQUAREBOYS</b> · RZ Digital Empire’s payment account</figcaption>
+      </figure>
+      <a class="save" href="../assets/pay/qrph-squareboys.png" download="rz-digital-empire-qrph.png">Save QR to your phone</a>
+      <ol class="how">
+        <li>Open Maya, GCash or your bank app and choose <b>Scan QR</b> (or upload the saved QR).</li>
+        <li>Enter the exact amount: <b id="amt2">₱0</b>.</li>
+        <li>Pay, then copy the <b>reference number</b> from your receipt.</li>
+      </ol>
+    </div>
+
+    <form class="ticket form" id="buyForm" novalidate>
+      <h2><span>2</span> Send your details</h2>
+      <label class="fld">Your name<input name="name" required maxlength="60" autocomplete="name"></label>
+      <label class="fld">Business name<input name="business" maxlength="80" autocomplete="organization"></label>
+      <label class="fld">Mobile number<input name="mobile" required maxlength="20" inputmode="tel" autocomplete="tel" placeholder="09xx xxx xxxx"></label>
+      <label class="fld">Email (optional)<input name="email" type="email" maxlength="120" autocomplete="email"></label>
+      <label class="fld">Payment reference number<input name="reference" required maxlength="40" autocapitalize="characters" spellcheck="false" placeholder="From your Maya / GCash / bank receipt"></label>
+      <label class="fld">Anything we should know? (optional)<textarea name="notes" rows="3" maxlength="500" placeholder="Your Facebook page, preferred colours, menu items…"></textarea></label>
+      <label class="agree"><input type="checkbox" name="agree" required> I paid the amount above. RZ will check the payment and message me to start setup.</label>
+      <button class="cta" type="submit" id="sendBtn">Send my order</button>
+      <p class="err" id="err" role="alert"></p>
+      <p class="fine">Your details are used only to set up your RZ product and contact you about it.</p>
+    </form>
+
+    <div class="ticket done" id="done" hidden>
+      <p class="k">Order received</p>
+      <p class="code" id="doneCode"></p>
+      <p id="doneText"></p>
+      <ol class="how">
+        <li>We check your payment.</li>
+        <li>We message you to collect your logo, photos and details.</li>
+        <li>You get your own link, ready for customers.</li>
+      </ol>
+      <a class="cta" href="https://t.me/BRZBSST" rel="noopener">Message us on Telegram</a>
+      <a class="demo" href="../index.html">Back to RZ Digital Empire</a>
+    </div>
+  </section>
+</main>
+
+<script src="../products.js"></script>
+<script src="buy.js"></script>
+</body>
+</html>

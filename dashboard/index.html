@@ -58,6 +58,7 @@
       <button role="tab" id="t-orders" aria-controls="v-orders" aria-selected="true">Orders <span class="count" id="newCount" hidden></span></button>
       <button role="tab" id="t-menu" aria-controls="v-menu" aria-selected="false">Menu</button>
       <button role="tab" id="t-settings" aria-controls="v-settings" aria-selected="false">Settings</button>
+      <button role="tab" id="t-sales" aria-controls="v-sales" aria-selected="false" hidden>RZ Sales <span class="count" id="salesCount" hidden></span></button>
     </nav>
 
     <div id="v-orders" role="tabpanel" aria-labelledby="t-orders">
@@ -85,6 +86,14 @@
       </div>
       <ol class="items" id="items"></ol>
       <p class="ok" id="menuStatus" role="status"></p>
+    </div>
+
+    <div id="v-sales" role="tabpanel" aria-labelledby="t-sales" hidden>
+      <div class="bar">
+        <p class="fine">Purchases from the Buy page. Check each reference number in your Maya Business app before marking it Paid.</p>
+        <button type="button" class="btn ghost" id="salesCsv">Download CSV</button>
+      </div>
+      <ul class="orders" id="sales" aria-live="polite"></ul>
     </div>
 
     <div id="v-settings" role="tabpanel" aria-labelledby="t-settings" hidden>
