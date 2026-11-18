@@ -49,6 +49,7 @@
   tabs.forEach(t => t.addEventListener('click', () => {
     tabs.forEach(x => { const on = x === t; x.setAttribute('aria-selected', String(on)); $(`#${x.getAttribute('aria-controls')}`).hidden = !on; });
     if (t.id === 't-menu') loadMenu();
+    if (t.id === 't-sales') loadSales();
   }));
 
   /* ---------- business header and settings ---------- */
@@ -196,12 +197,58 @@
     catch (e) { st.textContent = e.message; }
   });
 
+  /* ---------- RZ Sales (admins only) ---------- */
+  let sales = [];
+  const SALE_LABEL = { pending: 'Check payment', paid: 'Paid', 'setting-up': 'Setting up', done: 'Done', refunded: 'Refunded', cancelled: 'Cancelled' };
+  let salesReq = 0;
+  async function loadSales() {
+    const mine = ++salesReq; // ignore answers to older requests
+    try { const list = (await api('/admin/purchases')).purchases; if (mine === salesReq) { sales = list; renderSales(); } }
+    catch (e) { if (mine === salesReq) $('#sales').replaceChildren(el('li', 'empty', e.message)); }
+  }
+  function renderSales() {
+    const pending = sales.filter(s => s.status === 'pending').length;
+    const c = $('#salesCount'); c.hidden = !pending; c.textContent = pending;
+    if (!sales.length) { $('#sales').replaceChildren(el('li', 'empty', 'No purchases yet. They appear here when someone pays on the Buy page.')); return; }
+    $('#sales').replaceChildren(...sales.map(s => {
+      const li = el('li', `order${s.status === 'pending' ? ' is-new' : ''}`);
+      const head = el('div', 'o-head'); head.append(el('span', 'o-code', s.code), el('span', `pill ${s.status === 'pending' ? 'new' : s.status === 'paid' ? 'accepted' : s.status === 'setting-up' ? 'preparing' : s.status === 'done' ? 'completed' : 'cancelled'}`, SALE_LABEL[s.status]));
+      const who = el('p', 'o-who', `${s.buyerName}${s.business ? ` · ${s.business}` : ''}`);
+      who.append(el('small', '', [s.mobile, s.email].filter(Boolean).join(' · ')));
+      const lines = el('ul', 'o-lines');
+      const l1 = el('li'); l1.append(el('span', '', s.productName), el('span', '', peso(s.amount)));
+      const l2 = el('li'); l2.append(el('span', '', 'Reference'), el('b', '', s.reference));
+      lines.append(l1, l2);
+      li.append(head, el('span', 'o-time', ago(s.createdAt)), who, lines);
+      if (s.notes) li.append(el('p', 'o-notes', s.notes));
+      const lab = el('label', 'fld'); lab.append('Status');
+      const sel = document.createElement('select');
+      Object.entries(SALE_LABEL).forEach(([v, t]) => { const o = document.createElement('option'); o.value = v; o.textContent = t; o.selected = v === s.status; sel.append(o); });
+      sel.addEventListener('change', async () => {
+        salesReq++; // a list refresh already in flight must not overwrite this change
+        try { await api(`/admin/purchases/${s.id}`, { method: 'PATCH', body: { status: sel.value } }); s.status = sel.value; renderSales(); }
+        catch (e) { alert(e.message); sel.value = s.status; }
+      });
+      lab.append(sel); li.append(lab);
+      return li;
+    }));
+  }
+  $('#salesCsv').addEventListener('click', () => {
+    const q = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
+    const rows = [['Order', 'Date', 'Product', 'Amount', 'Name', 'Business', 'Mobile', 'Email', 'Reference', 'Status', 'Notes'],
+      ...sales.map(s => [s.code, s.createdAt, s.productName, s.amount, s.buyerName, s.business, s.mobile, s.email, s.reference, s.status, s.notes])];
+    const url = URL.createObjectURL(new Blob([rows.map(r => r.map(q).join(',')).join('\r\n')], { type: 'text/csv' }));
+    const a = el('a'); a.href = url; a.download = 'rz-sales.csv'; document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000);
+  });
+
   /* ---------- start ---------- */
   async function boot() {
     try { me = await api('/me'); }
     catch (e) { showAuth(); if (e.status !== 401) $('#loginForm .err').textContent = e.message; return; }
     $('#authView').hidden = true; $('#appView').hidden = false; $('#topRight').hidden = false;
     paintBusiness();
+    $('#t-sales').hidden = !me.isAdmin;
+    if (me.isAdmin) loadSales();
     await poll(true);
     clearInterval(pollTimer); pollTimer = setInterval(() => poll(false), 10000);
   }

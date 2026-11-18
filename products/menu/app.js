@@ -185,6 +185,7 @@
 
   async function loadLive() {
     $('[data-open="settings"]').hidden = true;
+    $('.rz-buy').hidden = true;
     $('.rz-strip-note').textContent = 'Powered by RZ Menu';
     $('#contactField').hidden = false;
     $('#sendBtn').textContent = 'Place order';

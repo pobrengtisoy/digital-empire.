@@ -38,6 +38,15 @@ A Cloudflare Worker (`worker/index.js`) answers `/api/*`; everything else is ser
 - **Personal data:** orders hold customer names, numbers and addresses. The Philippine Data Privacy Act applies; a privacy notice is shown on the order form. Owners can delete orders. A full privacy policy and data-retention rule are still to do.
 - **Local development:** `npx wrangler dev --local` runs the Worker with a local D1 database.
 
+## Buying RZ products
+
+- Every product card, product page top bar and the details dialog has a **Buy** button that opens `/buy/?p=<product>`.
+- **Prices** (setup + monthly, or per event/season) are set in `worker/index.js` (`PRICES`, the official list the server charges) and shown from `products.js`. Change both together.
+- **Payment:** QR Ph (Maya Business account “SQUAREBOYS”, image at `assets/pay/qrph-squareboys.png`, redrawn from the merchant code and verified identical). The buyer pays the shown amount, enters the payment reference number and their details. The server records the purchase with its own price, rejects reused reference numbers and rate-limits submissions.
+- **RZ Sales inbox:** dashboard tab visible only to accounts whose email is listed in the Cloudflare secret `ADMIN_EMAILS` (comma-separated). Mark each purchase Paid, Setting up, Done, Refunded or Cancelled after checking the reference in Maya Business; download CSV.
+- **Contact:** Telegram @BRZBSST (nav, footer, checkout).
+- **Not yet:** automatic payment confirmation (Maya Checkout API keys needed), receipts by email, Telegram bot.
+
 ## Local development
 
 Pure HTML, CSS and JavaScript; no build process required.

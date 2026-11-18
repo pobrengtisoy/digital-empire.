@@ -19,7 +19,7 @@ RZ Menu, RZ Shop, RZ Booking, RZ Stay, RZ Listahan, RZ Invite, RZ Liga, RZ Quote
 - Each product must stay visually distinct from the homepage and from the others while staying clean and presentable.
 - Older demos remain but are unlisted: RZ Ledger `tools/invoice.html`, RZ Arena `tools/bracket.html` (playoff link from RZ Liga), RZ Insight `tools/report.html`, RZ Form `site-template.*`, RZ Edition Office `templates.html`, Brand Desk `brand-lab.*`.
 - Backend (Phase 1): `worker/index.js` + D1 serve `/api/*`. RZ Menu has real owner accounts, a dashboard (`dashboard/`), live menus (`products/menu/?shop=slug`) and server-side orders. The other nine products are still browser-only demos.
-- No checkout, payments, licences or hosted customer domains exist. Email alerts are not sending yet (need a custom domain).
+- Buying: `/buy/` checkout with QR Ph (manual payment check), purchases stored server-side, RZ Sales tab for `ADMIN_EMAILS` (Cloudflare secret). Official prices live in `worker/index.js` `PRICES`; `products.js` only displays them. No automatic payment confirmation, licences or hosted customer domains yet. Email alerts are not sending yet (need a custom domain).
 - Never trust client prices or IDs; keep the same-origin check, rate limits and HttpOnly session cookie. Never commit secrets; use Cloudflare secrets.
 
 ## Customization rules
@@ -32,7 +32,7 @@ RZ Menu, RZ Shop, RZ Booking, RZ Stay, RZ Listahan, RZ Invite, RZ Liga, RZ Quote
 
 ## Commercial safety
 
-- RZ Menu now has real owner accounts, a dashboard and server-side orders. There is still **no checkout, payment verification, licensed downloads or email sending**, and the other nine products have no backend yet.
+- RZ Menu now has real owner accounts, a dashboard and server-side orders. There is a QR Ph checkout with **manual** payment checking, but still **no automatic payment verification, licensed downloads or email sending**, and the other nine products have no backend yet.
 - Never claim these exist until implemented and verified.
 - Repository is currently public. Do not commit credentials, private source code meant for sale, unpublished proprietary client assets or secrets.
 - For actual sales, separate public demos and private product source, implement legally compliant business and payment processes, and verify entitlements server-side.

@@ -8,6 +8,8 @@
 .rz-strip a { color: #f3f0f1; text-decoration: none; padding: 6px 0; }
 .rz-strip a:hover { text-decoration: underline; }
 .rz-strip b { color: #e7a8c1; font-weight: 600; }
+.rz-strip .rz-buy { padding: 7px 16px; border-radius: 999px; background: #db5821; color: #16151f; font-weight: 800; text-decoration: none; }
+.rz-strip .rz-buy:hover { background: #e8692f; text-decoration: none; }
 .rz-offscreen { position: fixed; left: -9999px; top: 0; }
 @media (max-width: 520px) { .rz-strip .rz-strip-note { display: none; } }
 [hidden] { display: none !important; }
