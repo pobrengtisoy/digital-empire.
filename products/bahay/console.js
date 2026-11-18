@@ -52,7 +52,7 @@ function render() {
   $('#nListings').textContent = S.listings.length || '';
   const fresh = S.inquiries.filter(i => i.status === 'new').length;
   $('#nNew').textContent = fresh || '';
-  $('#photoNote').textContent = S.photosReady ? '' : 'Photo uploads start once RZ connects your photo storage. You can add listings now and photos later.';
+  $('#photoNote').textContent = S.photosReady ? '' : 'Photo uploads are coming soon. You can post listings now and add photos later.';
   renderListings(); renderInbox(); fillProfile();
 }
 
@@ -135,7 +135,9 @@ function renderPhotos() {
     el('div', { class: 'ph-tools' },
       i > 0 ? el('button', { type: 'button', 'aria-label': `Move photo ${i + 1} earlier`, onclick: () => { [edPhotos[i - 1], edPhotos[i]] = [edPhotos[i], edPhotos[i - 1]]; renderPhotos(); } }, '←') : null,
       el('button', { type: 'button', 'aria-label': `Remove photo ${i + 1}`, onclick: () => { edPhotos.splice(i, 1); renderPhotos(); } }, '×')))));
-  $('.ph-add').hidden = edPhotos.length >= MAX_PHOTOS;
+  const ready = !LIVE || S.photosReady;
+  $('.ph-add').hidden = !ready || edPhotos.length >= MAX_PHOTOS;
+  if (!ready) $('#phStatus').textContent = 'Photo uploads are coming soon. Save the listing now and add photos later.';
 }
 
 /* Shrink each photo in the browser before upload: long side 1600 px (demo: 900 px). */

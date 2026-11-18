@@ -78,7 +78,8 @@ img { display: block; max-width: 100%; }
 .card-photo img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s cubic-bezier(.2,.7,.2,1); }
 .card-open:hover .card-photo img { transform: scale(1.03); }
 @media (prefers-reduced-motion: reduce) { .card-photo img { transition: none; } .card-open:hover .card-photo img { transform: none; } }
-.no-photo { display: grid; place-items: center; height: 100%; font: 500 1.2rem var(--serif); color: var(--ink-2); }
+.no-photo { display: grid; place-items: center; align-content: center; gap: 4px; height: 100%; font: 500 1.4rem var(--serif); color: #e9dcc2; background-color: var(--green-2); background-image: linear-gradient(rgba(255,255,255,.07) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.07) 1px, transparent 1px); background-size: 24px 24px; }
+.no-photo::after { content: "Photos on request"; font: 600 .7rem var(--sans); letter-spacing: .16em; text-transform: uppercase; color: #b9c9c3; }
 .tag { position: absolute; left: 10px; top: 10px; padding: 3px 10px; background: rgba(28, 36, 34, .78); color: #fff; font-size: .74rem; font-weight: 600; letter-spacing: .06em; }
 .pics { position: absolute; right: 10px; bottom: 10px; padding: 2px 8px; background: rgba(28, 36, 34, .7); color: #fff; font-size: .74rem; }
 .sash { position: absolute; top: 22px; right: -42px; width: 170px; padding: 5px 0; background: var(--brass); color: #fff; font-size: .78rem; font-weight: 700; letter-spacing: .18em; text-align: center; text-transform: uppercase; transform: rotate(38deg); box-shadow: 0 2px 6px rgba(0,0,0,.2); }
