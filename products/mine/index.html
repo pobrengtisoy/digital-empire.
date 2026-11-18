@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#17120c">
+<title>RZ Mine — live selling “mine” tracker</title>
+<meta name="description" content="RZ Mine demo: record every “mine” during your Facebook live, see who got each item first, and send each buyer a checkout link with their total.">
+<link rel="icon" type="image/svg+xml" href="../../rz-mark.svg">
+<link rel="stylesheet" href="../fonts/mine.css">
+<link rel="stylesheet" href="../kit.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="rz-strip" id="strip"><a href="../../index.html">← RZ Digital Empire</a><span class="rz-strip-note"><b>RZ Mine</b> demo · sample ukay live</span><a href="?seller">Seller login</a><a class="rz-buy" href="../../buy/?p=mine">Buy</a></div>
+
+<!-- Seller sign in (real accounts only) -->
+<section class="auth" id="authView" hidden aria-labelledby="authTitle">
+  <p class="auth-tag" aria-hidden="true">MINE!</p>
+  <h1 id="authTitle">Your live selling console</h1>
+  <p class="lead">Record every mine, know who got it first, and send each buyer their total.</p>
+  <div class="auth-tabs" role="tablist">
+    <button type="button" role="tab" id="tabLogin" aria-selected="true" aria-controls="loginForm">Log in</button>
+    <button type="button" role="tab" id="tabSignup" aria-selected="false" aria-controls="signupForm">Create account</button>
+  </div>
+  <form id="loginForm" class="form" role="tabpanel" aria-labelledby="tabLogin">
+    <label class="fld">Email<input name="email" type="email" required autocomplete="username"></label>
+    <label class="fld">Password<input name="password" type="password" required autocomplete="current-password"></label>
+    <button class="btn" type="submit">Log in</button>
+    <p class="err" role="alert"></p>
+  </form>
+  <form id="signupForm" class="form" role="tabpanel" aria-labelledby="tabSignup" hidden>
+    <label class="fld">Shop name<input name="businessName" required maxlength="60" autocomplete="organization" placeholder="Ukay ni Ate Joy"></label>
+    <label class="fld">Email<input name="email" type="email" required autocomplete="username"></label>
+    <label class="fld">Password (10+ characters)<input name="password" type="password" required minlength="10" autocomplete="new-password"></label>
+    <p class="fine">By creating an account you agree to the <a href="../../terms/">Terms and Privacy</a> and to use your buyers’ details only for their orders.</p>
+    <button class="btn" type="submit">Create my console</button>
+    <p class="err" role="alert"></p>
+  </form>
+</section>
+
+<div class="app" id="appView" hidden>
+  <header class="studio">
+    <div class="studio-top">
+      <p class="shop" id="shopName">Ukay ni Ate Joy</p>
+      <div class="studio-actions">
+        <button type="button" class="link" data-open="settings">Shop settings</button>
+        <button type="button" class="link" id="logoutBtn" hidden>Log out</button>
+      </div>
+    </div>
+    <div class="live-row">
+      <span class="onair" id="onAir"><i aria-hidden="true"></i><span id="onAirText">LIVE</span></span>
+      <label class="sr" for="livePick">Choose a live</label>
+      <select id="livePick"></select>
+      <button type="button" class="chip" id="newLive">+ New live</button>
+      <button type="button" class="chip" id="endLive">End live</button>
+    </div>
+    <dl class="stats">
+      <div><dt>Mines</dt><dd id="stClaims">0</dd></div>
+      <div><dt>Buyers</dt><dd id="stBuyers">0</dd></div>
+      <div><dt>Sales</dt><dd id="stSales">₱0</dd></div>
+      <div><dt>Paid</dt><dd id="stPaid">₱0</dd></div>
+    </dl>
+  </header>
+
+  <nav class="panes-nav" aria-label="Console sections">
+    <button type="button" data-pane="rack" aria-pressed="false">Rack</button>
+    <button type="button" data-pane="feed" aria-pressed="true">Mine</button>
+    <button type="button" data-pane="buyers" aria-pressed="false">Buyers <span class="badge" id="buyerBadge"></span></button>
+  </nav>
+
+  <main class="panes">
+    <section class="pane rack" id="pane-rack" aria-labelledby="rackTitle">
+      <h2 id="rackTitle">On the rack</h2>
+      <form class="add-item" id="itemForm">
+        <label class="fld code">Code<input name="code" required maxlength="12" autocapitalize="characters" spellcheck="false" autocomplete="off"></label>
+        <label class="fld name">Item<input name="name" required maxlength="60" placeholder="Floral dress, size M" autocomplete="off"></label>
+        <label class="fld price">Price ₱<input name="price" type="number" required min="0" step="1" inputmode="numeric"></label>
+        <label class="fld stock">Stock<input name="stock" type="number" required min="1" max="999" value="1" inputmode="numeric"></label>
+        <button class="btn small" type="submit">Hang it</button>
+        <p class="err" id="itemErr" role="alert"></p>
+      </form>
+      <ul class="tags" id="tags" aria-live="polite"></ul>
+      <p class="empty" id="rackEmpty" hidden>No items yet. Hang your first item above, then read its code out on your live.</p>
+    </section>
+
+    <section class="pane feed" id="pane-feed" aria-labelledby="feedTitle">
+      <h2 id="feedTitle" class="sr">Record mines</h2>
+      <form class="mine-form" id="mineForm" autocomplete="off">
+        <label class="fld m-code">Item code<input name="code" required maxlength="12" autocapitalize="characters" spellcheck="false" list="codeList" placeholder="A1"></label>
+        <label class="fld m-buyer">Buyer’s name<input name="buyer" required maxlength="60" list="buyerList" placeholder="Name"></label>
+        <label class="fld m-qty">Qty<input name="qty" type="number" min="1" max="99" value="1" inputmode="numeric"></label>
+        <button class="mine-btn" type="submit">Mine!</button>
+      </form>
+      <datalist id="codeList"></datalist>
+      <datalist id="buyerList"></datalist>
+      <div class="feed-bar">
+        <p class="flash" id="flash" role="status"></p>
+        <button type="button" class="chip" data-open="pasteDlg">Paste comments</button>
+      </div>
+      <ol class="claims" id="claims"></ol>
+      <p class="empty" id="feedEmpty" hidden>Mines show here as you record them. First to claim gets the item; the rest wait as backups.</p>
+    </section>
+
+    <section class="pane buyers" id="pane-buyers" aria-labelledby="buyersTitle">
+      <div class="buyers-head">
+        <h2 id="buyersTitle">Buyers</h2>
+        <div class="seg" role="group" aria-label="Show buyers">
+          <button type="button" data-show="all" aria-pressed="true">All</button>
+          <button type="button" data-show="unpaid" aria-pressed="false">To collect</button>
+          <button type="button" data-show="paid" aria-pressed="false">Paid</button>
+        </div>
+      </div>
+      <ul class="carts" id="carts"></ul>
+      <p class="empty" id="cartsEmpty" hidden>Each buyer gets a card here with their total and a checkout link.</p>
+    </section>
+  </main>
+</div>
+
+<dialog id="pasteDlg" class="dlg" aria-labelledby="pasteTitle">
+  <button type="button" class="dlg-x" data-close aria-label="Close">×</button>
+  <h2 id="pasteTitle">Paste comments</h2>
+  <p class="fine">Copy comments from your live and paste them here. Lines with “mine” and a code are picked up, like <b>Maria Santos: mine A3</b> or <b>mine b2 x2</b> under the buyer’s name.</p>
+  <textarea id="pasteText" rows="8" placeholder="Maria Santos&#10;mine A3&#10;Jen dela Cruz: mine A5 x2"></textarea>
+  <ul class="parsed" id="parsed"></ul>
+  <button type="button" class="btn" id="pasteAdd" disabled>Add mines</button>
+  <p class="err" id="pasteErr" role="alert"></p>
+</dialog>
+
+<dialog id="settings" class="dlg" aria-labelledby="setTitle">
+  <button type="button" class="dlg-x" data-close aria-label="Close">×</button>
+  <h2 id="setTitle">Shop settings</h2>
+  <form id="setForm" class="form">
+    <label class="fld">Shop name<input name="name" required maxlength="60"></label>
+    <label class="fld">GCash / Maya number for payments<input name="gcash" maxlength="30" inputmode="tel" placeholder="0917 123 4567"></label>
+    <label class="fld">Shipping fee per buyer (₱)<input name="fee" type="number" min="0" max="5000" step="1" inputmode="numeric"></label>
+    <p class="fine" id="setNote">Buyers see these on their checkout link. In the demo they are saved on this device only.</p>
+    <button class="btn" type="submit">Save</button>
+    <p class="err" role="alert"></p>
+  </form>
+</dialog>
+
+<script src="../kit.js"></script>
+<script src="logic.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,5 +1,5 @@
 // Source-controlled catalog for the RZ Digital Empire homepage.
-// Every product has a working demo. Prices are shown here; the official prices live in worker/index.js (PRICES) — keep both in step.
+// Every product has a working demo. RZ Menu and RZ Mine also run on real seller accounts. Prices are shown here; the official prices live in worker/index.js (PRICES) — keep both in step.
 window.DECatalog = [
   { id: '01', category: 'food', kind: 'Restaurants & cafés', name: 'RZ Menu', key: 'menu', setup: 3699, monthly: 449, unit: '', href: 'products/menu/index.html', shot: 'assets/shots/menu.webp',
     description: 'An online menu where customers build their order and send it straight to your Messenger.',
@@ -41,4 +41,8 @@ window.DECatalog = [
     description: 'Ring up sales, compute change, track stock and see today’s sales and profit.',
     detail: 'Tap-to-sell item grid, receipt with quick cash buttons, low-stock alerts, restock buttons, best sellers, sales log and CSV download.',
     tags: ['Point of sale', 'Stock', 'Daily profit', 'Offline'] },
+  { id: '11', category: 'food', kind: 'Facebook live sellers', name: 'RZ Mine', key: 'mine', setup: 2999, monthly: 349, unit: '', href: 'products/mine/index.html', shot: 'assets/shots/mine.webp',
+    description: 'Record every “mine” during your live, see who got each item first, and send each buyer a checkout link with their total.',
+    detail: 'Hang items with codes, type or paste mine comments, automatic first-come winners with backups, totals per buyer with shipping, and a private link where buyers pay by GCash or Maya and send their address. Works on a real seller account.',
+    tags: ['Live selling', 'Mine tracker', 'Auto totals', 'Buyer checkout link'] },
 ];
