@@ -51,13 +51,18 @@ legend { padding-right: 8px; font-weight: 700; }
 .note { padding: 10px 12px; border-radius: 10px; background: #fff7e6; color: #6b4a10; }
 .err { margin: 0; min-height: 1.3em; color: var(--crimson); font-weight: 600; font-size: .92rem; }
 .ok { margin: 0; min-height: 1.3em; color: var(--green); font-weight: 600; font-size: .92rem; }
-.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; padding: 0 18px; border: 0; border-radius: 10px; background: var(--crimson); color: #fff; font-weight: 700; text-decoration: none; transition: background .2s, transform .12s; }
+.btn { display: inline-flex; align-items: center; justify-content: center; white-space: nowrap; min-height: 46px; padding: 0 18px; border: 0; border-radius: 10px; background: var(--crimson); color: #fff; font-weight: 700; text-decoration: none; transition: background .2s, transform .12s; }
 .btn:hover { background: var(--crimson-2); }
 .btn:active { transform: translateY(1px); }
 .btn:disabled { background: #b7b3c2; cursor: progress; }
 .btn.ghost { background: var(--card); color: var(--ink); border: 1px solid var(--line); }
 .btn.ghost:hover { border-color: var(--ink-2); }
 .btn.small { min-height: 36px; padding: 0 12px; font-size: .88rem; }
+.danger-zone { margin-top: 40px; }
+.danger-zone .btn { justify-self: start; }
+.btn.danger { background: #fff; color: #a3122f; border: 1px solid #a3122f; }
+.btn.danger:hover { background: #a3122f; color: #fff; }
+.fine a { color: inherit; }
 
 .biz-head { display: flex; justify-content: space-between; align-items: end; gap: 14px; flex-wrap: wrap; margin-bottom: 18px; }
 .biz-head h1 { margin: 0; font: 400 clamp(2rem, 5vw, 2.8rem)/1.1 var(--brush); color: var(--crimson); }

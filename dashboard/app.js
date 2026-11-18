@@ -73,6 +73,19 @@
       me.business = business; paintBusiness(); st.textContent = 'Saved.';
     } catch (err) { st.textContent = err.message; }
   });
+  $('#deleteForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const form = e.target; const err = $('.err', form); const btn = $('button[type="submit"]', form);
+    err.textContent = '';
+    if (!confirm(`Delete ${me.business.name} and all its orders for good? This cannot be undone.`)) return;
+    btn.disabled = true;
+    try {
+      await api('/account', { method: 'DELETE', body: { password: form.elements.password.value } });
+      form.reset(); clearInterval(pollTimer); me = null; showAuth();
+      $('#loginForm .err').textContent = 'Your account was deleted.';
+    } catch (ex) { err.textContent = ex.message; }
+    finally { btn.disabled = false; }
+  });
   $('#copyLink').addEventListener('click', async () => {
     try { await navigator.clipboard.writeText(menuUrl(me.business.slug)); $('#setStatus').textContent = 'Link copied.'; }
     catch { $('#setStatus').textContent = 'Select the link and copy it.'; }

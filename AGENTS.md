@@ -20,6 +20,7 @@ RZ Menu, RZ Shop, RZ Booking, RZ Stay, RZ Listahan, RZ Invite, RZ Liga, RZ Quote
 - Older demos remain but are unlisted: RZ Ledger `tools/invoice.html`, RZ Arena `tools/bracket.html` (playoff link from RZ Liga), RZ Insight `tools/report.html`, RZ Form `site-template.*`, RZ Edition Office `templates.html`, Brand Desk `brand-lab.*`.
 - Backend (Phase 1): `worker/index.js` + D1 serve `/api/*`. RZ Menu has real owner accounts, a dashboard (`dashboard/`), live menus (`products/menu/?shop=slug`) and server-side orders. The other nine products are still browser-only demos.
 - Buying: `/buy/` checkout with QR Ph (manual payment check), purchases stored server-side, RZ Sales tab for `ADMIN_EMAILS` (Cloudflare secret). Official prices live in `worker/index.js` `PRICES`; `products.js` only displays them. No automatic payment confirmation, licences or hosted customer domains yet. Email alerts are not sending yet (need a custom domain).
+- Terms and Privacy live at `/terms/` (setup 1–24 hours, payments final with fix-instead-of-refund, refund only if RZ cannot deliver or on overpayment; Data Privacy Act RA 10173). Keep checkout, dashboard and terms wording consistent. Owners can delete their own account (`DELETE /api/account`, password re-check).
 - Never trust client prices or IDs; keep the same-origin check, rate limits and HttpOnly session cookie. Never commit secrets; use Cloudflare secrets.
 
 ## Customization rules
