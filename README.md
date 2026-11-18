@@ -80,6 +80,7 @@ We verified V0.5 content in GitHub. The external checker did not independently r
 - RZ has no backend customer records, secure downloads, receipt validation, order inbox or hosted client site provisions yet.
 - The repository is public. **Never commit credentials, payment keys, licensed private product source code or customer files** here.
 - Terms and Privacy: `/terms/`. Owners can delete their account from Dashboard → Settings.
+- RZ Bahay listing photos use Cloudflare R2 (free plan): bucket `rz-photos` for the live site and `rz-photos-preview` for preview builds, both bound as `PHOTOS` in `wrangler.jsonc`. Both buckets must exist or the deploy fails.
 - Still to do for a full launch: backends for the other nine products, customer custom domains, automatic payment verification and email sending.
 - The RZ mark is an original temporary code-drawn identity and may be replaced with the official approved RZ company logo if provided. The logo upload field serves the demo customer identity, not a permanent rebrand of the RZ marketplace itself.
 
