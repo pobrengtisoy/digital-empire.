@@ -10,6 +10,7 @@ import { MINE_SCHEMA, mineRoutes } from './mine.js';
 import { UPA_SCHEMA, upaRoutes } from './upa.js';
 import { BAHAY_SCHEMA, bahayRoutes } from './bahay.js';
 import { GABI_SCHEMA, gabiRoutes } from './gabi.js';
+import { ESKWELA_SCHEMA, eskwelaRoutes } from './eskwela.js';
 
 const SESSION_DAYS = 30;
 const COOKIE = 'rz_sess';
@@ -37,6 +38,8 @@ const PRICES = {
   'gabi-site': { name: 'RZ Gabi · Site plan', setup: 7999, monthly: 699 },
   'gabi-vip': { name: 'RZ Gabi · VIP plan', setup: 14999, monthly: 999 },
   'gabi-full': { name: 'RZ Gabi · Full plan', setup: 29999, monthly: 1999 },
+  'eskwela-plus': { name: 'RZ Eskwela · Plus plan', setup: 24999, monthly: 2499 },
+  'eskwela-full': { name: 'RZ Eskwela · Full plan', setup: 34999, monthly: 2999 },
 };
 const PURCHASE_STATUSES = ['pending', 'paid', 'setting-up', 'done', 'refunded', 'cancelled'];
 const firstPayment = p => p.setup + p.monthly;
@@ -56,6 +59,7 @@ const SCHEMA = [
   ...UPA_SCHEMA,
   ...BAHAY_SCHEMA,
   ...GABI_SCHEMA,
+  ...ESKWELA_SCHEMA,
 ];
 
 let schemaReady = null;
@@ -197,7 +201,7 @@ async function deleteAccount(env, request, user) {
     env.DB.prepare('DELETE FROM sessions WHERE user_id = ?').bind(user.user_id),
     env.DB.prepare('DELETE FROM users WHERE id = ?').bind(user.user_id),
     env.DB.prepare('DELETE FROM businesses WHERE id = ?').bind(user.id),
-    ...['mine_claims', 'mine_carts', 'mine_items', 'mine_lives', 'upa_payments', 'upa_bills', 'upa_tenants', 'upa_units', 'upa_settings', 'bahay_inquiries', 'bahay_listings', 'bahay_profile', 'gabi_guests', 'gabi_promoters', 'gabi_reservations', 'gabi_packages', 'gabi_tables', 'gabi_events', 'gabi_clubs'].map(t => env.DB.prepare(`DELETE FROM ${t} WHERE business_id = ?`).bind(user.id)),
+    ...['mine_claims', 'mine_carts', 'mine_items', 'mine_lives', 'upa_payments', 'upa_bills', 'upa_tenants', 'upa_units', 'upa_settings', 'bahay_inquiries', 'bahay_listings', 'bahay_profile', 'gabi_guests', 'gabi_promoters', 'gabi_reservations', 'gabi_packages', 'gabi_tables', 'gabi_events', 'gabi_clubs', 'esk_notices', 'esk_attendance', 'esk_grades', 'esk_payments', 'esk_charges', 'esk_students', 'esk_levels', 'esk_schools'].map(t => env.DB.prepare(`DELETE FROM ${t} WHERE business_id = ?`).bind(user.id)),
   ]);
   await bahay.purgePhotos(env, user.id);
   return json({ ok: true }, 200, { 'set-cookie': cookieHeader('', 0, request) });
@@ -304,6 +308,7 @@ const mine = mineRoutes({ json, HttpError, text, multiline, money, randomHex, no
 const upa = upaRoutes({ json, HttpError, text, money, randomHex, now, readJSON, rateLimit });
 const bahay = bahayRoutes({ json, HttpError, text, multiline, money, randomHex, now, readJSON, rateLimit });
 const gabi = gabiRoutes({ json, HttpError, text, multiline, money, randomHex, now, readJSON, rateLimit });
+const eskwela = eskwelaRoutes({ json, HttpError, text, multiline, money, randomHex, now, readJSON, rateLimit });
 
 /* ---------- router ---------- */
 async function api(request, env, url) {
@@ -337,6 +342,7 @@ async function api(request, env, url) {
   if (pathname.startsWith('/api/public/upa/')) { const r = await upa.publicRoute(env, request, pathname, method); if (r) return r; }
   if (pathname.startsWith('/api/public/bahay/')) { const r = await bahay.publicRoute(env, request, pathname, method); if (r) return r; }
   if (pathname.startsWith('/api/public/gabi/')) { const r = await gabi.publicRoute(env, request, pathname, method); if (r) return r; }
+  if (pathname.startsWith('/api/public/eskwela/')) { const r = await eskwela.publicRoute(env, request, pathname, method); if (r) return r; }
 
   if (pathname === '/api/auth/signup' && method === 'POST') return signup(env, request);
   if (pathname === '/api/auth/login' && method === 'POST') return login(env, request);
@@ -348,6 +354,7 @@ async function api(request, env, url) {
   if (pathname.startsWith('/api/admin/')) {
     if (!isAdmin(env, user)) throw new HttpError(403, 'Only RZ admins can see this.');
     { const r = await gabi.admin(env, request, pathname, method); if (r) return r; }
+    { const r = await eskwela.admin(env, request, pathname, method); if (r) return r; }
     if (pathname === '/api/admin/purchases' && method === 'GET') {
       const { results } = await env.DB.prepare('SELECT * FROM purchases ORDER BY created_at DESC LIMIT 300').all();
       return json({ purchases: results.map(purchaseOut) });
@@ -366,6 +373,7 @@ async function api(request, env, url) {
   if (pathname === '/api/photos' && method === 'POST') return bahay.owner(env, request, user, '/api/bahay/photos', method);
   if (pathname === '/api/bahay' || pathname.startsWith('/api/bahay/')) { const r = await bahay.owner(env, request, user, pathname, method); if (r) return r; }
   if (pathname === '/api/gabi' || pathname.startsWith('/api/gabi/')) { const r = await gabi.owner(env, request, user, pathname, method); if (r) return r; }
+  if (pathname === '/api/eskwela' || pathname.startsWith('/api/eskwela/')) { const r = await eskwela.owner(env, request, user, pathname, method); if (r) return r; }
   if (pathname === '/api/account' && method === 'DELETE') return deleteAccount(env, request, user);
   if (pathname === '/api/business' && method === 'PUT') return updateBusiness(env, request, user);
   if (pathname === '/api/menu' && method === 'GET') return json({ items: await listMenu(env, user.id, false) });

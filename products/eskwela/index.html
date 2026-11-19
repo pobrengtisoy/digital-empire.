@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#15171d">
+<title>RZ Eskwela — school page, enrolment, fees, grades and parent portal</title>
+<meta name="description" content="RZ Eskwela demo: a school's page with online enrolment and a schedule of fees, an office console for students, instalments, grades and report cards, and a private parent portal.">
+<link rel="icon" type="image/svg+xml" href="../../rz-mark.svg">
+<link rel="stylesheet" href="../fonts/eskwela.css">
+<link rel="stylesheet" href="../kit.css">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="site.css">
+</head>
+<body class="site">
+<div class="rz-strip" id="strip"><a href="../../index.html">← RZ Digital Empire</a><span class="rz-strip-note"><b>RZ Eskwela</b> demo · sample school</span><a href="office.html">School office</a><a class="rz-buy" href="../../buy/?p=eskwela">Buy</a></div>
+
+<header class="s-top" id="top">
+  <div class="s-top-in">
+    <span class="seal" id="sSeal" aria-hidden="true"></span>
+    <div><p class="s-name inscr" id="sName"></p><p class="s-motto" id="sMotto"></p></div>
+    <nav class="s-nav" aria-label="Sections"><a href="#levels">Grade levels and fees</a><a href="#enrol" class="btn primary small">Enrol online</a></nav>
+  </div>
+</header>
+
+<main id="main" hidden>
+  <section class="s-lead" aria-labelledby="leadTitle">
+    <div class="s-lead-in">
+      <h1 id="leadTitle"></h1>
+      <p class="s-sub" id="leadSub"></p>
+      <div class="row wrap"><a class="btn primary" href="#enrol">Apply for enrolment</a><a class="btn" href="#levels">See the schedule of fees</a></div>
+    </div>
+    <dl class="s-facts" id="facts"></dl>
+  </section>
+
+  <section class="s-sec" id="levels" aria-labelledby="levelsTitle">
+    <div class="s-sec-head"><h2 id="levelsTitle">Grade levels and schedule of fees</h2><p class="muted" id="feeNote"></p></div>
+    <div class="lv-grid" id="lvGrid"></div>
+  </section>
+
+  <section class="s-sec s-enrol" id="enrol" aria-labelledby="enrolTitle">
+    <div class="s-sec-head"><h2 id="enrolTitle">Online enrolment</h2><p class="muted">Send the learner’s details. The registrar reviews each application and contacts you to complete the requirements and the first payment.</p></div>
+    <form class="enrol-form" id="enrolForm" novalidate>
+      <fieldset><legend>Learner</legend>
+        <div class="grid3">
+          <label class="fld">Last name<input name="lastName" required maxlength="60" autocomplete="family-name"></label>
+          <label class="fld">First name<input name="firstName" required maxlength="60" autocomplete="given-name"></label>
+          <label class="fld">Middle name<input name="middleName" maxlength="60" autocomplete="additional-name"></label>
+          <label class="fld">Date of birth<input name="birthdate" type="date" required></label>
+          <label class="fld">Sex<select name="sex"><option value="">Select</option><option value="F">Female</option><option value="M">Male</option></select></label>
+          <label class="fld">LRN <small>(if any)</small><input name="lrn" maxlength="12" inputmode="numeric"></label>
+          <label class="fld">Applying for<select name="levelId" required></select></label>
+          <label class="fld s-span2">Previous school <small>(if any)</small><input name="previousSchool" maxlength="120"></label>
+        </div>
+      </fieldset>
+      <fieldset><legend>Parent or guardian</legend>
+        <div class="grid3">
+          <label class="fld">Full name<input name="guardian" required maxlength="80" autocomplete="name"></label>
+          <label class="fld">Relationship<input name="relation" maxlength="30" placeholder="Mother, father, guardian"></label>
+          <label class="fld">Mobile<input name="mobile" required maxlength="20" inputmode="tel" autocomplete="tel" placeholder="09xx xxx xxxx"></label>
+          <label class="fld">Email <small>(optional)</small><input name="email" type="email" maxlength="120" autocomplete="email"></label>
+          <label class="fld s-span2">Home address<input name="address" maxlength="200" autocomplete="street-address"></label>
+        </div>
+      </fieldset>
+      <label class="check consent"><input type="checkbox" name="consent"> <span>I consent to the school collecting and using this information for enrolment and school records, in line with the Data Privacy Act of 2012.</span></label>
+      <div class="row wrap"><button class="btn primary" type="submit" id="enrolBtn">Submit application</button><p class="err" id="enrolErr" role="alert"></p></div>
+    </form>
+    <div class="enrol-done" id="enrolDone" hidden role="status"></div>
+  </section>
+
+  <section class="s-sec s-visit" aria-labelledby="visitTitle">
+    <h2 id="visitTitle">The school office</h2>
+    <dl class="visit" id="visit"></dl>
+    <p class="fine">Parents of enrolled learners receive a private link to the parent portal from the school office: account, payments, report card and announcements.</p>
+  </section>
+</main>
+<footer class="s-foot" id="foot"></footer>
+<main class="s-missing" id="missing" hidden><h1>Page not found</h1><p id="missingText">This school’s page does not exist.</p></main>
+<script src="../kit.js"></script>
+<script type="module" src="site.js"></script>
+</body>
+</html>

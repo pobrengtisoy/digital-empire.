@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#15171d">
+<meta name="robots" content="noindex">
+<title>RZ Eskwela — school office</title>
+<link rel="icon" type="image/svg+xml" href="../../rz-mark.svg">
+<link rel="stylesheet" href="../fonts/eskwela.css">
+<link rel="stylesheet" href="../kit.css">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="office.css">
+</head>
+<body class="office">
+<div class="rz-strip" id="strip"><a href="index.html">← Demo school page</a>
+  <span class="plan-preview" role="group" aria-label="Preview a plan"><span class="pp-label">Preview plan</span><button type="button" data-plan="plus">Plus</button><button type="button" data-plan="full" aria-pressed="true">Full</button></span>
+  <a href="?live">Office login</a><a class="rz-buy" href="../../buy/?p=eskwela">Buy</a></div>
+
+<section class="auth" id="authView" hidden aria-labelledby="authTitle">
+  <span class="seal" aria-hidden="true">RZ</span>
+  <h1 id="authTitle" class="inscr">School office</h1>
+  <p class="muted">Enrolment, fees, grades and report cards for your school.</p>
+  <div class="tabs2" role="tablist">
+    <button type="button" role="tab" id="tabLogin" aria-selected="true" aria-controls="loginForm">Sign in</button>
+    <button type="button" role="tab" id="tabSignup" aria-selected="false" aria-controls="signupForm">Create school account</button>
+  </div>
+  <form id="loginForm" class="stack" role="tabpanel" aria-labelledby="tabLogin">
+    <label class="fld">Email<input name="email" type="email" required autocomplete="username"></label>
+    <label class="fld">Password<input name="password" type="password" required autocomplete="current-password"></label>
+    <button class="btn primary wide" type="submit">Sign in</button>
+    <p class="err" role="alert"></p>
+  </form>
+  <form id="signupForm" class="stack" role="tabpanel" aria-labelledby="tabSignup" hidden>
+    <label class="fld">School name<input name="businessName" required maxlength="80" autocomplete="organization"></label>
+    <label class="fld">School page address<input name="slug" required minlength="3" maxlength="40" pattern="[a-z0-9][a-z0-9\-]{1,38}[a-z0-9]" autocapitalize="none" spellcheck="false" placeholder="bagong-liwanag"></label>
+    <label class="fld">Office email<input name="email" type="email" required autocomplete="username"></label>
+    <label class="fld">Password <small>(10 or more characters)</small><input name="password" type="password" required minlength="10" autocomplete="new-password"></label>
+    <p class="fine">By creating an account you agree to the <a href="../../terms/">Terms and Privacy</a>. Student records are personal information under the Data Privacy Act; use them only for school purposes.</p>
+    <button class="btn primary wide" type="submit">Create school account</button>
+    <p class="err" role="alert"></p>
+  </form>
+</section>
+
+<div class="shell" id="appView" hidden>
+  <aside class="rail" aria-label="School office">
+    <div class="rail-head">
+      <span class="seal" id="railSeal" aria-hidden="true"></span>
+      <div><p class="rail-school inscr" id="railSchool"></p><p class="rail-sy" id="railSy"></p></div>
+    </div>
+    <nav class="rail-nav" aria-label="Sections">
+      <a href="#today" data-view="today">Today</a>
+      <a href="#students" data-view="students">Students <span class="count" id="cApplicants"></span></a>
+      <a href="#fees" data-view="fees">Fees and payments <span class="count" id="cPending"></span></a>
+      <a href="#grades" data-view="grades">Grades and report cards</a>
+      <a href="#attendance" data-view="attendance">Attendance <span class="tier" data-full>Full</span></a>
+      <a href="#notices" data-view="notices">Announcements <span class="tier" data-full>Full</span></a>
+      <a href="#settings" data-view="settings">School settings</a>
+    </nav>
+    <div class="rail-foot">
+      <p class="rail-plan" id="railPlan"></p>
+      <a id="publicLink" target="_blank" rel="noopener">School page and enrolment</a>
+      <button type="button" class="rail-btn" id="logoutBtn" hidden>Sign out</button>
+    </div>
+  </aside>
+
+  <main class="work" id="work">
+    <!-- Today -->
+    <section class="view" id="v-today" aria-labelledby="h-today">
+      <header class="work-head"><div><h1 id="h-today">Today</h1><p class="muted" id="todayDate"></p></div></header>
+      <dl class="ledger-figs" id="figs"></dl>
+      <div class="cols">
+        <section aria-labelledby="h-apps"><h2 id="h-apps">Applications for enrolment</h2><div class="tbl-wrap"><table class="tbl"><thead><tr><th scope="col">Applicant</th><th scope="col" class="hide-s">Level</th><th scope="col" class="hide-s">Received</th><th scope="col" class="num">Action</th></tr></thead><tbody id="appsBody"></tbody></table></div></section>
+        <section aria-labelledby="h-late"><h2 id="h-late">Accounts past due</h2><div class="tbl-wrap"><table class="tbl"><thead><tr><th scope="col">Student</th><th scope="col" class="num">Past due</th><th scope="col" class="num">Days</th><th scope="col" class="num">Action</th></tr></thead><tbody id="lateBody"></tbody></table></div></section>
+      </div>
+      <section aria-labelledby="h-verify"><h2 id="h-verify">Parent payments to verify</h2><p class="fine">Sent from the parent portal. Check each reference in your GCash, Maya or bank app before confirming.</p><div class="tbl-wrap"><table class="tbl"><thead><tr><th scope="col">Student</th><th scope="col">Sent</th><th scope="col">Method and reference</th><th scope="col" class="num">Amount</th><th scope="col" class="num">Action</th></tr></thead><tbody id="verifyBody"></tbody></table></div></section>
+    </section>
+
+    <!-- Students -->
+    <section class="view" id="v-students" hidden aria-labelledby="h-students">
+      <header class="work-head"><div><h1 id="h-students">Students</h1><p class="muted" id="studentsSub"></p></div><button type="button" class="btn primary" id="addStudentBtn">Add student</button></header>
+      <div class="toolbar">
+        <input class="ctl search" id="sSearch" type="search" placeholder="Search name, student no. or LRN" aria-label="Search students">
+        <select class="ctl" id="sLevel" aria-label="Grade level"></select>
+        <div class="seg" role="group" aria-label="Status" id="sStatus">
+          <button type="button" data-v="enrolled" aria-pressed="true">Enrolled</button>
+          <button type="button" data-v="applicant" aria-pressed="false">Applicants</button>
+          <button type="button" data-v="withdrawn" aria-pressed="false">Withdrawn</button>
+          <button type="button" data-v="all" aria-pressed="false">All</button>
+        </div>
+      </div>
+      <form class="panel" id="addStudentForm" hidden aria-labelledby="h-addst">
+        <h2 id="h-addst">Add a student</h2>
+        <div class="grid3">
+          <label class="fld">Last name<input name="lastName" required maxlength="60"></label>
+          <label class="fld">First name<input name="firstName" required maxlength="60"></label>
+          <label class="fld">Middle name<input name="middleName" maxlength="60"></label>
+          <label class="fld">Grade level<select name="levelId" required></select></label>
+          <label class="fld">Section<input name="section" maxlength="40"></label>
+          <label class="fld">LRN <small>(12 digits, optional)</small><input name="lrn" maxlength="12" inputmode="numeric"></label>
+          <label class="fld">Parent or guardian<input name="guardian" maxlength="80"></label>
+          <label class="fld">Mobile<input name="mobile" maxlength="20" inputmode="tel"></label>
+          <label class="fld">Discount % <small>(on tuition)</small><input name="discount" type="number" min="0" max="100" step="0.5" value="0" inputmode="decimal"></label>
+        </div>
+        <label class="check"><input type="checkbox" name="enrol" checked> Enrol now and create the fee schedule</label>
+        <div class="row"><button class="btn primary" type="submit">Save student</button><button class="btn" type="button" id="addStudentCancel">Cancel</button></div>
+        <p class="err" role="alert"></p>
+      </form>
+      <div class="tbl-wrap"><table class="tbl"><thead><tr><th scope="col">Student</th><th scope="col">Level and section</th><th scope="col">Parent or guardian</th><th scope="col" class="num">Balance</th><th scope="col">Status</th></tr></thead><tbody id="studentsBody"></tbody></table></div>
+    </section>
+
+    <!-- One student -->
+    <section class="view" id="v-student" hidden aria-labelledby="h-student">
+      <p class="crumb"><a href="#students">Students</a></p>
+      <header class="work-head"><div><h1 id="h-student"></h1><p class="muted" id="stSub"></p></div>
+        <div class="row wrap" id="stActions"></div></header>
+      <form class="panel" id="payForm" hidden aria-labelledby="h-pay">
+        <h2 id="h-pay">Record a payment</h2>
+        <div class="grid3">
+          <label class="fld">Amount received ₱<input name="amount" type="number" min="0.01" step="0.01" required inputmode="decimal"></label>
+          <label class="fld">Date<input name="paidOn" type="date" required></label>
+          <label class="fld">Method<select name="method"><option>Cash</option><option>GCash</option><option>Maya</option><option>Bank</option><option>Cheque</option></select></label>
+          <label class="fld">Official receipt no.<input name="receiptNo" maxlength="30"></label>
+          <label class="fld">Reference <small>(e-wallet or bank)</small><input name="reference" maxlength="40" autocapitalize="characters"></label>
+          <label class="fld">Note<input name="note" maxlength="120"></label>
+        </div>
+        <div class="row"><button class="btn primary" type="submit">Record payment</button><button class="btn" type="button" id="payCancel">Cancel</button></div>
+        <p class="err" role="alert"></p>
+      </form>
+      <div class="split">
+        <div>
+          <h2>Account</h2>
+          <div id="stStatement"></div>
+          <form class="inline-add" id="chargeForm" aria-label="Add a charge">
+            <input class="ctl" name="label" maxlength="60" placeholder="Other charge, e.g. Field trip" aria-label="Charge description">
+            <input class="ctl" name="amount" type="number" min="0.01" step="0.01" placeholder="₱" aria-label="Amount" inputmode="decimal">
+            <input class="ctl" name="due" type="date" aria-label="Due date">
+            <button class="btn small" type="submit">Add charge</button>
+          </form>
+          <p class="err" id="chargeErr" role="alert"></p>
+          <h2>Payments</h2>
+          <div class="tbl-wrap"><table class="tbl"><thead><tr><th scope="col">Date</th><th scope="col">Receipt and reference</th><th scope="col" class="num">Amount</th><th scope="col">Status</th><th scope="col" class="num"><span class="sr">Action</span></th></tr></thead><tbody id="stPayments"></tbody></table></div>
+          <h2>Report card</h2>
+          <div id="stReport"></div>
+        </div>
+        <form class="panel details" id="stForm" aria-labelledby="h-details">
+          <h2 id="h-details">Student record</h2>
+          <div class="grid2">
+            <label class="fld">Last name<input name="lastName" required maxlength="60"></label>
+            <label class="fld">First name<input name="firstName" required maxlength="60"></label>
+            <label class="fld">Middle name<input name="middleName" maxlength="60"></label>
+            <label class="fld">LRN<input name="lrn" maxlength="12" inputmode="numeric"></label>
+            <label class="fld">Date of birth<input name="birthdate" type="date"></label>
+            <label class="fld">Sex<select name="sex"><option value="">—</option><option value="F">Female</option><option value="M">Male</option></select></label>
+            <label class="fld">Grade level<select name="levelId"></select></label>
+            <label class="fld">Section<input name="section" maxlength="40"></label>
+            <label class="fld">Parent or guardian<input name="guardian" maxlength="80"></label>
+            <label class="fld">Relationship<input name="relation" maxlength="30"></label>
+            <label class="fld">Mobile<input name="mobile" maxlength="20" inputmode="tel"></label>
+            <label class="fld">Email<input name="email" type="email" maxlength="120"></label>
+          </div>
+          <label class="fld">Home address<input name="address" maxlength="200"></label>
+          <label class="fld">Previous school<input name="previousSchool" maxlength="120"></label>
+          <div class="grid2">
+            <label class="fld">Tuition discount %<input name="discount" type="number" min="0" max="100" step="0.5" inputmode="decimal"></label>
+            <label class="fld">Discount reason<input name="discountNote" maxlength="80"></label>
+          </div>
+          <p class="fine">A discount changed after enrolment applies to charges you add later. Adjust existing charges with an additional charge or a credit note.</p>
+          <button class="btn dark" type="submit">Save record</button>
+          <p class="err" role="alert"></p>
+          <div class="danger-zone">
+            <p class="fine">Withdrawing keeps every record. Delete is only for an application entered by mistake.</p>
+            <div class="row wrap"><button type="button" class="btn danger small" id="stWithdraw"></button><button type="button" class="btn danger small" id="stDelete">Delete application</button></div>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- Fees and payments -->
+    <section class="view" id="v-fees" hidden aria-labelledby="h-fees">
+      <header class="work-head"><div><h1 id="h-fees">Fees and payments</h1><p class="muted">The fee schedule of each grade level is applied when a student is enrolled.</p></div></header>
+      <div class="lvl-tabs" role="tablist" id="feeTabs" aria-label="Grade level"></div>
+      <form class="panel" id="feeForm">
+        <div class="cols">
+          <div>
+            <h2>Fees for the school year</h2>
+            <div class="tbl-wrap"><table class="tbl edit-tbl fee-items"><thead><tr><th scope="col">Item</th><th scope="col" class="num">Amount ₱</th><th scope="col">Discount</th><th scope="col"><span class="sr">Remove</span></th></tr></thead><tbody id="feeItems"></tbody></table></div>
+            <button type="button" class="linkbtn" id="addFeeItem">Add a fee item</button>
+          </div>
+          <div>
+            <h2>Payment schedule</h2>
+            <div class="tbl-wrap"><table class="tbl edit-tbl fee-sched"><thead><tr><th scope="col">Instalment</th><th scope="col">Due date</th><th scope="col" class="num">Share %</th><th scope="col"><span class="sr">Remove</span></th></tr></thead><tbody id="feeSched"></tbody></table></div>
+            <button type="button" class="linkbtn" id="addSched">Add an instalment</button>
+          </div>
+        </div>
+        <p class="fee-total" id="feeTotal"></p>
+        <div class="row"><button class="btn primary" type="submit">Save fee schedule</button></div>
+        <p class="err" role="alert"></p>
+      </form>
+      <h2>Payment journal</h2>
+      <div class="toolbar"><select class="ctl" id="jMonth" aria-label="Month"></select><button type="button" class="btn" id="jCsv">Download CSV</button><p class="fine" id="jTotal"></p></div>
+      <div class="tbl-wrap"><table class="tbl"><thead><tr><th scope="col" class="hide-s">Date</th><th scope="col" class="hide-s">Receipt no.</th><th scope="col">Student</th><th scope="col" class="hide-s">Method and reference</th><th scope="col" class="num">Amount</th><th scope="col">Status</th></tr></thead><tbody id="journalBody"></tbody></table></div>
+    </section>
+
+    <!-- Grades -->
+    <section class="view" id="v-grades" hidden aria-labelledby="h-grades">
+      <header class="work-head"><div><h1 id="h-grades">Grades and report cards</h1><p class="muted">Enter one learning area and quarter at a time. Parents see a quarter once you release it.</p></div></header>
+      <div class="toolbar">
+        <select class="ctl" id="gLevel" aria-label="Grade level"></select>
+        <select class="ctl" id="gSubject" aria-label="Learning area"></select>
+        <div class="seg" role="group" aria-label="Quarter" id="gQuarter"><button type="button" data-q="1" aria-pressed="true">Q1</button><button type="button" data-q="2" aria-pressed="false">Q2</button><button type="button" data-q="3" aria-pressed="false">Q3</button><button type="button" data-q="4" aria-pressed="false">Q4</button></div>
+      </div>
+      <form id="gradeForm">
+        <div class="tbl-wrap"><table class="tbl"><thead><tr><th scope="col">Learner</th><th scope="col" class="hide-s">Section</th><th scope="col" class="num">Grade</th><th scope="col" class="hide-s">Descriptor</th></tr></thead><tbody id="gradeBody"></tbody></table></div>
+        <div class="row"><button class="btn primary" type="submit">Save grades</button><p class="fine" id="gradeInfo"></p></div>
+        <p class="err" role="alert"></p>
+      </form>
+      <section class="panel" aria-labelledby="h-release">
+        <h2 id="h-release">Release to parents</h2>
+        <div class="row wrap" id="releaseBox"></div>
+        <p class="fine">Released quarters appear on the report card in the parent portal.</p>
+      </section>
+    </section>
+
+    <!-- Attendance (Full) -->
+    <section class="view" id="v-attendance" hidden aria-labelledby="h-att">
+      <header class="work-head"><div><h1 id="h-att">Attendance</h1><p class="muted">Mark each learner, then save the day.</p></div></header>
+      <div class="locked" data-locked hidden></div>
+      <div data-unlocked>
+        <div class="toolbar"><input class="ctl" id="aDay" type="date" aria-label="Day"><select class="ctl" id="aLevel" aria-label="Grade level"></select><button type="button" class="btn" id="aAllPresent">Mark all present</button></div>
+        <form id="attForm">
+          <div class="tbl-wrap"><table class="tbl"><thead><tr><th scope="col">Learner</th><th scope="col">Mark</th><th scope="col" class="num hide-s">Present, last 14 school days</th></tr></thead><tbody id="attBody"></tbody></table></div>
+          <div class="row"><button class="btn primary" type="submit">Save attendance</button></div>
+          <p class="err" role="alert"></p>
+        </form>
+      </div>
+    </section>
+
+    <!-- Announcements (Full) -->
+    <section class="view" id="v-notices" hidden aria-labelledby="h-notices">
+      <header class="work-head"><div><h1 id="h-notices">Announcements</h1><p class="muted">Shown to parents in the parent portal.</p></div></header>
+      <div class="locked" data-locked hidden></div>
+      <div data-unlocked>
+        <form class="panel" id="noticeForm">
+          <div class="grid2"><label class="fld">Title<input name="title" required maxlength="100"></label><label class="fld">For<select name="levelId"></select></label></div>
+          <label class="fld">Announcement<textarea name="body" required maxlength="1500"></textarea></label>
+          <div class="row"><button class="btn primary" type="submit">Post announcement</button></div>
+          <p class="err" role="alert"></p>
+        </form>
+        <ul class="notices" id="noticeList"></ul>
+      </div>
+    </section>
+
+    <!-- Settings -->
+    <section class="view" id="v-settings" hidden aria-labelledby="h-settings">
+      <header class="work-head"><div><h1 id="h-settings">School settings</h1></div></header>
+      <form class="panel" id="schoolForm">
+        <h2>School profile</h2>
+        <div class="grid2">
+          <label class="fld">School name<input name="name" required maxlength="80"></label>
+          <label class="fld">Motto<input name="motto" maxlength="120"></label>
+          <label class="fld">Street and barangay<input name="address" maxlength="160"></label>
+          <label class="fld">City and province<input name="city" maxlength="60"></label>
+          <label class="fld">Telephone<input name="phone" maxlength="20" inputmode="tel"></label>
+          <label class="fld">Office email<input name="email" type="email" maxlength="120"></label>
+          <label class="fld">School principal<input name="principal" maxlength="80"></label>
+          <label class="fld">Registrar<input name="registrar" maxlength="80"></label>
+          <label class="fld">School year<input name="schoolYear" maxlength="20" placeholder="2026–2027"></label>
+          <label class="fld">GCash / Maya number for parents<input name="gcash" maxlength="20" inputmode="tel"></label>
+        </div>
+        <label class="check"><input type="checkbox" name="enrolOpen"> Accept online enrolment applications</label>
+        <div class="row"><button class="btn primary" type="submit">Save profile</button></div>
+        <p class="err" role="alert"></p>
+      </form>
+      <section class="panel" aria-labelledby="h-levels">
+        <div class="row between"><h2 id="h-levels">Grade levels</h2><form class="inline-add" id="levelAdd"><input class="ctl" name="name" maxlength="40" placeholder="New level, e.g. Grade 5" aria-label="New grade level"><button class="btn small" type="submit">Add level</button></form></div>
+        <ul class="levels" id="levelList"></ul>
+        <p class="err" id="levelErr" role="alert"></p>
+      </section>
+    </section>
+  </main>
+</div>
+<p class="toast" id="toast" role="status"></p>
+<script src="../kit.js"></script>
+<script type="module" src="office.js"></script>
+</body>
+</html>

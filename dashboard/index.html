@@ -106,6 +106,18 @@
           <ul class="gabi-clubs" id="gabiClubs"></ul>
         </fieldset>
       </form>
+      <form class="form wide gabi-plan" id="eskPlanForm">
+        <fieldset><legend>RZ Eskwela plans</legend>
+          <p class="fine">After a school pays, set its plan here. Use the school’s page name (the part after <b>?school=</b> in its link).</p>
+          <div class="two">
+            <label class="fld">School page name<input name="slug" required maxlength="40" autocapitalize="none" spellcheck="false" placeholder="san-roque-academy"></label>
+            <label class="fld">Plan<select name="plan"><option value="plus">Plus</option><option value="full">Full</option></select></label>
+          </div>
+          <button class="btn" type="submit">Set plan</button>
+          <p class="ok" id="eskPlanMsg" role="status"></p>
+          <ul class="gabi-clubs" id="eskSchools"></ul>
+        </fieldset>
+      </form>
     </div>
 
     <div id="v-settings" role="tabpanel" aria-labelledby="t-settings" hidden>

@@ -6,7 +6,7 @@ A source-controlled, handcrafted editorial digital-products showroom running on 
 
 ## Product lineup (November 2026)
 
-Fourteen working product demos, each with its own visual identity for its trade. RZ Menu, RZ Mine, RZ Upa, RZ Bahay and RZ Gabi also run on real accounts (see Backend below); the rest are browser-only. Every page has a “Make it yours” panel (name, details, Messenger username) saved in the visitor's browser. Order, booking and RSVP pages copy a ready-made message and open the owner's Messenger chat; they do not send anything to a server.
+Fifteen working product demos, each with its own visual identity for its trade. RZ Menu, RZ Mine, RZ Upa, RZ Bahay, RZ Gabi and RZ Eskwela also run on real accounts (see Backend below); the rest are browser-only. Every page has a “Make it yours” panel (name, details, Messenger username) saved in the visitor's browser. Order, booking and RSVP pages copy a ready-made message and open the owner's Messenger chat; they do not send anything to a server.
 
 | # | Product | For | Page |
 |---|---|---|---|
@@ -20,12 +20,17 @@ Fourteen working product demos, each with its own visual identity for its trade.
 | 08 | RZ Quote | Contractors & freelancers: quotation → invoice, print/PDF | `products/quote/` |
 | 09 | RZ Sahod | Small teams: payroll helper, payslips, 13th-month estimate | `products/sahod/` |
 | 10 | RZ Tindahan | Small shops: point of sale, stock, daily sales and profit | `products/tindahan/` |
+| 11 | RZ Mine | Live sellers: “mine” claims, winners and backups, buyer checkout links | `products/mine/` |
+| 12 | RZ Upa | Landlords: rent book, bills, tenant statements | `products/upa/` |
+| 13 | RZ Bahay | Real estate agents: listings site with photos, inquiries | `products/bahay/` |
+| 14 | RZ Gabi | Clubs & bars: website, VIP tables, guest list, QR passes, door check-in (Site, VIP, Full plans) | `products/gabi/` |
+| 15 | RZ Eskwela | Small private schools & review centres: school page, online enrolment, fees and instalments, grades and report cards, parent portal; attendance and announcements on Full (Plus, Full plans) | `products/eskwela/` |
 
 Shared pieces: `products/kit.js` (safe DOM helpers, storage, Messenger hand-off, downloads), `products/kit.css` (the demo strip), self-hosted fonts in `products/fonts/`, screenshots for the homepage in `assets/shots/`. Catalog data: `products.js`.
 
 Earlier demos are still in the repository and still deployed but no longer listed on the homepage: RZ Ledger (`tools/invoice.html`), RZ Arena (`tools/bracket.html`, used by RZ Liga for playoffs), RZ Insight (`tools/report.html`), RZ Form (`site-template.html`) and RZ Edition Office (`templates.html`).
 
-**Not implemented:** checkout, payments, customer accounts, server-side orders or bookings, owner dashboards, hosted customer sites, licences. Do not claim these exist.
+**Not implemented:** automatic payment confirmation, email sending, hosted customer domains, licences, and any backend for the nine browser-only products. Do not claim these exist.
 
 ## Backend (Phase 1: RZ Menu ordering)
 
@@ -36,6 +41,7 @@ A Cloudflare Worker (`worker/index.js`) answers `/api/*`; everything else is ser
 - **Security:** PBKDF2 password hashing, random session tokens stored hashed, HttpOnly SameSite cookies, same-origin check on every write, prices always recomputed on the server, input limits, rate limits on sign-up, log-in and ordering.
 - **Gmail alerts:** owners can save an email and switch alerts on, but sending starts only after a custom domain is connected to Cloudflare (Cloudflare email sending needs one).
 - **Personal data:** orders hold customer names, numbers and addresses. The Philippine Data Privacy Act applies; a privacy notice is shown on the order form. Owners can delete orders. A full privacy policy and data-retention rule are still to do.
+- **RZ Eskwela (`worker/eskwela.js`):** school office `products/eskwela/office.html?live`, school page and online enrolment `products/eskwela/?school=<slug>`, parent portal `products/eskwela/parent.html?p=<48-hex token>`. Fee and grade maths live once in `products/eskwela/logic.mjs`, shared by the worker and the pages. Plans: Plus (enrolment, fees and instalments, parent portal, grades, report cards) and Full (adds attendance and announcements), set by an admin in the dashboard RZ Sales tab and enforced on the server. Parents see only the quarters the school releases; payments they report stay pending until the office confirms them.
 - **Local development:** `npx wrangler dev --local` runs the Worker with a local D1 database.
 
 ## Buying RZ products

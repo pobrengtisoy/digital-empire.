@@ -1,5 +1,5 @@
 // Source-controlled catalog for the RZ Digital Empire homepage.
-// Every product has a working demo. RZ Menu, RZ Mine, RZ Upa, RZ Bahay and RZ Gabi also run on real accounts. Products with plans list them in `plans`; each plan key has its own price in worker/index.js. Prices are shown here; the official prices live in worker/index.js (PRICES) — keep both in step.
+// Every product has a working demo. RZ Menu, RZ Mine, RZ Upa, RZ Bahay, RZ Gabi and RZ Eskwela also run on real accounts. Products with plans list them in `plans`; each plan key has its own price in worker/index.js. Prices are shown here; the official prices live in worker/index.js (PRICES) — keep both in step.
 window.DECatalog = [
   { id: '01', category: 'food', kind: 'Restaurants & cafés', name: 'RZ Menu', key: 'menu', setup: 3699, monthly: 449, unit: '', href: 'products/menu/index.html', shot: 'assets/shots/menu.webp',
     description: 'An online menu where customers build their order and send it straight to your Messenger.',
@@ -61,5 +61,13 @@ window.DECatalog = [
       { key: 'gabi-site', label: 'Site', setup: 7999, monthly: 699, features: ['Club website with your photos', 'Events and DJ line-ups', 'Gallery, dress code, location'] },
       { key: 'gabi-vip', label: 'VIP', setup: 14999, monthly: 999, features: ['Everything in Site', 'VIP table booking on your floor plan', 'Bottle packages and booking inbox'] },
       { key: 'gabi-full', label: 'Full', setup: 29999, monthly: 1999, features: ['Everything in VIP', 'Guest list with QR entry passes', 'Door check-in, promoter codes, reports'] },
+    ] },
+  { id: '15', category: 'tools', kind: 'Private schools & tutorial centres', name: 'RZ Eskwela', key: 'eskwela', setup: 24999, monthly: 2499, unit: '', href: 'products/eskwela/index.html', shot: 'assets/shots/eskwela.webp',
+    description: 'The school office in one place: online enrolment, tuition instalments, grades, report cards and a private parent portal.',
+    detail: 'A school page with online enrolment and the schedule of fees; an office console for students, instalments, payments and official receipt numbers, grades by learning area and quarter, printable report cards and statements; and a private link where parents see the balance, send payment references and read the released report card. Full adds attendance and announcements.',
+    tags: ['Online enrolment', 'Tuition instalments', 'Report cards', 'Parent portal'],
+    plans: [
+      { key: 'eskwela-plus', label: 'Plus', setup: 24999, monthly: 2499, features: ['Online enrolment and school page', 'Fees, instalments and payment journal', 'Grades, report cards and parent portal'] },
+      { key: 'eskwela-full', label: 'Full', setup: 34999, monthly: 2999, features: ['Everything in Plus', 'Daily attendance by class', 'Announcements to parents'] },
     ] },
 ];

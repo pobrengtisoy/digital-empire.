@@ -230,8 +230,24 @@
     } catch (ex) { msg.textContent = ex.message; }
   });
 
+  /* RZ Eskwela plans: set after a school pays. */
+  async function loadEskSchools() {
+    try {
+      const { schools } = await api('/admin/eskwela');
+      $('#eskSchools').replaceChildren(...schools.map(c => el('li', '', `${c.name} · ${c.slug} · ${c.plan.toUpperCase()}`)));
+    } catch { /* not an admin or no schools yet */ }
+  }
+  $('#eskPlanForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const f = e.target.elements; const msg = $('#eskPlanMsg');
+    try {
+      const r = await api('/admin/eskwela', { method: 'PATCH', body: { slug: f.slug.value.trim().toLowerCase(), plan: f.plan.value } });
+      msg.textContent = `${r.name} is now on the ${r.plan.toUpperCase()} plan.`; f.slug.value = ''; loadEskSchools();
+    } catch (ex) { msg.textContent = ex.message; }
+  });
+
   async function loadSales() {
-    loadGabiClubs();
+    loadGabiClubs(); loadEskSchools();
     const mine = ++salesReq; // ignore answers to older requests
     try { const list = (await api('/admin/purchases')).purchases; if (mine === salesReq) { sales = list; renderSales(); } }
     catch (e) { if (mine === salesReq) $('#sales').replaceChildren(el('li', 'empty', e.message)); }

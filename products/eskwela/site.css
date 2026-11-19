@@ -1,0 +1,61 @@
+/* RZ Eskwela school page: the registrar's notice board, set formally. */
+.site { background: var(--paper); }
+.row { display: flex; align-items: center; gap: 10px; }
+.row.wrap { flex-wrap: wrap; }
+.s-top { background: var(--ink); color: #fff; }
+.s-top-in { display: flex; align-items: center; gap: 16px; max-width: 1160px; margin: 0 auto; padding: 18px clamp(18px, 4vw, 40px); }
+.s-name { margin: 0; font-size: 1.1rem; line-height: 1.2; }
+.s-motto { margin: 2px 0 0; font-size: .86rem; color: #c3c7d0; font-style: italic; }
+.s-nav { display: flex; align-items: center; gap: 18px; margin-left: auto; }
+.s-nav > a:not(.btn) { color: #e1e3e8; font-weight: 600; text-decoration: none; font-size: .94rem; }
+.s-nav > a:not(.btn):hover { text-decoration: underline; }
+
+.s-lead { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: clamp(24px, 5vw, 64px); align-items: end; max-width: 1160px; margin: 0 auto; padding: clamp(44px, 7vw, 88px) clamp(18px, 4vw, 40px) clamp(36px, 5vw, 56px); border-bottom: 1px solid var(--rule-2); }
+.s-lead h1 { margin: 0; max-width: 18ch; font-size: clamp(2rem, 4.4vw, 3.1rem); line-height: 1.08; font-weight: 700; letter-spacing: -.012em; text-wrap: balance; }
+.nowrap { white-space: nowrap; }
+.s-sub { margin: 16px 0 24px; max-width: 54ch; font-size: 1.12rem; color: var(--ink-2); }
+.s-facts { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 10px 18px; padding: 18px 20px; border-top: 2px solid var(--ink); background: var(--ground); }
+.s-facts dt { font-size: .74rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding-top: 3px; }
+.s-facts dd { margin: 0; font-weight: 600; }
+
+.s-sec { max-width: 1160px; margin: 0 auto; padding: clamp(40px, 6vw, 72px) clamp(18px, 4vw, 40px); }
+.s-sec-head { max-width: 66ch; margin-bottom: 24px; }
+.s-sec h2 { margin: 0 0 6px; font-size: clamp(1.5rem, 2.6vw, 1.9rem); font-weight: 700; }
+.lv-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 18px; }
+.lv { display: grid; align-content: start; gap: 10px; padding: 0 0 16px; border: 1px solid var(--rule-2); border-radius: var(--r); background: var(--paper); overflow: hidden; }
+.lv-head { display: flex; align-items: center; gap: 10px; padding: 14px 18px; border-bottom: 1px solid var(--rule); }
+.lv-head .hood { width: 14px; height: 19px; }
+.lv-head h3 { margin: 0; font-size: 1.12rem; }
+.lv::before { content: ""; display: block; height: 4px; background: var(--hood); margin-bottom: -10px; }
+.lv-fees { width: calc(100% - 36px); margin: 0 18px; border-collapse: collapse; font-size: .95rem; }
+.lv-fees td, .lv-fees th { padding: 6px 0; border-bottom: 1px solid var(--rule); text-align: left; font-weight: 400; }
+.lv-fees .tot th, .lv-fees .tot td { border-bottom: 0; padding-top: 10px; font-weight: 700; }
+.lv-sched, .lv-subj { margin: 0 18px; font-size: .86rem; color: var(--muted); }
+
+.s-enrol { border-top: 1px solid var(--rule-2); }
+.enrol-form { display: grid; gap: 22px; max-width: 980px; }
+.enrol-form fieldset { margin: 0; padding: 18px 20px 20px; border: 1px solid var(--rule-2); border-radius: var(--r); }
+.enrol-form legend { padding: 0 6px; font-weight: 700; }
+.s-span2 { grid-column: span 2; }
+.consent { align-items: flex-start; max-width: 70ch; font-weight: 400; color: var(--ink-2); }
+.consent input { margin-top: 3px; flex: none; }
+.enrol-done { max-width: 640px; padding: 24px 26px; border: 1px solid var(--rule-2); border-top: 2px solid var(--ink); border-radius: 0; }
+.enrol-done .p-label { margin: 0; font-size: .76rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.enrol-done .ref { margin: 6px 0 10px; font-size: 1.8rem; letter-spacing: .08em; }
+.enrol-done ol { margin: 14px 0 0; padding-left: 20px; color: var(--ink-2); }
+.enrol-done p { margin: 0 0 6px; }
+
+.s-visit { border-top: 1px solid var(--rule-2); }
+.visit { margin: 0 0 16px; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 18px 24px; }
+.visit dt { font-size: .74rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.visit dd { margin: 3px 0 0; font-weight: 600; }
+.s-foot { padding: 22px clamp(18px, 4vw, 40px) 32px; background: var(--ink); color: #c3c7d0; text-align: center; font-size: .88rem; }
+.s-foot p { margin: 0 0 4px; }
+.s-foot .fine { color: #9a9fab; }
+.s-missing { padding: 100px 20px; text-align: center; }
+
+@media (max-width: 860px) {
+  .s-lead { grid-template-columns: 1fr; align-items: start; }
+  .s-nav > a:not(.btn) { display: none; }
+  .s-span2 { grid-column: auto; }
+}
