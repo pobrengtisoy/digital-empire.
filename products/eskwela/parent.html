@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#15171d">
+<meta name="robots" content="noindex">
+<meta name="referrer" content="no-referrer">
+<title>Parent portal</title>
+<link rel="icon" type="image/svg+xml" href="../../rz-mark.svg">
+<link rel="stylesheet" href="../fonts/eskwela.css">
+<link rel="stylesheet" href="../kit.css">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="parent.css">
+</head>
+<body class="parent">
+<div class="rz-strip" id="strip" hidden><a href="office.html">← Back to the demo office</a><span class="rz-strip-note"><b>RZ Eskwela</b> demo · what parents see</span><a class="rz-buy" href="../../buy/?p=eskwela">Buy</a></div>
+
+<main id="portal" hidden>
+  <header class="p-band" id="band">
+    <div class="p-band-in">
+      <span class="seal" id="pSeal" aria-hidden="true"></span>
+      <div><p class="p-school inscr" id="pSchool"></p><p class="p-sy" id="pSy"></p></div>
+    </div>
+  </header>
+  <section class="p-who" aria-labelledby="pName">
+    <h1 id="pName"></h1>
+    <p class="p-meta" id="pMeta"></p>
+  </section>
+  <nav class="p-nav" aria-label="Sections"><a href="#account">Account</a><a href="#pay">Pay</a><a href="#report">Report card</a><a href="#attendance" data-full>Attendance</a><a href="#news" data-full>Announcements</a></nav>
+
+  <section class="p-sec" id="account" aria-labelledby="h-account">
+    <h2 id="h-account">Account</h2>
+    <div class="p-balance" id="balBox"></div>
+    <div id="stmt"></div>
+    <button type="button" class="btn" id="printStmt">Print statement</button>
+  </section>
+
+  <section class="p-sec" id="pay" aria-labelledby="h-pay">
+    <h2 id="h-pay">Paid by GCash, Maya or bank transfer?</h2>
+    <p id="payLine"></p>
+    <form class="stack" id="payForm" novalidate>
+      <div class="grid2">
+        <label class="fld">Amount sent ₱<input name="amount" type="number" min="1" step="0.01" required inputmode="decimal"></label>
+        <label class="fld">Paid with<select name="method"><option>GCash</option><option>Maya</option><option>Bank</option></select></label>
+      </div>
+      <label class="fld">Reference number<input name="reference" required maxlength="40" autocapitalize="characters" spellcheck="false"></label>
+      <button class="btn primary wide" type="submit" id="paySend">Send to the school office</button>
+      <p class="err" id="payErr" role="alert"></p>
+      <p class="ok" id="payOk" role="status"></p>
+    </form>
+  </section>
+
+  <section class="p-sec" id="report" aria-labelledby="h-report">
+    <h2 id="h-report">Report card</h2>
+    <div id="rc"></div>
+    <button type="button" class="btn" id="printRc">Print report card</button>
+  </section>
+
+  <section class="p-sec" id="attendance" aria-labelledby="h-att" data-full>
+    <h2 id="h-att">Attendance</h2>
+    <dl class="p-att" id="attSum"></dl>
+    <ol class="p-days" id="attDays"></ol>
+  </section>
+
+  <section class="p-sec" id="news" aria-labelledby="h-news" data-full>
+    <h2 id="h-news">Announcements</h2>
+    <ul class="p-notices" id="notices"></ul>
+  </section>
+  <footer class="p-foot"><p id="pFoot"></p><p>Keep this link private. It shows your child’s records only. School office system by RZ Eskwela.</p></footer>
+</main>
+
+<main class="p-missing" id="missing" hidden><h1>Link not found</h1><p id="missingText">This link is not valid. Ask the school office for a new one.</p></main>
+<p class="toast" id="toast" role="status"></p>
+<script src="../kit.js"></script>
+<script type="module" src="parent.js"></script>
+</body>
+</html>

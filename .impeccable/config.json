@@ -50,6 +50,16 @@
         ],
         "createdAt": "2026-11-18T09:42:19.000Z",
         "reason": "Claude decision: the glowing neon sign (club name) is the trade's signature for this nightclub product; glow was removed from buttons, posters and panels and kept only on the sign and the selected table ring"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "products/eskwela/office.html",
+          "products/eskwela/index.html"
+        ],
+        "createdAt": "2026-11-19T06:30:00.000Z",
+        "reason": "Claude verified in render: flagged wrappers are table frames (.tbl-wrap) whose cells carry 10-12px padding, the segmented control and underline tabs, and a section rule above 40px+ section padding; no text touches a boundary"
       }
     ]
   }
