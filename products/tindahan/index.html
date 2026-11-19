@@ -4,102 +4,271 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#14532d">
-<title>RZ Tindahan — sales and stock for small shops</title>
-<meta name="description" content="RZ Tindahan demo: ring up sales, compute change, track stock and see today's sales and profit. Works offline.">
+<title>RZ Tindahan — point of sale for small stores</title>
+<meta name="description" content="RZ Tindahan: a point of sale for sari-sari stores and small shops. Barcode scanning, cash, GCash, Maya and utang, cashier shifts with cash count, stock and reports. Keeps selling offline.">
 <link rel="icon" type="image/svg+xml" href="../../rz-mark.svg">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.png">
 <link rel="stylesheet" href="../fonts/tindahan.css">
 <link rel="stylesheet" href="../kit.css">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="rz-strip"><a href="../../index.html">← RZ Digital Empire</a><span class="rz-strip-note"><b>RZ Tindahan</b> demo · saved on this device</span><button type="button" class="strip-btn" data-open="settings">Settings</button><a class="rz-buy" href="../../buy/?p=tindahan">Buy</a></div>
+<div class="rz-strip" id="strip"><a href="../../index.html">← RZ Digital Empire</a><span class="rz-strip-note"><b>RZ Tindahan</b> demo · saved on this device</span><a href="?live">Store login</a><a class="rz-buy" href="../../buy/?p=tindahan">Buy</a></div>
 
-<header class="head">
-  <h1 id="storeName">Sari-Sari ni Mang Tonyo</h1>
-  <nav class="tabs" role="tablist" aria-label="Views">
-    <button role="tab" aria-selected="true" aria-controls="v-sell" id="t-sell">Benta</button>
-    <button role="tab" aria-selected="false" aria-controls="v-stock" id="t-stock">Stock <span class="badge" id="lowBadge" hidden></span></button>
-    <button role="tab" aria-selected="false" aria-controls="v-today" id="t-today">Ngayong araw</button>
-  </nav>
-</header>
-
-<main>
-  <section id="v-sell" role="tabpanel" aria-labelledby="t-sell" class="sell">
-    <div class="shelf">
-      <label class="search"><span class="sr">Search items</span><input id="q" type="search" placeholder="Hanapin ang item"></label>
-      <div class="grid" id="grid"></div>
-    </div>
-    <aside class="receipt" aria-labelledby="rcTitle">
-      <div class="paper">
-        <p class="rc-store" id="rcStore"></p>
-        <h2 id="rcTitle" class="sr">Current sale</h2>
-        <p class="rc-meta" id="rcMeta"></p>
-        <ul class="rc-lines" id="rcLines"></ul>
-        <p class="rc-empty" id="rcEmpty">Tap an item to add it.</p>
-        <div class="rc-total"><span>TOTAL</span><b id="rcTotal">0.00</b></div>
-        <label class="cash"><span>Cash received</span><input id="cash" type="number" min="0" step="1" inputmode="decimal" placeholder="0"></label>
-        <div class="quick" id="quick"></div>
-        <div class="rc-change"><span>Change</span><b id="rcChange">—</b></div>
-      </div>
-      <div class="rc-actions">
-        <button type="button" class="ghost" id="clearSale">Clear</button>
-        <button type="button" class="primary" id="doneSale" disabled>Complete sale</button>
-      </div>
-      <p class="ok" id="sellStatus" role="status"></p>
-    </aside>
-  </section>
-
-  <section id="v-stock" role="tabpanel" aria-labelledby="t-stock" class="panel" hidden>
-    <div class="panel-head"><h2>Stock</h2><button type="button" class="primary" data-open="addItem">+ New item</button></div>
-    <div class="table-wrap">
-      <table class="stock">
-        <thead><tr><th scope="col" class="tl">Item</th><th scope="col">Cost</th><th scope="col">Price</th><th scope="col">Margin</th><th scope="col">Stock</th><th scope="col">Restock</th></tr></thead>
-        <tbody id="stockRows"></tbody>
-      </table>
-    </div>
-  </section>
-
-  <section id="v-today" role="tabpanel" aria-labelledby="t-today" class="panel" hidden>
-    <div class="panel-head"><h2 id="todayTitle">Today</h2><button type="button" class="ghost" id="csvBtn">Download CSV</button></div>
-    <dl class="kpis">
-      <div><dt>Benta</dt><dd id="kRev">₱0</dd></div>
-      <div><dt>Tubo (gross profit)</dt><dd id="kProfit">₱0</dd></div>
-      <div><dt>Transactions</dt><dd id="kCount">0</dd></div>
-    </dl>
-    <div class="today-grid">
-      <div class="card"><h3>Pinakamabenta</h3><ol class="top" id="topItems"></ol></div>
-      <div class="card"><h3>Sales log</h3><ul class="log" id="log"></ul></div>
-    </div>
-  </section>
+<!-- Store account sign-in (live): done once per tablet by RZ or the owner -->
+<main class="auth" id="authView" hidden>
+  <div class="auth-card">
+    <h1>RZ Tindahan</h1>
+    <p class="muted">Sign in this tablet with the store's account. Cashiers then use their own PIN.</p>
+    <form id="loginForm" class="form" novalidate>
+      <label class="fld">Email<input name="email" type="email" autocomplete="username" required></label>
+      <label class="fld">Password<input name="password" type="password" autocomplete="current-password" required></label>
+      <button class="primary" type="submit">Sign in</button>
+      <p class="err" role="alert"></p>
+    </form>
+    <p class="fine">No account yet? Create one in the <a href="../../dashboard/">RZ dashboard</a>, then sign in here.</p>
+  </div>
 </main>
 
-<dialog id="addItem" class="dlg" aria-labelledby="aiTitle">
-  <form method="dialog" id="itemForm" class="form">
-    <h2 id="aiTitle">New item</h2>
-    <label class="fld">Name<input name="name" required maxlength="40"></label>
-    <div class="three">
-      <label class="fld">Cost (₱)<input name="cost" type="number" min="0" step="0.25" required></label>
-      <label class="fld">Price (₱)<input name="price" type="number" min="0" step="0.25" required></label>
-      <label class="fld">Stock<input name="stock" type="number" min="0" step="1" required></label>
-    </div>
-    <div class="dlg-actions"><button type="button" class="ghost" data-close>Cancel</button><button class="primary" type="submit">Add item</button></div>
-  </form>
-</dialog>
+<!-- Who is at the counter -->
+<main class="lock" id="lockView" hidden>
+  <div class="lock-card">
+    <p class="lock-store" id="lockStore"></p>
+    <h1 id="lockTitle">Sino ang nasa counter?</h1>
+    <div class="who" id="whoList"></div>
+    <form class="pin" id="pinForm" hidden>
+      <p class="pin-name" id="pinName"></p>
+      <label class="sr" for="pinInput">PIN</label>
+      <input id="pinInput" class="pin-input" type="password" inputmode="numeric" autocomplete="off" maxlength="6" pattern="[0-9]*" placeholder="PIN">
+      <div class="pad" id="pad"></div>
+      <p class="err" id="pinErr" role="alert"></p>
+      <button type="button" class="ghost" id="pinBack">Back</button>
+    </form>
+    <form class="first" id="firstForm" hidden novalidate>
+      <p>Set up the owner's PIN first. The owner can then add cashiers.</p>
+      <label class="fld">Owner's name<input name="name" maxlength="40" required></label>
+      <label class="fld">PIN (4 to 6 numbers)<input name="pin" type="password" inputmode="numeric" maxlength="6" required></label>
+      <button class="primary" type="submit">Save owner PIN</button>
+      <p class="err" role="alert"></p>
+    </form>
+    <p class="fine" id="demoPins"></p>
+  </div>
+</main>
 
-<dialog id="settings" class="dlg" aria-labelledby="stTitle">
-  <form method="dialog" id="settingsForm" class="form">
-    <h2 id="stTitle">Settings</h2>
-    <label class="fld">Store name<input name="store" maxlength="40" required></label>
-    <label class="fld">Low-stock warning at<input name="low" type="number" min="0" max="100" step="1"></label>
+<div id="appView" hidden>
+  <header class="head">
+    <div class="head-l">
+      <h1 id="storeName"></h1>
+      <p class="net" id="net" role="status"></p>
+    </div>
+    <nav class="tabs" role="tablist" aria-label="Views">
+      <button role="tab" aria-selected="true" aria-controls="v-sell" id="t-sell">Benta</button>
+      <button role="tab" aria-selected="false" aria-controls="v-stock" id="t-stock" data-owner>Stock <span class="badge" id="lowBadge" hidden></span></button>
+      <button role="tab" aria-selected="false" aria-controls="v-report" id="t-report">Ulat</button>
+      <button role="tab" aria-selected="false" aria-controls="v-settings" id="t-settings" data-owner>Settings</button>
+    </nav>
+    <div class="me">
+      <span class="me-name" id="meName"></span>
+      <button type="button" class="head-btn" id="closeShiftBtn">Close shift</button>
+      <button type="button" class="head-btn" id="lockBtn">Lock</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- open shift -->
+    <section class="panel shift-open" id="shiftOpen" hidden aria-labelledby="soTitle">
+      <h2 id="soTitle">Open your shift</h2>
+      <p class="muted">Count the cash in the drawer before the first sale.</p>
+      <form id="openForm" class="row-form" novalidate>
+        <label class="fld">Starting cash (₱)<input name="cash" type="number" min="0" step="0.25" inputmode="decimal" required></label>
+        <button class="primary" type="submit">Open shift</button>
+      </form>
+    </section>
+
+    <section id="v-sell" role="tabpanel" aria-labelledby="t-sell" class="sell">
+      <div class="shelf">
+        <label class="search"><span class="sr">Search or scan</span><input id="q" type="search" placeholder="Hanapin o i-scan ang barcode" autocomplete="off"></label>
+        <div class="cats" id="cats"></div>
+        <div class="grid" id="grid"></div>
+      </div>
+      <aside class="receipt" aria-labelledby="rcTitle">
+        <div class="paper">
+          <p class="rc-store" id="rcStore"></p>
+          <h2 id="rcTitle" class="sr">Current sale</h2>
+          <p class="rc-meta" id="rcMeta"></p>
+          <ul class="rc-lines" id="rcLines"></ul>
+          <p class="rc-empty" id="rcEmpty">Tap or scan an item.</p>
+          <div class="rc-sub" id="rcSubRow" hidden><span>Subtotal</span><b id="rcSub"></b></div>
+          <div class="rc-sub" id="rcDiscRow" hidden><span>Discount</span><b id="rcDisc"></b></div>
+          <div class="rc-total"><span>TOTAL</span><b id="rcTotal">0.00</b></div>
+        </div>
+        <div class="pay">
+          <div class="disc" role="group" aria-label="Discount">
+            <button type="button" data-disc="0" aria-pressed="true">No discount</button>
+            <button type="button" data-disc="20" aria-pressed="false">20% senior/PWD</button>
+            <button type="button" data-disc="custom" aria-pressed="false">Other</button>
+          </div>
+          <label class="fld" id="discCustom" hidden>Discount amount (₱)<input id="discAmt" type="number" min="0" step="0.25" inputmode="decimal"></label>
+          <div class="methods" role="radiogroup" aria-label="Payment">
+            <label><input type="radio" name="method" value="cash" checked><span>Cash</span></label>
+            <label><input type="radio" name="method" value="gcash"><span>GCash</span></label>
+            <label><input type="radio" name="method" value="maya"><span>Maya</span></label>
+            <label><input type="radio" name="method" value="utang"><span>Utang</span></label>
+          </div>
+          <div id="cashBox">
+            <label class="cash"><span>Cash received</span><input id="cash" type="number" min="0" step="1" inputmode="decimal" placeholder="0"></label>
+            <div class="quick" id="quick"></div>
+            <div class="rc-change"><span>Sukli</span><b id="rcChange">—</b></div>
+          </div>
+          <label class="fld" id="refBox" hidden>Reference number<input id="ref" maxlength="40" autocomplete="off"></label>
+          <label class="fld" id="custBox" hidden>Customer's name (utang)<input id="cust" maxlength="60" autocomplete="off"></label>
+          <div class="rc-actions">
+            <button type="button" class="ghost" id="clearSale">Clear</button>
+            <button type="button" class="primary" id="doneSale" disabled>Complete sale</button>
+          </div>
+          <p class="ok" id="sellStatus" role="status"></p>
+          <div class="after" id="after" hidden>
+            <button type="button" class="ghost" id="printLast">Print receipt</button>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <div class="cartbar" id="cartbar" hidden><div><span id="cbCount"></span><b id="cbTotal"></b></div><button type="button" id="cbPay">Bayad</button></div>
+
+    <section id="v-stock" role="tabpanel" aria-labelledby="t-stock" class="panel" hidden>
+      <div class="panel-head">
+        <h2>Stock</h2>
+        <div class="row">
+          <button type="button" class="ghost" id="importBtn">Import list</button>
+          <button type="button" class="primary" id="newItemBtn">New item</button>
+        </div>
+      </div>
+      <label class="search"><span class="sr">Search items</span><input id="sq" type="search" placeholder="Search name, barcode or category" autocomplete="off"></label>
+      <div class="table-wrap">
+        <table class="stock">
+          <thead><tr><th scope="col" class="tl">Item</th><th scope="col">Cost</th><th scope="col">Price</th><th scope="col">Margin</th><th scope="col">Stock</th><th scope="col">Restock</th><th scope="col"><span class="sr">Edit</span></th></tr></thead>
+          <tbody id="stockRows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="v-report" role="tabpanel" aria-labelledby="t-report" class="panel" hidden>
+      <div class="panel-head">
+        <h2 id="repTitle">Ulat</h2>
+        <div class="row">
+          <div class="range" role="group" aria-label="Period" id="range">
+            <button type="button" data-r="today" aria-pressed="true">Today</button>
+            <button type="button" data-r="yesterday" aria-pressed="false">Yesterday</button>
+            <button type="button" data-r="7" aria-pressed="false">7 days</button>
+            <button type="button" data-r="30" aria-pressed="false">30 days</button>
+          </div>
+          <button type="button" class="ghost" id="csvBtn">Download CSV</button>
+        </div>
+      </div>
+      <dl class="kpis">
+        <div><dt>Benta</dt><dd id="kRev">₱0</dd></div>
+        <div><dt>Tubo (gross profit)</dt><dd id="kProfit">₱0</dd></div>
+        <div><dt>Transactions</dt><dd id="kCount">0</dd></div>
+        <div><dt>Discounts</dt><dd id="kDisc">₱0</dd></div>
+      </dl>
+      <div class="today-grid">
+        <div class="card"><h3>By payment</h3><ul class="pairs" id="byMethod"></ul></div>
+        <div class="card"><h3>By cashier</h3><ul class="pairs" id="byStaff"></ul></div>
+        <div class="card"><h3>Pinakamabenta</h3><ol class="top" id="topItems"></ol></div>
+        <div class="card"><h3>Shifts</h3><ul class="shifts" id="shiftList"></ul></div>
+      </div>
+      <div class="card log-card"><h3>Sales</h3><ul class="log" id="log"></ul></div>
+    </section>
+
+    <section id="v-settings" role="tabpanel" aria-labelledby="t-settings" class="panel" hidden>
+      <div class="panel-head"><h2>Settings</h2></div>
+      <div class="set-grid">
+        <form class="card form" id="storeForm" novalidate>
+          <h3>Store</h3>
+          <label class="fld">Store name<input name="name" maxlength="80" required></label>
+          <label class="fld">Low-stock warning at<input name="low" type="number" min="0" max="1000" step="1"></label>
+          <label class="fld">Receipt note<input name="receiptNote" maxlength="120" placeholder="Salamat po! Balik kayo."></label>
+          <button class="primary" type="submit">Save</button>
+          <p class="err" role="alert"></p>
+        </form>
+        <div class="card">
+          <h3>Staff and PINs</h3>
+          <ul class="staff" id="staffList"></ul>
+          <form class="form" id="staffForm" novalidate>
+            <div class="three">
+              <label class="fld">Name<input name="name" maxlength="40" required></label>
+              <label class="fld">Role<select name="role"><option value="cashier">Cashier</option><option value="owner">Owner</option></select></label>
+              <label class="fld">PIN<input name="pin" type="password" inputmode="numeric" maxlength="6" required></label>
+            </div>
+            <button class="ghost" type="submit">Add staff</button>
+            <p class="err" role="alert"></p>
+          </form>
+        </div>
+        <div class="card">
+          <h3>This tablet</h3>
+          <p id="deviceInfo" class="muted"></p>
+          <div class="row wrap">
+            <button type="button" class="ghost" id="syncNow">Sync now</button>
+            <button type="button" class="ghost" id="resetDemo">Reset demo store</button>
+            <button type="button" class="ghost danger" id="signOut" hidden>Sign this tablet out</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<dialog id="itemDlg" class="dlg" aria-labelledby="itemTitle">
+  <form id="itemForm" class="form" novalidate>
+    <h2 id="itemTitle">New item</h2>
+    <label class="fld">Name<input name="name" required maxlength="60"></label>
+    <div class="two">
+      <label class="fld">Barcode<input name="barcode" maxlength="32" autocomplete="off" placeholder="Scan or type"></label>
+      <label class="fld">Category<input name="category" maxlength="30" list="catList"></label>
+    </div>
+    <div class="three">
+      <label class="fld">Cost (₱)<input name="cost" type="number" min="0" step="0.25" inputmode="decimal"></label>
+      <label class="fld">Price (₱)<input name="price" type="number" min="0" step="0.25" inputmode="decimal" required></label>
+      <label class="fld">Stock<input name="stock" type="number" step="1" inputmode="numeric"></label>
+    </div>
+    <p class="err" role="alert"></p>
     <div class="dlg-actions">
-      <button type="button" class="ghost" id="exportBtn">Save backup</button>
-      <button type="button" class="ghost" id="resetBtn">Reset sample</button>
+      <button type="button" class="ghost danger" id="delItem" hidden>Delete</button>
+      <span class="spacer"></span>
+      <button type="button" class="ghost" data-close>Cancel</button>
       <button class="primary" type="submit">Save</button>
     </div>
   </form>
 </dialog>
+<datalist id="catList"></datalist>
 
+<dialog id="importDlg" class="dlg wide" aria-labelledby="impTitle">
+  <form id="importForm" class="form" novalidate>
+    <h2 id="impTitle">Import a product list</h2>
+    <p class="muted">One item per line: <b>name, price, cost, stock, barcode</b>. Cost, stock and barcode are optional. You can paste straight from Excel or Google Sheets, or open a CSV file. Items with the same name or barcode are updated.</p>
+    <textarea name="list" rows="9" placeholder="Coke 1.5L, 85, 72, 24, 4801981116072&#10;Lucky Me Pancit Canton, 16, 13, 48"></textarea>
+    <div class="row wrap"><label class="ghost file">Open CSV file<input type="file" id="csvFile" accept=".csv,text/csv,text/plain"></label><span class="muted" id="impPreview"></span></div>
+    <p class="err" role="alert"></p>
+    <div class="dlg-actions"><button type="button" class="ghost" data-close>Cancel</button><button class="primary" type="submit">Import</button></div>
+  </form>
+</dialog>
+
+<dialog id="closeDlg" class="dlg" aria-labelledby="closeTitle">
+  <form id="closeForm" class="form" novalidate>
+    <h2 id="closeTitle">Close shift</h2>
+    <dl class="sum" id="closeSum"></dl>
+    <label class="fld">Cash counted in the drawer (₱)<input name="counted" type="number" min="0" step="0.25" inputmode="decimal" required></label>
+    <p class="diff" id="closeDiff" role="status"></p>
+    <label class="fld">Note (optional)<input name="note" maxlength="120"></label>
+    <div class="dlg-actions"><button type="button" class="ghost" data-close>Cancel</button><button class="primary" type="submit">Close shift</button></div>
+  </form>
+</dialog>
+
+<div class="print-host" id="printHost" aria-hidden="true"></div>
+<p class="toast" id="toast" role="status" aria-live="polite"></p>
 <script src="../kit.js"></script>
-<script src="app.js"></script>
+<script type="module" src="app.js"></script>
 </body>
 </html>

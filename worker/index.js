@@ -11,6 +11,7 @@ import { UPA_SCHEMA, upaRoutes } from './upa.js';
 import { BAHAY_SCHEMA, bahayRoutes } from './bahay.js';
 import { GABI_SCHEMA, gabiRoutes } from './gabi.js';
 import { ESKWELA_SCHEMA, eskwelaRoutes } from './eskwela.js';
+import { TINDAHAN_SCHEMA, tindahanRoutes } from './tindahan.js';
 
 const SESSION_DAYS = 30;
 const COOKIE = 'rz_sess';
@@ -60,11 +61,32 @@ const SCHEMA = [
   ...BAHAY_SCHEMA,
   ...GABI_SCHEMA,
   ...ESKWELA_SCHEMA,
+  ...TINDAHAN_SCHEMA,
 ];
 
+/* Tables are created once per schema version, at most SCHEMA_CHUNK statements per request:
+   the free plan allows only 50 queries per request, and SCHEMA is longer than that. Progress is kept
+   in rz_meta, so a request that finds the work unfinished does the next chunk. Every statement is
+   "IF NOT EXISTS", so running one twice is harmless. */
+const SCHEMA_CHUNK = 30;
 let schemaReady = null;
+async function setupSchema(env) {
+  const version = (await sha256(SCHEMA.join(';'))).slice(0, 16);
+  const [, got] = await env.DB.batch([
+    env.DB.prepare('CREATE TABLE IF NOT EXISTS rz_meta (k TEXT PRIMARY KEY, v TEXT NOT NULL)'),
+    env.DB.prepare("SELECT v FROM rz_meta WHERE k = 'schema'"),
+  ]);
+  const cur = String(got.results[0]?.v || '');
+  if (cur === `${version}:done`) return;
+  let from = cur.startsWith(`${version}:`) ? Number(cur.split(':')[1]) || 0 : 0;
+  const to = Math.min(SCHEMA.length, from + SCHEMA_CHUNK);
+  await env.DB.batch(SCHEMA.slice(from, to).map(q => env.DB.prepare(q)));
+  from = to;
+  await env.DB.prepare("INSERT OR REPLACE INTO rz_meta (k, v) VALUES ('schema', ?)").bind(from >= SCHEMA.length ? `${version}:done` : `${version}:${from}`).run();
+  if (from < SCHEMA.length) schemaReady = null; // not finished: the next request on this isolate does the next chunk
+}
 function ensureSchema(env) {
-  if (!schemaReady) schemaReady = env.DB.batch(SCHEMA.map(s => env.DB.prepare(s))).catch(err => { schemaReady = null; throw err; });
+  if (!schemaReady) schemaReady = setupSchema(env).catch(err => { schemaReady = null; throw err; });
   return schemaReady;
 }
 
@@ -201,7 +223,7 @@ async function deleteAccount(env, request, user) {
     env.DB.prepare('DELETE FROM sessions WHERE user_id = ?').bind(user.user_id),
     env.DB.prepare('DELETE FROM users WHERE id = ?').bind(user.user_id),
     env.DB.prepare('DELETE FROM businesses WHERE id = ?').bind(user.id),
-    ...['mine_claims', 'mine_carts', 'mine_items', 'mine_lives', 'upa_payments', 'upa_bills', 'upa_tenants', 'upa_units', 'upa_settings', 'bahay_inquiries', 'bahay_listings', 'bahay_profile', 'gabi_guests', 'gabi_promoters', 'gabi_reservations', 'gabi_packages', 'gabi_tables', 'gabi_events', 'gabi_clubs', 'esk_notices', 'esk_attendance', 'esk_grades', 'esk_payments', 'esk_charges', 'esk_students', 'esk_levels', 'esk_schools'].map(t => env.DB.prepare(`DELETE FROM ${t} WHERE business_id = ?`).bind(user.id)),
+    ...['mine_claims', 'mine_carts', 'mine_items', 'mine_lives', 'upa_payments', 'upa_bills', 'upa_tenants', 'upa_units', 'upa_settings', 'bahay_inquiries', 'bahay_listings', 'bahay_profile', 'gabi_guests', 'gabi_promoters', 'gabi_reservations', 'gabi_packages', 'gabi_tables', 'gabi_events', 'gabi_clubs', 'esk_notices', 'esk_attendance', 'esk_grades', 'esk_payments', 'esk_charges', 'esk_students', 'esk_levels', 'esk_schools', 'tnd_sales', 'tnd_shifts', 'tnd_staff', 'tnd_items', 'tnd_stores'].map(t => env.DB.prepare(`DELETE FROM ${t} WHERE business_id = ?`).bind(user.id)),
   ]);
   await bahay.purgePhotos(env, user.id);
   return json({ ok: true }, 200, { 'set-cookie': cookieHeader('', 0, request) });
@@ -309,6 +331,7 @@ const upa = upaRoutes({ json, HttpError, text, money, randomHex, now, readJSON, 
 const bahay = bahayRoutes({ json, HttpError, text, multiline, money, randomHex, now, readJSON, rateLimit });
 const gabi = gabiRoutes({ json, HttpError, text, multiline, money, randomHex, now, readJSON, rateLimit });
 const eskwela = eskwelaRoutes({ json, HttpError, text, multiline, money, randomHex, now, readJSON, rateLimit });
+const tindahan = tindahanRoutes({ json, HttpError, text, money, randomHex, now, readJSON });
 
 /* ---------- router ---------- */
 async function api(request, env, url) {
@@ -374,6 +397,7 @@ async function api(request, env, url) {
   if (pathname === '/api/bahay' || pathname.startsWith('/api/bahay/')) { const r = await bahay.owner(env, request, user, pathname, method); if (r) return r; }
   if (pathname === '/api/gabi' || pathname.startsWith('/api/gabi/')) { const r = await gabi.owner(env, request, user, pathname, method); if (r) return r; }
   if (pathname === '/api/eskwela' || pathname.startsWith('/api/eskwela/')) { const r = await eskwela.owner(env, request, user, pathname, method); if (r) return r; }
+  if (pathname === '/api/tindahan' || pathname.startsWith('/api/tindahan/')) { const r = await tindahan.owner(env, request, user, pathname, method); if (r) return r; }
   if (pathname === '/api/account' && method === 'DELETE') return deleteAccount(env, request, user);
   if (pathname === '/api/business' && method === 'PUT') return updateBusiness(env, request, user);
   if (pathname === '/api/menu' && method === 'GET') return json({ items: await listMenu(env, user.id, false) });
