@@ -6,7 +6,7 @@ A source-controlled, handcrafted editorial digital-products showroom running on 
 
 ## Product lineup (November 2026)
 
-Fifteen working product demos, each with its own visual identity for its trade. RZ Menu, RZ Mine, RZ Upa, RZ Bahay, RZ Gabi and RZ Eskwela also run on real accounts (see Backend below); the rest are browser-only. Every page has a “Make it yours” panel (name, details, Messenger username) saved in the visitor's browser. Order, booking and RSVP pages copy a ready-made message and open the owner's Messenger chat; they do not send anything to a server.
+Fifteen working product demos, each with its own visual identity for its trade. RZ Menu, RZ Mine, RZ Upa, RZ Bahay, RZ Gabi, RZ Eskwela and RZ Tindahan also run on real accounts (see Backend below); the rest are browser-only. Every page has a “Make it yours” panel (name, details, Messenger username) saved in the visitor's browser. Order, booking and RSVP pages copy a ready-made message and open the owner's Messenger chat; they do not send anything to a server.
 
 | # | Product | For | Page |
 |---|---|---|---|
@@ -19,7 +19,7 @@ Fifteen working product demos, each with its own visual identity for its trade. 
 | 07 | RZ Liga | Leagues: round-robin schedule, scores, standings (playoffs via RZ Arena) | `products/liga/` |
 | 08 | RZ Quote | Contractors & freelancers: quotation → invoice, print/PDF | `products/quote/` |
 | 09 | RZ Sahod | Small teams: payroll helper, payslips, 13th-month estimate | `products/sahod/` |
-| 10 | RZ Tindahan | Small shops: point of sale, stock, daily sales and profit | `products/tindahan/` |
+| 10 | RZ Tindahan | Stores: point of sale with barcode scanning, cash/GCash/Maya/utang, cashier PINs and shifts, stock, reports; keeps selling offline | `products/tindahan/` |
 | 11 | RZ Mine | Live sellers: “mine” claims, winners and backups, buyer checkout links | `products/mine/` |
 | 12 | RZ Upa | Landlords: rent book, bills, tenant statements | `products/upa/` |
 | 13 | RZ Bahay | Real estate agents: listings site with photos, inquiries | `products/bahay/` |
@@ -42,6 +42,8 @@ A Cloudflare Worker (`worker/index.js`) answers `/api/*`; everything else is ser
 - **Gmail alerts:** owners can save an email and switch alerts on, but sending starts only after a custom domain is connected to Cloudflare (Cloudflare email sending needs one).
 - **Personal data:** orders hold customer names, numbers and addresses. The Philippine Data Privacy Act applies; a privacy notice is shown on the order form. Owners can delete orders. A full privacy policy and data-retention rule are still to do.
 - **RZ Eskwela (`worker/eskwela.js`):** school office `products/eskwela/office.html?live`, school page and online enrolment `products/eskwela/?school=<slug>`, parent portal `products/eskwela/parent.html?p=<48-hex token>`. Fee and grade maths live once in `products/eskwela/logic.mjs`, shared by the worker and the pages. Plans: Plus (enrolment, fees and instalments, parent portal, grades, report cards) and Full (adds attendance and announcements), set by an admin in the dashboard RZ Sales tab and enforced on the server. Parents see only the quarters the school releases; payments they report stay pending until the office confirms them.
+- **RZ Tindahan (`worker/tindahan.js`):** store tablet `products/tindahan/?live`. Staff PINs, shifts with cash count, sales saved on the tablet and synced (`/api/tindahan/sync`, safe to re-send), voids that return stock, bulk product import. Works offline through a service worker. Receipts print through the tablet's print service; direct thermal printer and cash drawer support comes after testing with real equipment.
+- **Free-plan database limits:** at most 50 queries per request and 100 values per query. Table setup runs once per schema version in chunks (`rz_meta`), and bulk writes use a single `json_each` statement.
 - **Local development:** `npx wrangler dev --local` runs the Worker with a local D1 database.
 
 ## Buying RZ products
@@ -87,7 +89,7 @@ We verified V0.5 content in GitHub. The external checker did not independently r
 - The repository is public. **Never commit credentials, payment keys, licensed private product source code or customer files** here.
 - Terms and Privacy: `/terms/`. Owners can delete their account from Dashboard → Settings.
 - RZ Bahay listing photos use Cloudflare R2 (free plan): bucket `rz-photos` for the live site and `rz-photos-preview` for preview builds, both bound as `PHOTOS` in `wrangler.jsonc`. Both buckets must exist or the deploy fails.
-- Still to do for a full launch: backends for the other nine products, customer custom domains, automatic payment verification and email sending.
+- Still to do for a full launch: backends for the other eight products, customer custom domains, automatic payment verification and email sending.
 - The RZ mark is an original temporary code-drawn identity and may be replaced with the official approved RZ company logo if provided. The logo upload field serves the demo customer identity, not a permanent rebrand of the RZ marketplace itself.
 
 ## Next priorities

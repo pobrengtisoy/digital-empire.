@@ -60,6 +60,24 @@
         ],
         "createdAt": "2026-11-19T06:30:00.000Z",
         "reason": "Claude verified in render: flagged wrappers are table frames (.tbl-wrap) whose cells carry 10-12px padding, the segmented control and underline tabs, and a section rule above 40px+ section padding; no text touches a boundary"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "products/tindahan/index.html"
+        ],
+        "createdAt": "2026-11-19T08:00:00.000Z",
+        "reason": "Claude verified in render: the flagged .table-wrap is a table frame whose cells carry 10-12px padding; no text touches the border"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "products/tindahan/index.html"
+        ],
+        "createdAt": "2026-11-19T08:00:00.000Z",
+        "reason": "Claude decision: warm counter-paper ground is RZ Tindahan's existing sari-sari store identity (approved earlier), kept so the POS upgrade does not change the product's look"
       }
     ]
   }

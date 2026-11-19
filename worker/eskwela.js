@@ -252,14 +252,19 @@ export function eskwelaRoutes(h) {
       if (!QUARTERS.includes(quarter)) throw new HttpError(400, 'Choose a quarter.');
       const entries = Array.isArray(b.entries) ? b.entries.slice(0, 400) : [];
       const ids = new Set((await env.DB.prepare('SELECT id FROM esk_students WHERE business_id = ? AND level_id = ?').bind(biz.id, lvl.id).all()).results.map(r => r.id));
-      const stmts = [];
+      const del = []; const put = [];
       for (const e of entries) {
         if (!ids.has(String(e.studentId))) throw new HttpError(400, 'A student in the sheet is not in this grade level.');
-        if (e.grade === null || e.grade === '') { stmts.push(env.DB.prepare('DELETE FROM esk_grades WHERE student_id = ? AND subject = ? AND quarter = ?').bind(e.studentId, subject, quarter)); continue; }
+        if (e.grade === null || e.grade === '') { del.push(String(e.studentId)); continue; }
         const g = Number(e.grade);
         if (!Number.isFinite(g) || g < 60 || g > 100) throw new HttpError(400, 'Grades must be between 60 and 100.');
-        stmts.push(env.DB.prepare('INSERT INTO esk_grades (business_id, student_id, subject, quarter, grade) VALUES (?, ?, ?, ?, ?) ON CONFLICT(student_id, subject, quarter) DO UPDATE SET grade = excluded.grade').bind(biz.id, e.studentId, subject, quarter, Math.round(g)));
+        put.push({ s: String(e.studentId), g: Math.round(g) });
       }
+      // Two statements for the whole class, however large (the free plan allows few queries per request).
+      const stmts = [];
+      if (del.length) stmts.push(env.DB.prepare('DELETE FROM esk_grades WHERE business_id = ?1 AND subject = ?2 AND quarter = ?3 AND student_id IN (SELECT value FROM json_each(?4))').bind(biz.id, subject, quarter, JSON.stringify(del)));
+      if (put.length) stmts.push(env.DB.prepare(`INSERT INTO esk_grades (business_id, student_id, subject, quarter, grade) SELECT ?1, json_extract(value, '$.s'), ?2, ?3, json_extract(value, '$.g') FROM json_each(?4) WHERE true
+        ON CONFLICT(student_id, subject, quarter) DO UPDATE SET grade = excluded.grade`).bind(biz.id, subject, quarter, JSON.stringify(put)));
       if (stmts.length) await env.DB.batch(stmts);
       return state(env, biz);
     }
@@ -272,12 +277,14 @@ export function eskwelaRoutes(h) {
       if (b.day > isoOf(manilaToday())) throw new HttpError(400, 'Attendance cannot be taken for a future day.');
       const entries = Array.isArray(b.entries) ? b.entries.slice(0, 400) : [];
       const ids = new Set((await env.DB.prepare("SELECT id FROM esk_students WHERE business_id = ? AND status = 'enrolled'").bind(biz.id).all()).results.map(r => r.id));
-      const stmts = entries.map(e => {
+      const rows = entries.map(e => {
         if (!ids.has(String(e.studentId))) throw new HttpError(400, 'A student in the list is not enrolled here.');
         if (!MARKS.includes(e.mark)) throw new HttpError(400, 'Unknown attendance mark.');
-        return env.DB.prepare('INSERT INTO esk_attendance (business_id, student_id, day, mark) VALUES (?, ?, ?, ?) ON CONFLICT(student_id, day) DO UPDATE SET mark = excluded.mark').bind(biz.id, e.studentId, b.day, e.mark);
+        return { s: String(e.studentId), m: e.mark };
       });
-      if (stmts.length) await env.DB.batch(stmts);
+      // One statement for the whole class.
+      if (rows.length) await env.DB.prepare(`INSERT INTO esk_attendance (business_id, student_id, day, mark) SELECT ?1, json_extract(value, '$.s'), ?2, json_extract(value, '$.m') FROM json_each(?3) WHERE true
+        ON CONFLICT(student_id, day) DO UPDATE SET mark = excluded.mark`).bind(biz.id, b.day, JSON.stringify(rows)).run();
       return state(env, biz);
     }
     if (pathname === '/api/eskwela/notices' && method === 'POST') {
